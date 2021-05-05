@@ -3,13 +3,13 @@ import dbConnect from "../utils/dbConnect";
 import Pet from "../models/Pet";
 import Layout, { siteTitle } from "../components/Layout";
 
-export default function Home() {
+export default function Home3() {
   return (
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      Home
+      Home3
       <nav>
         <ul>
           <li>
