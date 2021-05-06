@@ -29,10 +29,11 @@ export default function Layout({ children, home }) {
           padding: 0;
           max-width: 1000px;
           width: 1000px;
-          white-space: nowrap;
+          display: flex;
+          flex-wrap: wrap;
         }
-        li {
-          float: left;
+        li:nth-last-child(2) {
+          flex-grow: 1;
         }
         li div {
           padding: 16px;
@@ -47,7 +48,7 @@ export default function Layout({ children, home }) {
         }
         li a.active div {
           background: white;
-          color: #2196f3
+          color: #2196f3;
         }
         header {
           display: flex;
@@ -111,7 +112,7 @@ export default function Layout({ children, home }) {
               </a>
             </ActiveLink>
           </li>
-          <li style={{ float: "right" }}>
+          <li>
             {!session && (
               <a
                 href={`/api/auth/signin`}
