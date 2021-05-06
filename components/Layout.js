@@ -1,10 +1,12 @@
 import Head from "next/head";
 import Link from "next/link";
 import ActiveLink from "./ActiveLink";
+import { signIn, signOut, useSession } from "next-auth/client";
 
 export const siteTitle = "NextGame";
 
 export default function Layout({ children, home }) {
+  const [session, loading] = useSession();
   return (
     <>
       <Head>
@@ -13,15 +15,10 @@ export default function Layout({ children, home }) {
         <meta name="description" content="A game build with nextjs" />
       </Head>
       <style jsx>{`
-        header,
-        nav,
-        main {
-          background: #f5f5f5;
-        }
         nav {
           display: flex;
           justify-content: center;
-          background: #3f51b5;
+          background: #2196f3;
           color: white;
           position: sticky;
           top: 0px;
@@ -32,6 +29,7 @@ export default function Layout({ children, home }) {
           padding: 0;
           max-width: 1000px;
           width: 1000px;
+          white-space: nowrap;
         }
         li {
           float: left;
@@ -44,20 +42,29 @@ export default function Layout({ children, home }) {
         }
         li div:hover {
           background: #e0e0e0;
-          color: #3f51b5;
+          color: #2196f3;
+          transform: translateY(-5px);
         }
         li a.active div {
           background: white;
-          color: #3f51b5;
+          color: #2196f3
         }
         header {
-          text-align: center;
+          display: flex;
+          justify-content: center;
+        }
+        header div {
+          max-width: 1000px;
+          width: 1000px;
           padding: 16px;
         }
-        header span {
+        header div span {
           font-size: 20px;
           font-weight: bold;
           line-height: 20px;
+        }
+        header span:hover {
+          text-decoration: underline;
         }
         main {
           display: flex;
@@ -66,12 +73,20 @@ export default function Layout({ children, home }) {
         main div {
           max-width: 1000px;
           width: 1000px;
+          padding: 16px;
         }
       `}</style>
       <header>
-        <span>
-          <Link href="/">{siteTitle}</Link>
-        </span>
+        <div>
+          <span>
+            <Link href="/">{siteTitle}</Link>
+          </span>
+          {session && (
+            <span style={{ float: "right" }}>
+              {session.user.name || session.user.email}
+            </span>
+          )}
+        </div>
       </header>
       <nav>
         <ul>
@@ -95,6 +110,32 @@ export default function Layout({ children, home }) {
                 <div>Home3</div>
               </a>
             </ActiveLink>
+          </li>
+          <li style={{ float: "right" }}>
+            {!session && (
+              <a
+                href={`/api/auth/signin`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  signIn("google", { callbackUrl: "/" });
+                }}
+              >
+                <div>Sign in</div>
+              </a>
+            )}
+            {session && (
+              <>
+                <a
+                  href={`/api/auth/signout`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    signOut({ callbackUrl: "/" });
+                  }}
+                >
+                  <div>Sign out</div>
+                </a>
+              </>
+            )}
           </li>
         </ul>
       </nav>
