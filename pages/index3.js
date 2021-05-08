@@ -7,12 +7,11 @@ export default function Home3() {
   return (
     <Layout home>
       <Head>
-        <title>{siteTitle}</title>
+        <title>Home3</title>
       </Head>
-      Home3
-      <aside>
+      <aside style={{ width: "20%", minWidth: "10rem" }}>
         <nav>
-          <ul>
+          <ul style={{ margin: 0, padding: 0, listStyleType: "none" }}>
             <li>
               <div>test</div>
             </li>
@@ -49,8 +48,10 @@ export default function Home3() {
           </ul>
         </nav>
       </aside>
-      <section>
-        <h1>test</h1>
+      <section style={{ width: "80%" }}>
+        <header>
+          <h1>Home3</h1>
+        </header>
         <p>test</p>
         <div>test</div>
       </section>

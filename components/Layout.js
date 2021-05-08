@@ -81,6 +81,7 @@ export default function Layout({ children, home }) {
           max-width: 1000px;
           width: 1000px;
           padding: 1rem;
+          display: flex;
         }
       `}</style>
       <header>
@@ -118,7 +119,7 @@ export default function Layout({ children, home }) {
           <li>
             {!session && (
               <a
-                href={`http://localhost:3000/api/auth/signin`}
+                href={`/api/auth/signin`}
                 onClick={(e) => {
                   e.preventDefault();
                   signIn("google", { callbackUrl: "http://localhost:3000/" });
