@@ -15,57 +15,63 @@ export default function Layout({ children, home }) {
         <meta name="description" content="A game build with nextjs" />
       </Head>
       <style jsx>{`
+        header {
+          display: flex;
+          justify-content: center;
+        }
+        header div {
+          max-width: 62.5rem;
+          width: 62.5rem;
+          padding: 1rem;
+          display: flex;
+        }
+        header div span {
+          font-size: 1.25rem;
+          font-weight: bold;
+          line-height: 1.25rem;
+        }
+        header span:hover {
+          text-decoration: underline;
+        }
+        header span:first-child {
+          flex-grow: 1;
+        }
         nav {
           display: flex;
           justify-content: center;
           background: #2196f3;
           color: white;
           position: sticky;
-          top: 0px;
+          top: 0rem;
         }
         ul {
           list-style-type: none;
           margin: 0;
           padding: 0;
-          max-width: 1000px;
-          width: 1000px;
+          max-width: 62.5rem;
+          width: 62.5rem;
           display: flex;
           flex-wrap: wrap;
         }
         li:nth-last-child(2) {
           flex-grow: 1;
         }
-        li div {
-          padding: 16px;
-          font-size: 20px;
-          line-height: 20px;
+        li a {
+          display: block;
+          padding: 1rem;
+          font-size: 1.25rem;
+          line-height: 1.25rem;
+          height: 3.3rem;
           transition: all 0.4s ease-in-out;
         }
-        li div:hover {
+        li a:hover {
           background: #e0e0e0;
           color: #2196f3;
-          transform: translateY(-5px);
+          transform: translateY(-0.25rem);
         }
-        li a.active div {
+        li a.active {
           background: white;
           color: #2196f3;
-        }
-        header {
-          display: flex;
-          justify-content: center;
-        }
-        header div {
-          max-width: 1000px;
-          width: 1000px;
-          padding: 16px;
-        }
-        header div span {
-          font-size: 20px;
-          font-weight: bold;
-          line-height: 20px;
-        }
-        header span:hover {
-          text-decoration: underline;
         }
         main {
           display: flex;
@@ -74,7 +80,7 @@ export default function Layout({ children, home }) {
         main div {
           max-width: 1000px;
           width: 1000px;
-          padding: 16px;
+          padding: 1rem;
         }
       `}</style>
       <header>
@@ -82,11 +88,7 @@ export default function Layout({ children, home }) {
           <span>
             <Link href="/">{siteTitle}</Link>
           </span>
-          {session && (
-            <span style={{ float: "right" }}>
-              {session.user.name || session.user.email}
-            </span>
-          )}
+          {session && <span>{session.user.name || session.user.email}</span>}
         </div>
       </header>
       <nav>
@@ -94,34 +96,35 @@ export default function Layout({ children, home }) {
           <li>
             <ActiveLink activeClassName="active" href="/">
               <a>
-                <div>Home</div>
+                <span>Home</span>
               </a>
             </ActiveLink>
           </li>
           <li>
             <ActiveLink activeClassName="active" href="/index2">
               <a>
-                <div>Home2</div>
+                <span>Home2</span>
               </a>
             </ActiveLink>
           </li>
           <li>
             <ActiveLink activeClassName="active" href="/index3">
               <a>
-                <div>Home3</div>
+                <span>Home3</span>
               </a>
             </ActiveLink>
           </li>
+          <li></li>
           <li>
             {!session && (
               <a
-                href={`/api/auth/signin`}
+                href={`http://localhost:3000/api/auth/signin`}
                 onClick={(e) => {
                   e.preventDefault();
-                  signIn("google", { callbackUrl: "/" });
+                  signIn("google", { callbackUrl: "http://localhost:3000/" });
                 }}
               >
-                <div>Sign in</div>
+                <span>Sign in</span>
               </a>
             )}
             {session && (
@@ -133,7 +136,7 @@ export default function Layout({ children, home }) {
                     signOut({ callbackUrl: "/" });
                   }}
                 >
-                  <div>Sign out</div>
+                  <span>Sign out</span>
                 </a>
               </>
             )}
