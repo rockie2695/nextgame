@@ -51,7 +51,8 @@ export default function Layout({ children, home }) {
           max-width: 62.5rem;
           width: 62.5rem;
           display: flex;
-          flex-wrap: wrap;
+          flex-wrap: nowrap;
+          white-space: nowrap;
         }
         li:nth-last-child(2) {
           flex-grow: 1;

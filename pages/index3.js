@@ -9,7 +9,7 @@ export default function Home3() {
       <Head>
         <title>Home3</title>
       </Head>
-      <aside style={{ width: "20%", minWidth: "10rem" }}>
+      <aside style={{ flexBasis: "20%", minWidth: "10rem" }}>
         <nav>
           <ul style={{ margin: 0, padding: 0, listStyleType: "none" }}>
             <li>
