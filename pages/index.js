@@ -1,6 +1,7 @@
 import Head from "next/head";
 import dbConnect from "../utils/dbConnect";
 import Pet from "../models/Pet";
+import IsLand from "../models/IsLand";
 import Layout, { siteTitle } from "../components/Layout";
 
 export default function Home() {
@@ -63,5 +64,24 @@ export async function getServerSideProps() {
     return pet;
   });
   console.log(pets);
+  const result2 = await IsLand.countDocuments({
+    email: "rockie2695@gmail.com",
+  });
+  if(result2==0){
+    //create island
+    
+  }
+  /*
+
+const res = await fetch('/api/pets', {
+        method: 'POST',
+        headers: {
+          Accept: contentType,
+          'Content-Type': contentType,
+        },
+        body: JSON.stringify(form),
+      })
+*/
+
   return { props: { pets: pets } };
 }

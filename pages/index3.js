@@ -1,11 +1,26 @@
 import Head from "next/head";
 import dbConnect from "../utils/dbConnect";
-import Pet from "../models/Pet";
 import Layout, { siteTitle } from "../components/Layout";
+import { useSession, getSession } from "next-auth/client";
 
 export default function Home3() {
+  const [session, loading] = useSession();
+
+  if (typeof window !== "undefined" && loading) return null;
+
+  if (!session) {
+    return (
+      <Layout>
+        <Head>
+          <title>Home3</title>
+        </Head>
+        Please Login
+      </Layout>
+    );
+  }
+
   return (
-    <Layout home>
+    <Layout>
       <Head>
         <title>Home3</title>
       </Head>
@@ -59,17 +74,18 @@ export default function Home3() {
   );
 }
 /* Retrieves pet(s) data from mongodb database */
-export async function getServerSideProps() {
+export async function getServerSideProps(req) {
+  console.log(req);
   await dbConnect();
-
-  /* find all the data in our database */
-  const result = await Pet.find({});
-  console.log(result);
-  const pets = result.map((doc) => {
-    const pet = doc.toObject();
-    pet._id = pet._id.toString();
-    return pet;
-  });
-  console.log(pets);
-  return { props: { pets: pets } };
+  const session = await getSession(req);
+  console.log(session);
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/?error=pleaseLogin",
+        permanent: false,
+      },
+    };
+  }
+  return { props: { session } };
 }

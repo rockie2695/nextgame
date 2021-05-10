@@ -23,6 +23,8 @@ export default NextAuth({
   // It is used to sign cookies and to sign and encrypt JSON Web Tokens, unless
   // a separate secret is defined explicitly for encrypting the JWT.
   //secret: process.env.SECRET,
+  //from https://generate-secret.vercel.app/32
+  secret: process.env.JWT_SECRET,
 
   session: {
     // Use JSON Web Tokens for session instead of database sessions.
@@ -51,6 +53,10 @@ export default NextAuth({
     // if you want to override the default behaviour.
     // encode: async ({ secret, token, maxAge }) => {},
     // decode: async ({ secret, token, maxAge }) => {},
+    encryption: true,
+    secret: process.env.JWT_SECRET,
+    signingKey: process.env.JWT_SIGNING_KEY,
+    encryptionKey: process.env.JWT_ENCRYPTION_KEY,
   },
 
   // You can define custom pages to override the built-in ones. These will be regular Next.js pages
