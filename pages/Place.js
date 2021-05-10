@@ -3,7 +3,7 @@ import dbConnect from "../utils/dbConnect";
 import Layout, { siteTitle } from "../components/Layout";
 import { useSession, getSession } from "next-auth/client";
 
-export default function Home3() {
+export default function Place() {
   const [session, loading] = useSession();
 
   if (typeof window !== "undefined" && loading) return null;
@@ -12,7 +12,7 @@ export default function Home3() {
     return (
       <Layout>
         <Head>
-          <title>Home3</title>
+          <title>Place</title>
         </Head>
         Please Login
       </Layout>
@@ -22,7 +22,7 @@ export default function Home3() {
   return (
     <Layout>
       <Head>
-        <title>Home3</title>
+        <title>Place</title>
       </Head>
       <aside style={{ flexBasis: "20%", minWidth: "10rem" }}>
         <nav>
@@ -65,7 +65,7 @@ export default function Home3() {
       </aside>
       <section style={{ width: "80%" }}>
         <header>
-          <h1>Home3</h1>
+          <h1>Place</h1>
         </header>
         <p>test</p>
         <div>test</div>
@@ -74,10 +74,9 @@ export default function Home3() {
   );
 }
 /* Retrieves pet(s) data from mongodb database */
-export async function getServerSideProps(req) {
-  console.log(req);
+export async function getServerSideProps(context) {
   await dbConnect();
-  const session = await getSession(req);
+  const session = await getSession(context);
   console.log(session);
   if (!session) {
     return {

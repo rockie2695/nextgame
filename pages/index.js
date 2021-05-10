@@ -3,6 +3,7 @@ import dbConnect from "../utils/dbConnect";
 import Pet from "../models/Pet";
 import IsLand from "../models/IsLand";
 import Layout, { siteTitle } from "../components/Layout";
+import { useSession, getSession } from "next-auth/client";
 
 export default function Home() {
   return (
@@ -52,7 +53,7 @@ export default function Home() {
   );
 }
 /* Retrieves pet(s) data from mongodb database */
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
   await dbConnect();
 
   /* find all the data in our database */
@@ -63,13 +64,24 @@ export async function getServerSideProps() {
     pet._id = pet._id.toString();
     return pet;
   });
-  console.log(pets);
+  const session = await getSession(context);
+  if (!session) {
+    return { props: { pets: pets } };
+  }
   const result2 = await IsLand.countDocuments({
-    email: "rockie2695@gmail.com",
+    email: session.user.email,
   });
-  if(result2==0){
+  if (result2 == 0) {
     //create island
-    
+    try {
+      const result3 = await IsLand.create({
+        email: session.user.email,
+        name: "xx",
+      });
+      console.log(result3);
+    } catch (err) {
+      console.log(err);
+    }
   }
   /*
 
