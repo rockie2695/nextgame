@@ -111,9 +111,9 @@ export default function Layout({ children, home }) {
           </li>
           {session && (
             <li>
-              <ActiveLink activeClassName="active" href="/index3">
+              <ActiveLink activeClassName="active" href="/place">
                 <a>
-                  <span>Home3</span>
+                  <span>Place</span>
                 </a>
               </ActiveLink>
             </li>
