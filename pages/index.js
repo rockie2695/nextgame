@@ -2,6 +2,7 @@ import Head from "next/head";
 import dbConnect from "../utils/dbConnect";
 import Pet from "../models/Pet";
 import IsLand from "../models/IsLand";
+import Place from "../models/Place";
 import Layout, { siteTitle } from "../components/Layout";
 import { useSession, getSession } from "next-auth/client";
 
@@ -72,13 +73,26 @@ export async function getServerSideProps(context) {
     email: session.user.email,
   });
   if (result2 == 0) {
-    //create island
     try {
-      const result3 = await IsLand.create({
+      //create IsLand
+      const isLandArray = {
         email: session.user.email,
         name: "xx",
-      });
-      console.log(result3);
+        placeNum: 12,
+      };
+      const result3 = await IsLand.create(isLandArray);
+
+      //create Place
+      const placeArray = [];
+      while (placeArray.length < isLandArray.placeNum) {
+        placeArray.push({
+          email: session.user.email,
+          num: placeArray.length + 1,
+          island: result3._id,
+        });
+      }
+      const result4 = await Place.insertMany(placeArray);
+      console.log(result4);
     } catch (err) {
       console.log(err);
     }
