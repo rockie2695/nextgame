@@ -125,7 +125,9 @@ export default function Layout({ children, home }) {
                 href={`/api/auth/signin`}
                 onClick={(e) => {
                   e.preventDefault();
-                  signIn("google", { callbackUrl: "http://localhost:3000/" });
+                  signIn("google", {
+                    callbackUrl: process.env.NEXTAUTH_URL + "/",
+                  });
                 }}
               >
                 <span>Sign in</span>
@@ -137,7 +139,7 @@ export default function Layout({ children, home }) {
                   href={`/api/auth/signout`}
                   onClick={(e) => {
                     e.preventDefault();
-                    signOut({ callbackUrl: "/" });
+                    signOut({ callbackUrl: process.env.NEXTAUTH_URL + "/" });
                   }}
                 >
                   <span>Sign out</span>

@@ -53,6 +53,7 @@ export default NextAuth({
     // if you want to override the default behaviour.
     // encode: async ({ secret, token, maxAge }) => {},
     // decode: async ({ secret, token, maxAge }) => {},
+    //https://github.com/nextauthjs/next-auth/issues/484#issuecomment-709357223
     encryption: true,
     secret: process.env.JWT_SECRET,
     signingKey: process.env.JWT_SIGNING_KEY,

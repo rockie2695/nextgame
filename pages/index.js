@@ -92,9 +92,8 @@ export async function getServerSideProps(context) {
         });
       }
       const result4 = await Place.insertMany(placeArray);
-      console.log(result4);
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
     }
   }
   /*

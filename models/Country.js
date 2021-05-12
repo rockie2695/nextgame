@@ -1,20 +1,25 @@
 import mongoose from "mongoose";
 
 /* IsLandSchema will correspond to a collection in your MongoDB database. */
-const IsLand = new mongoose.Schema({
+const Country = new mongoose.Schema({
   email: {
     type: String,
-    required: [true, "email is needed"],
+    required: true,
     maxlength: 50,
   },
   name: {
     type: String,
     required: true,
-    maxlength: 10,
   },
-  placeNum: {
+  money: {
     type: Number,
     required: true,
+    min: 0,
+  },
+  food: {
+    type: Number,
+    required: true,
+    min: 0,
   },
 });
-export default mongoose.models.IsLand || mongoose.model("IsLand", IsLand);
+export default mongoose.models.Country || mongoose.model("Place", Country);
