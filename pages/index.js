@@ -3,8 +3,8 @@ import dbConnect from "../utils/dbConnect";
 import Pet from "../models/Pet";
 import World from "../models/World";
 import Place from "../models/Place";
-import World from "../models/Country";
-import Place from "../models/People";
+import Country from "../models/Country";
+import People from "../models/People";
 import Layout, { siteTitle } from "../components/Layout";
 import { useSession, getSession } from "next-auth/client";
 
