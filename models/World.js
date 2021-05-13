@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 /* IsLandSchema will correspond to a collection in your MongoDB database. */
-const Country = new mongoose.Schema({
+const World = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "`{PATH}` is required. Receive `{VALUE}`"],
@@ -10,19 +10,15 @@ const Country = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "`{PATH}` is required. Receive `{VALUE}`"],
+    maxlength: [10, "maxlength of `{PATH}` is 10. Receive `{VALUE}`"],
   },
-  money: {
+  placeNum: {
     type: Number,
     required: [true, "`{PATH}` is required. Receive `{VALUE}`"],
   },
-  food: {
-    type: Number,
-    required: [true, "`{PATH}` is required. Receive `{VALUE}`"],
-  },
-  country_num: {
-    //for same email,different country
-    type: Number,
+  controlPeople: {
+    type: Array,
     required: [true, "`{PATH}` is required. Receive `{VALUE}`"],
   },
 });
-export default mongoose.models.Country || mongoose.model("Place", Country);
+export default mongoose.models.World || mongoose.model("World", World);

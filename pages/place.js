@@ -24,52 +24,72 @@ export default function Place() {
       <Head>
         <title>Place</title>
       </Head>
-      <aside style={{ flexBasis: "20%", minWidth: "10rem" }}>
-        <nav>
-          <ul style={{ margin: 0, padding: 0, listStyleType: "none" }}>
-            <li>
-              <div>test</div>
-            </li>
-            <li>
-              <div>test</div>
-            </li>
-            <li>
-              <div>test</div>
-            </li>
-            <li>
-              <div>test</div>
-            </li>
-            <li>
-              <div>test</div>
-            </li>
-            <li>
-              <div>test</div>
-            </li>
-            <li>
-              <div>test</div>
-            </li>
-            <li>
-              <div>test</div>
-            </li>
-            <li>
-              <div>test</div>
-            </li>
-            <li>
-              <div>test</div>
-            </li>
-            <li>
-              <div>test</div>
-            </li>
-          </ul>
-        </nav>
-      </aside>
-      <section style={{ width: "80%" }}>
-        <header>
-          <h1>Place</h1>
-        </header>
-        <p>test</p>
-        <div>test</div>
-      </section>
+      <header>
+        <h1>Place</h1>
+      </header>
+      <div>
+        <div style={{ flexBasis: "20%", minWidth: "10rem" }}>
+          <nav>
+            <ul style={{ margin: 0, padding: 0, listStyleType: "none" }}>
+              <li>
+                <div>test</div>
+              </li>
+              <li>
+                <div>test</div>
+              </li>
+              <li>
+                <div>test</div>
+              </li>
+              <li>
+                <div>test</div>
+              </li>
+              <li>
+                <div>test</div>
+              </li>
+              <li>
+                <div>test</div>
+              </li>
+              <li>
+                <div>test</div>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <section style={{ width: "80%" }}>
+          <header>
+            <h1>header 1</h1>
+          </header>
+          <p>test</p>
+          <div>test</div>
+        </section>
+        <aside style={{ flexBasis: "20%", minWidth: "10rem" }}>
+          <nav>
+            <ul style={{ margin: 0, padding: 0, listStyleType: "none" }}>
+              <li>
+                <div>test</div>
+              </li>
+              <li>
+                <div>test</div>
+              </li>
+              <li>
+                <div>test</div>
+              </li>
+              <li>
+                <div>test</div>
+              </li>
+              <li>
+                <div>test</div>
+              </li>
+              <li>
+                <div>test</div>
+              </li>
+              <li>
+                <div>test</div>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+      </div>
     </Layout>
   );
 }

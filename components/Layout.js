@@ -19,22 +19,25 @@ export default function Layout({ children, home }) {
           display: flex;
           justify-content: center;
         }
-        header div {
-          max-width: 62.5rem;
-          width: 62.5rem;
+        header > div {
+          max-width: 75rem;
+          width: 75em;
           padding: 1rem;
           display: flex;
         }
         header div span {
-          font-size: 1.25rem;
+          font-size: 1.5rem;
           font-weight: bold;
           line-height: 1.25rem;
         }
-        header span:hover {
+        header a:first-child span:hover {
           text-decoration: underline;
         }
-        header span:first-child {
+        header div:first-child:not(:only-child) {
           flex-grow: 1;
+        }
+        header div:only-child {
+          justify-content: center;
         }
         nav {
           display: flex;
@@ -48,8 +51,8 @@ export default function Layout({ children, home }) {
           list-style-type: none;
           margin: 0;
           padding: 0;
-          max-width: 62.5rem;
-          width: 62.5rem;
+          max-width: 75rem;
+          width: 75rem;
           display: flex;
           flex-wrap: nowrap;
           white-space: nowrap;
@@ -78,18 +81,23 @@ export default function Layout({ children, home }) {
           display: flex;
           justify-content: center;
         }
-        main div {
-          max-width: 1000px;
-          width: 1000px;
-          padding: 1rem;
+        main > div {
+          max-width: 75rem;
+          width: 75rem;
           display: flex;
+          flex-direction: column;
         }
       `}</style>
       <header>
         <div>
-          <span>
-            <Link href="/">{siteTitle}</Link>
-          </span>
+          <div>
+            <Link href="/">
+              <a>
+                <span>{siteTitle}</span>
+              </a>
+            </Link>
+          </div>
+
           {session && <span>{session.user.name || session.user.email}</span>}
         </div>
       </header>

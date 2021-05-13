@@ -1,8 +1,10 @@
 import Head from "next/head";
 import dbConnect from "../utils/dbConnect";
 import Pet from "../models/Pet";
-import IsLand from "../models/IsLand";
+import World from "../models/World";
 import Place from "../models/Place";
+import World from "../models/Country";
+import Place from "../models/People";
 import Layout, { siteTitle } from "../components/Layout";
 import { useSession, getSession } from "next-auth/client";
 
@@ -69,31 +71,56 @@ export async function getServerSideProps(context) {
   if (!session) {
     return { props: { pets: pets } };
   }
-  const result2 = await IsLand.countDocuments({
+  const result2 = await World.countDocuments({
     email: session.user.email,
   });
   if (result2 == 0) {
     try {
-      //create IsLand
-      const isLandArray = {
+      //create World
+      const worldArray = {
         email: session.user.email,
         name: "xx",
         placeNum: 12,
+        controlPeople: [],
       };
-      const result3 = await IsLand.create(isLandArray);
+      const result3 = await World.create(worldArray);
 
       //create Place
       const placeArray = [];
-      while (placeArray.length < isLandArray.placeNum) {
+      while (placeArray.length < worldArray.placeNum) {
         placeArray.push({
           email: session.user.email,
           num: placeArray.length + 1,
-          island: result3._id,
+          world: result3._id,
         });
       }
       const result4 = await Place.insertMany(placeArray);
+
+      const countryArray = {
+        email: session.user.email,
+        name: session.user.name,
+        money: 0,
+        food: 0,
+        country_num: result2 + 1,
+      };
+      const result5 = await Country.create(countryArray);
+
+      const peopleArray = {
+        email: session.user.email,
+        name: "aa",
+        country_id: result5._id,
+      };
+      const result6 = await Country.create(peopleArray);
     } catch (err) {
-      console.log(err.message);
+      if (err.erros) {
+        for (const property in err.errors) {
+          console.log(err.errors[property].message);
+        }
+      } else if (err.message) {
+        console.log(err.message);
+      } else {
+        console.log("unknown error");
+      }
     }
   }
   /*
