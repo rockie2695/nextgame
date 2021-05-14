@@ -25,4 +25,4 @@ const Country = new mongoose.Schema({
     required: [true, "`{PATH}` is required. Receive `{VALUE}`"],
   },
 });
-export default mongoose.models.Country || mongoose.model("Place", Country);
+export default mongoose.models.Country || mongoose.model("Country", Country);

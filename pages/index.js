@@ -110,7 +110,7 @@ export async function getServerSideProps(context) {
         name: "aa",
         country_id: result5._id,
       };
-      const result6 = await Country.create(peopleArray);
+      const result6 = await People.create(peopleArray);
     } catch (err) {
       if (err.erros) {
         for (const property in err.errors) {
