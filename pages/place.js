@@ -25,10 +25,14 @@ export default function Place() {
         <title>Place</title>
       </Head>
       <header>
-        <h1>Place</h1>
+        <span>Place</span>
       </header>
       <div>
-        <div style={{ flexBasis: "20%", minWidth: "10rem" }}>
+        <div
+          style={{
+            flexBasis: "20%",
+          }}
+        >
           <nav>
             <ul style={{ margin: 0, padding: 0, listStyleType: "none" }}>
               <li>
@@ -55,7 +59,7 @@ export default function Place() {
             </ul>
           </nav>
         </div>
-        <section style={{ width: "80%" }}>
+        <section style={{ flexBasis: "60%" }}>
           <header>
             <h1>header 1</h1>
           </header>

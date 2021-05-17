@@ -21,12 +21,32 @@ main > div > div {
   justify-content: center;
 }
 main > div > header {
-  background: white;
-  border-radius: 10px;
+  border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   margin: 0.5rem 0;
+  border-bottom: 0.5rem solid #e0e0e0;
 }
-main > div > header > h1 {
-  margin-block-start: 0.25em;
-  margin-block-end: 0.25em;
+main > div > header > span {
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1.25rem;
+}
+main > div > div > div,
+main > div > div > section,
+main > div > div > aside {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  background: white;
+  border-radius: 0.5rem;
+  min-width: 10rem;
+  box-shadow: 0.1rem 0.1rem 0.15rem 0.15rem #e0e0e0,
+    -0.05rem -0.05rem 0.05rem 0.05rem #e0e0e0;
+}
+
+main > div > div > div {
+  margin-left: 0rem;
+}
+
+main > div > div > aside {
+  margin-right: 0rem;
 }

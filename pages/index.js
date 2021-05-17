@@ -71,23 +71,23 @@ export async function getServerSideProps(context) {
   if (!session) {
     return { props: { pets: pets } };
   }
-  const result2 = await World.countDocuments({
+  const result2 = await Country.countDocuments({
     email: session.user.email,
   });
   if (result2 == 0) {
     try {
       //create World
-      const worldArray = {
+      const worldObj = {
         email: session.user.email,
         name: "xx",
         placeNum: 12,
         controlPeople: [],
       };
-      const result3 = await World.create(worldArray);
+      const result3 = await World.create(worldObj);
 
       //create Place
       const placeArray = [];
-      while (placeArray.length < worldArray.placeNum) {
+      while (placeArray.length < worldObj.placeNum) {
         placeArray.push({
           email: session.user.email,
           num: placeArray.length + 1,
@@ -96,20 +96,23 @@ export async function getServerSideProps(context) {
       }
       const result4 = await Place.insertMany(placeArray);
 
-      const countryArray = {
+      const countryObj = {
         email: session.user.email,
         name: session.user.name,
         money: 0,
         food: 0,
         country_num: result2 + 1,
       };
-      const result5 = await Country.create(countryArray);
+      const result5 = await Country.create(countryObj);
 
-      const peopleArray = {
-        email: session.user.email,
-        name: "aa",
-        country_id: result5._id,
-      };
+      const peopleArray = [];
+      while (peopleArray.length < 5) {
+        peopleArray.push({
+          email: session.user.email,
+          name: String(peopleArray.lengyh),
+          country_id: result5._id,
+        });
+      }
       const result6 = await People.create(peopleArray);
     } catch (err) {
       if (err.erros) {
