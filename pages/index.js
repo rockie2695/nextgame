@@ -114,6 +114,19 @@ export async function getServerSideProps(context) {
         });
       }
       const result6 = await People.create(peopleArray);
+
+      /*
+      
+      const res = await fetch(`/api/places`, {
+        method: 'POST',
+        headers: {
+          Accept: contentType,
+          'Content-Type': contentType,
+        },
+        body: JSON.stringify(placeArray),
+      })
+      
+      */
     } catch (err) {
       if (err.erros) {
         for (const property in err.errors) {

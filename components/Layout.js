@@ -15,15 +15,11 @@ export default function Layout({ children, home }) {
         <meta name="description" content="A game build with nextjs" />
       </Head>
       <style jsx>{`
-        header {
-          display: flex;
-          justify-content: center;
-        }
         header > div {
           max-width: 75rem;
-          width: 75em;
           padding: 1rem;
           display: flex;
+          margin: 0 auto;
         }
         header div span {
           font-size: 1.5rem;
@@ -40,8 +36,6 @@ export default function Layout({ children, home }) {
           justify-content: center;
         }
         nav {
-          display: flex;
-          justify-content: center;
           background: #2196f3;
           color: white;
           position: sticky;
@@ -49,10 +43,9 @@ export default function Layout({ children, home }) {
         }
         ul {
           list-style-type: none;
-          margin: 0;
+          margin: 0 auto;
           padding: 0;
           max-width: 75rem;
-          width: 75rem;
           display: flex;
           flex-wrap: nowrap;
           white-space: nowrap;
@@ -72,18 +65,16 @@ export default function Layout({ children, home }) {
           background: #e0e0e0;
           color: #2196f3;
           transform: translateY(-0.25rem);
+          box-shadow: 0.1rem 0.1rem 1rem 0.15rem rgba(0, 0, 0, 0.2),
+            -0.05rem -0.05rem 1rem 0.05rem rgba(0, 0, 0, 0.2);
         }
         li a.active {
           background: white;
           color: #2196f3;
         }
-        main {
-          display: flex;
-          justify-content: center;
-        }
         main > div {
+          margin: 0 auto;
           max-width: 75rem;
-          width: 75rem;
           display: flex;
           flex-direction: column;
         }
