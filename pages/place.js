@@ -109,5 +109,46 @@ export async function getServerSideProps(context) {
       },
     };
   }
+
+  let countryResult = await fetch(
+    `${process.env.NEXTAUTH_URL}/api/worlds?email=${session.user.email}`,
+    {
+      method: "GET",
+      headers: {
+        Accept: contentType,
+        "Content-Type": contentType,
+      },
+    }
+  );
+  countryResult = await countryResult.json();
+
+  if (!countryResult.success) {
+    return {
+      redirect: {
+        destination: "/?error=",
+        permanent: false,
+      },
+    };
+  }
+
+  countryResult = await Promise.all(
+    countryResult.data.map(async (row) => {
+      console.log(row._id);
+      let placeResult = await fetch(
+        `${process.env.NEXTAUTH_URL}/api/places?world=${row._id}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: contentType,
+            "Content-Type": contentType,
+          },
+        }
+      );
+      placeResult = await placeResult.json();
+      row.places = placeResult.data;
+      return row;
+    })
+  );
+  console.log(countryResult);
   return { props: { session } };
 }
