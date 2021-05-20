@@ -1,5 +1,5 @@
 import dbConnect from "../../utils/dbConnect";
-import Place from "../../models/Place";
+import People from "../../models/People";
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -10,18 +10,18 @@ export default async function handler(req, res) {
     case "POST":
       try {
         if (
-          req.body.hasOwnProperty("placeArray") &&
-          Array.isArray(req.body.placeArray)
+          req.body.hasOwnProperty("peopleArray") &&
+          Array.isArray(req.body.peopleArray)
         ) {
-          const place = await Place.insertMany(
-            req.body.placeArray
+          const people = await People.insertMany(
+            req.body.peopleArray
           ); /* create a new model in the database */
-          res.status(201).json({ success: true, data: place });
+          res.status(201).json({ success: true, data: people });
         } else {
-          const place = await Place.create(
+          const people = await People.create(
             req.body
           ); /* create a new model in the database */
-          res.status(201).json({ success: true, data: place });
+          res.status(201).json({ success: true, data: people });
         }
       } catch (error) {
         res.status(400).json({ success: false });

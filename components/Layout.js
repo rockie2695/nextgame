@@ -75,8 +75,6 @@ export default function Layout({ children, home }) {
         main > div {
           margin: 0 auto;
           max-width: 75rem;
-          display: flex;
-          flex-direction: column;
         }
       `}</style>
       <header>

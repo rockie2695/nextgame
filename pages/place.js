@@ -97,11 +97,10 @@ export default function Place() {
     </Layout>
   );
 }
-/* Retrieves pet(s) data from mongodb database */
 export async function getServerSideProps(context) {
   await dbConnect();
+  const contentType = "application/json";
   const session = await getSession(context);
-  console.log(session);
   if (!session) {
     return {
       redirect: {
