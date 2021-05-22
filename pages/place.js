@@ -2,6 +2,7 @@ import Head from "next/head";
 import dbConnect from "../utils/dbConnect";
 import Layout, { siteTitle } from "../components/Layout";
 import { useSession, getSession } from "next-auth/client";
+import useWorld from "../data/useWorld";
 
 export default function Place() {
   const [session, loading] = useSession();
@@ -18,7 +19,8 @@ export default function Place() {
       </Layout>
     );
   }
-
+  const { useloading, error, data } = useWorld(session.user.email);
+  console.log(useloading, error, data);
   return (
     <Layout>
       <Head>
@@ -35,6 +37,11 @@ export default function Place() {
         >
           <nav>
             <ul style={{ margin: 0, padding: 0, listStyleType: "none" }}>
+              <li>{useloading}</li>
+              <li>{error}</li>
+
+              <li></li>
+
               <li>
                 <div>test</div>
               </li>
@@ -61,10 +68,15 @@ export default function Place() {
         </div>
         <section style={{ flexBasis: "60%" }}>
           <header>
-            <h1>header 1</h1>
+            <h1>All World</h1>
+            <p>test</p>
           </header>
-          <p>test</p>
-          <div>test</div>
+          {data &&
+            data.data.map((row) => (
+              <section key={row.name}>
+                <h1>{row.name}</h1>
+              </section>
+            ))}
         </section>
         <aside style={{ flexBasis: "20%", minWidth: "10rem" }}>
           <nav>
