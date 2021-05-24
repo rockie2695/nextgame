@@ -37,7 +37,7 @@ export default function Place() {
         >
           <nav>
             <ul style={{ margin: 0, padding: 0, listStyleType: "none" }}>
-              <li>{useloading}</li>
+              <li>{useloading ? "loading" : null}</li>
               <li>{error}</li>
 
               <li></li>
@@ -75,6 +75,11 @@ export default function Place() {
             data.data.map((row) => (
               <section key={row.name}>
                 <h1>{row.name}</h1>
+                <div style={{ display: "flex" }}>
+                  {row.places.map((place) => (
+                    <div style={{ width: 50, height: 50 }}>{place.num}</div>
+                  ))}
+                </div>
               </section>
             ))}
         </section>
@@ -121,46 +126,5 @@ export async function getServerSideProps(context) {
       },
     };
   }
-
-  let countryResult = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/worlds?email=${session.user.email}`,
-    {
-      method: "GET",
-      headers: {
-        Accept: contentType,
-        "Content-Type": contentType,
-      },
-    }
-  );
-  countryResult = await countryResult.json();
-
-  if (!countryResult.success) {
-    return {
-      redirect: {
-        destination: "/?error=",
-        permanent: false,
-      },
-    };
-  }
-
-  countryResult = await Promise.all(
-    countryResult.data.map(async (row) => {
-      console.log(row._id);
-      let placeResult = await fetch(
-        `${process.env.NEXTAUTH_URL}/api/places?world=${row._id}`,
-        {
-          method: "GET",
-          headers: {
-            Accept: contentType,
-            "Content-Type": contentType,
-          },
-        }
-      );
-      placeResult = await placeResult.json();
-      row.places = placeResult.data;
-      return row;
-    })
-  );
-  console.log(countryResult);
   return { props: { session } };
 }
