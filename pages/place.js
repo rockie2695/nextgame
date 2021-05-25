@@ -33,6 +33,9 @@ export default function Place() {
         <div
           style={{
             flexBasis: "20%",
+            height: "100%",
+            position: "sticky",
+            top: "4rem",
           }}
         >
           <nav>
@@ -72,18 +75,49 @@ export default function Place() {
             <p>test</p>
           </header>
           {data &&
+            data.success &&
             data.data.map((row) => (
               <section key={row.name}>
                 <h1>{row.name}</h1>
-                <div style={{ display: "flex" }}>
+                <p>xx world</p>
+                <div style={{ display: "flex", flexWrap: "wrap" }}>
                   {row.places.map((place) => (
-                    <div style={{ width: 50, height: 50 }}>{place.num}</div>
+                    <div
+                      key={row.num}
+                      style={{
+                        width: "5rem",
+                        height: "5rem",
+                        border: "1px solid black",
+                        margin: "0.25rem",
+                        overflow: "hidden",
+                      }}
+                    >
+                      <div
+                        style={{
+                          transform: "translateY(3.5rem)",
+                          color: "white",
+                          background: "rgba(0,0,0,0.75)",
+                          width: "5rem",
+                          height: "5rem",
+                        }}
+                      >
+                        {place.num}
+                      </div>
+                    </div>
                   ))}
                 </div>
               </section>
             ))}
         </section>
-        <aside style={{ flexBasis: "20%", minWidth: "10rem" }}>
+        <aside
+          style={{
+            flexBasis: "20%",
+            minWidth: "10rem",
+            height: "100%",
+            position: "sticky",
+            top: "4rem",
+          }}
+        >
           <nav>
             <ul style={{ margin: 0, padding: 0, listStyleType: "none" }}>
               <li>
