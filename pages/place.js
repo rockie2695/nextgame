@@ -77,7 +77,10 @@ export default function Place() {
           {data &&
             data.success &&
             data.data.map((row) => (
-              <section key={row.name}>
+              <section
+                key={row.name}
+                style={{ padding: "0.5rem", border: "1px solid #e0e0e0" }}
+              >
                 <h1>{row.name}</h1>
                 <p>xx world</p>
                 <div style={{ display: "flex", flexWrap: "wrap" }}>
@@ -88,8 +91,10 @@ export default function Place() {
                         width: "5rem",
                         height: "5rem",
                         border: "1px solid black",
-                        margin: "0.25rem",
+                        marginRight: "0.25rem",
+                        marginBottom: "0.25rem",
                         overflow: "hidden",
+                        borderRadius: "0.5rem",
                       }}
                     >
                       <div
