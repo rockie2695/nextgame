@@ -83,7 +83,7 @@ export default function Place() {
                 <div style={{ display: "flex", flexWrap: "wrap" }}>
                   {row.places.map((place) => (
                     <div
-                      key={row.num}
+                      key={place.num}
                       style={{
                         width: "5rem",
                         height: "5rem",

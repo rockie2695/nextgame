@@ -35,7 +35,6 @@ export default async function handler(req, res) {
               return row;
             });
             row.places = placeResult.data;
-            console.log(row.places);
             return row;
           })
         );
@@ -45,6 +44,7 @@ export default async function handler(req, res) {
           data: countryResult,
         });
       } catch (error) {
+        console.log(error);
         res.status(400).json({ success: false });
       }
       break;
