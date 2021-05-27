@@ -29,6 +29,7 @@ export default async function handler(req, res) {
                 },
               }
             );
+            console.log(placeResult)
             placeResult = await placeResult.json();
             placeResult.data = await placeResult.data.map((row) => {
               delete row.world;
