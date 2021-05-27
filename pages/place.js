@@ -20,14 +20,14 @@ export default function Place() {
     );
   }
   const { useloading, error, data } = useWorld(session.user.email);
-  console.log(useloading, error,String(error), data);
+  console.log(useloading, error, String(error), data);
   return (
     <Layout>
       <Head>
         <title>Place</title>
       </Head>
       <header>
-        <span>Place</span>
+        <span className={"mainHeader"}>Place</span>
       </header>
       <div>
         <div
@@ -65,9 +65,9 @@ export default function Place() {
             </ul>
           </nav>
         </div>
-        <section style={{ flexBasis: "60%" }}>
+        <section style={{ flexBasis: "60%", padding: "1rem" }}>
           <header>
-            <h1>All World</h1>
+            <span className={"mainHeader"}>All World</span>
             <p>test</p>
           </header>
           {data &&
@@ -75,10 +75,16 @@ export default function Place() {
             data.data.map((row) => (
               <section
                 key={row.name}
-                style={{ padding: "0.5rem", border: "1px solid #e0e0e0" }}
+                style={{
+                  padding: "1rem",
+                  border: "1px solid #e0e0e0",
+                  borderRadius: "0.5rem",
+                }}
               >
-                <h1>{row.name}</h1>
-                <p>xx world</p>
+                <header>
+                  <span className={"subHeader"}>{row.name} World</span>
+                </header>
+                <p>description</p>
                 <div style={{ display: "flex", flexWrap: "wrap" }}>
                   {row.places.map((place) => (
                     <div
@@ -87,8 +93,8 @@ export default function Place() {
                         width: "5rem",
                         height: "5rem",
                         border: "1px solid black",
-                        marginRight: "0.25rem",
-                        marginBottom: "0.25rem",
+                        marginRight: "0.5rem",
+                        marginBottom: "0.5rem",
                         overflow: "hidden",
                         borderRadius: "0.5rem",
                       }}
@@ -102,7 +108,7 @@ export default function Place() {
                           height: "5rem",
                         }}
                       >
-                        {place.num}
+                        Place {place.num}
                       </div>
                     </div>
                   ))}

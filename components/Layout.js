@@ -65,8 +65,7 @@ export default function Layout({ children, home }) {
           background: #e0e0e0;
           color: #2196f3;
           transform: translateY(-0.25rem);
-          box-shadow: 0.1rem 0.1rem 1rem 0.15rem rgba(0, 0, 0, 0.2),
-            -0.05rem -0.05rem 1rem 0.05rem rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 1rem 0.5rem rgba(0, 0, 0, 0.2);
         }
         li a.active {
           background: white;

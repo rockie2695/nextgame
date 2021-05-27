@@ -14,19 +14,24 @@ a {
   color: inherit;
   text-decoration: none;
 }
-
+header > span.mainHeader {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+header > span.subHeader {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
 main > div > div {
   display: flex;
 }
 main > div > header {
   padding: 0.5rem 1rem;
-  margin: 0.5rem 0;
   border-bottom: 0.5rem solid #e0e0e0;
 }
 main > div > header > span {
   font-size: 1.5rem;
   font-weight: bold;
-  line-height: 1.25rem;
 }
 main > div > div > div,
 main > div > div > section,
