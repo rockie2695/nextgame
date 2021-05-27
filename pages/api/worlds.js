@@ -13,7 +13,7 @@ export default async function handler(req, res) {
         const worlds = await World.find(
           req.query
         ); /* find all the data in our database */
-        const places = await Place.find(req.query);
+        console.log(worlds);
         let countryResult = JSON.parse(JSON.stringify(worlds));
         countryResult = await Promise.all(
           countryResult.map(async (row) => {
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
                 },
               }
             );
-            console.log(placeResult)
+            console.log(placeResult);
             placeResult = await placeResult.json();
             placeResult.data = await placeResult.data.map((row) => {
               delete row.world;
