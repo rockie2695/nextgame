@@ -20,7 +20,7 @@ export default function Place() {
     );
   }
   const { useloading, error, data } = useWorld(session.user.email);
-  console.log(useloading, error, data);
+  console.log(useloading, error,String(error), data);
   return (
     <Layout>
       <Head>
@@ -41,10 +41,6 @@ export default function Place() {
           <nav>
             <ul style={{ margin: 0, padding: 0, listStyleType: "none" }}>
               <li>{useloading ? "loading" : null}</li>
-              <li>{error}</li>
-
-              <li></li>
-
               <li>
                 <div>test</div>
               </li>

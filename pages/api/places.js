@@ -34,6 +34,7 @@ export default async function handler(req, res) {
           res.status(201).json({ success: true, data: place });
         }
       } catch (error) {
+        console.log(error);
         res.status(400).json({ success: false });
       }
       break;
