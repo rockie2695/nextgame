@@ -13,44 +13,46 @@ export default function Home() {
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      Home
-      <nav>
-        <ul>
-          <li>
-            <div>test</div>
-          </li>
-          <li>
-            <div>test</div>
-          </li>
-          <li>
-            <div>test</div>
-          </li>
-          <li>
-            <div>test</div>
-          </li>
-          <li>
-            <div>test</div>
-          </li>
-          <li>
-            <div>test</div>
-          </li>
-          <li>
-            <div>test</div>
-          </li>
-          <li>
-            <div>test</div>
-          </li>
-          <li>
-            <div>test</div>
-          </li>
-          <li>
-            <div>test</div>
-          </li>
-          <li>
-            <div>test</div>
-          </li>
-        </ul>
-      </nav>
+      <section>
+        Home
+        <nav>
+          <ul>
+            <li>
+              <div>test</div>
+            </li>
+            <li>
+              <div>test</div>
+            </li>
+            <li>
+              <div>test</div>
+            </li>
+            <li>
+              <div>test</div>
+            </li>
+            <li>
+              <div>test</div>
+            </li>
+            <li>
+              <div>test</div>
+            </li>
+            <li>
+              <div>test</div>
+            </li>
+            <li>
+              <div>test</div>
+            </li>
+            <li>
+              <div>test</div>
+            </li>
+            <li>
+              <div>test</div>
+            </li>
+            <li>
+              <div>test</div>
+            </li>
+          </ul>
+        </nav>
+      </section>
     </Layout>
   );
 }
@@ -124,6 +126,7 @@ export async function getServerSideProps(context) {
         name: "xx",
         placeNum: 12,
         controlPeople: [],
+        directControl: true,
       };
       let worldResult = await fetch(`${process.env.NEXTAUTH_URL}/api/worlds`, {
         method: "POST",

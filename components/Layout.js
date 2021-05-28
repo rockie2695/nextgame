@@ -17,12 +17,10 @@ export default function Layout({ children, home }) {
     } else {
       setHeaderBoxShadow(false);
     }
-    console.log(headerBoxShadow);
   };
 
   if (typeof window !== "undefined") {
     useEffect(() => {
-      console.log("window.addEventListener");
       window.addEventListener("scroll", listenToScroll, { passive: true });
       return () => {
         window.removeEventListener("scroll", listenToScroll);
@@ -36,70 +34,7 @@ export default function Layout({ children, home }) {
         <meta name="og:title" content={siteTitle} />
         <meta name="description" content="A game build with nextjs" />
       </Head>
-      <style jsx>{`
-        header > div {
-          max-width: 75rem;
-          padding: 1rem;
-          display: flex;
-          margin: 0 auto;
-        }
-        header div span {
-          font-size: 1.5rem;
-          font-weight: bold;
-          line-height: 1.25rem;
-        }
-        header a:first-child span:hover {
-          text-decoration: underline;
-        }
-        header div:first-child:not(:only-child) {
-          flex-grow: 1;
-        }
-        header div:only-child {
-          justify-content: center;
-        }
-        nav {
-          background: #2196f3;
-          color: white;
-          position: sticky;
-          top: 0rem;
-          z-index: 1;
-        }
-        ul {
-          list-style-type: none;
-          margin: 0 auto;
-          padding: 0;
-          max-width: 75rem;
-          display: flex;
-          flex-wrap: nowrap;
-          white-space: nowrap;
-        }
-        li:nth-last-child(2) {
-          flex-grow: 1;
-        }
-        li a {
-          display: block;
-          padding: 1rem;
-          font-size: 1.25rem;
-          line-height: 1.25rem;
-          height: 3.3rem;
-          transition: all 0.4s ease-in-out;
-        }
-        li a:hover {
-          background: #e0e0e0;
-          color: #2196f3;
-          transform: translateY(-0.25rem);
-          box-shadow: 0 0 1rem 0.5rem rgba(0, 0, 0, 0.2);
-        }
-        li a.active {
-          background: white;
-          color: #2196f3;
-        }
-        main > div {
-          margin: 0 auto;
-          max-width: 75rem;
-        }
-      `}</style>
-      <header>
+      <header className="layout">
         <div>
           <div>
             <Link href="/">
@@ -113,11 +48,8 @@ export default function Layout({ children, home }) {
         </div>
       </header>
       <nav
-        style={
-          headerBoxShadow
-            ? { boxShadow: "0px 5px 5px 0px #e0e0e0", transition: "all 0.5s" }
-            : { transition: "all 0.5s" }
-        }
+        className="layout"
+        style={headerBoxShadow ? { boxShadow: "0px 5px 5px 0px #e0e0e0" } : {}}
       >
         <ul>
           <li>
@@ -136,9 +68,9 @@ export default function Layout({ children, home }) {
           </li>
           {session && (
             <li>
-              <ActiveLink activeClassName="active" href="/place">
+              <ActiveLink activeClassName="active" href="/worldAndPlace">
                 <a>
-                  <span>Place</span>
+                  <span>World And Place</span>
                 </a>
               </ActiveLink>
             </li>

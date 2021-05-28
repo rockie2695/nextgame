@@ -20,5 +20,9 @@ const World = new mongoose.Schema({
     type: Array,
     required: [true, "`{PATH}` is required. Receive `{VALUE}`"],
   },
+  directControl: {
+    type: Boolean,
+    required: [true, "`{PATH}` is required. Receive `{VALUE}`"],
+  },
 });
 export default mongoose.models.World || mongoose.model("World", World);
