@@ -3,9 +3,10 @@ import dbConnect from "../utils/dbConnect";
 import Layout, { siteTitle } from "../components/Layout";
 import { useSession, getSession } from "next-auth/client";
 import useWorld from "../data/useWorld";
-import Skeleton from "../components/Skeleton";
+import Skeleton from "react-loading-skeleton";
+import MultiPlace from "../components/MultiPlace";
 
-export default function Place() {
+export default function worldAndPlace() {
   const [session, loading] = useSession();
 
   if (typeof window !== "undefined" && loading) return null;
@@ -19,7 +20,7 @@ export default function Place() {
     };
   }
   const { loading: useWorldLoading, data } = useWorld(
-    `email=${session.user.email}&directControl=true&countryNum=1`
+    `email=${session.user.email}&directControl=true`
   );
   return (
     <Layout>
@@ -62,7 +63,24 @@ export default function Place() {
             <span className={"mainHeader"}>All World</span>
             <p>test</p>
           </header>
-          {true /*useWorldLoading*/ ? <Skeleton /> : null}
+          {useWorldLoading ? (
+            <section
+              style={{
+                padding: "1rem",
+                border: "1px solid #e0e0e0",
+                borderRadius: "0.5rem",
+              }}
+            >
+              <header>
+                <span className={"subHeader"}>
+                  <Skeleton style={{ width: "50%" }} />
+                </span>
+              </header>
+              <p>
+                <Skeleton />
+              </p>
+            </section>
+          ) : null}
           {data &&
             data.success &&
             data.data.map((row) => (
@@ -78,35 +96,8 @@ export default function Place() {
                   <span className={"subHeader"}>{row.name} World</span>
                 </header>
                 <p>description</p>
-                <div style={{ display: "flex", flexWrap: "wrap" }}>
-                  {row.hasOwnProperty("places") &&
-                    row.places.map((place) => (
-                      <div
-                        key={place.num}
-                        style={{
-                          width: "5rem",
-                          height: "5rem",
-                          border: "1px solid black",
-                          marginRight: "0.5rem",
-                          marginBottom: "0.5rem",
-                          overflow: "hidden",
-                          borderRadius: "0.5rem",
-                        }}
-                      >
-                        <div
-                          style={{
-                            transform: "translateY(3.5rem)",
-                            color: "white",
-                            background: "rgba(0,0,0,0.75)",
-                            width: "5rem",
-                            height: "5rem",
-                          }}
-                        >
-                          地區 {place.num}
-                        </div>
-                      </div>
-                    ))}
-                </div>
+
+                <MultiPlace worldId={row._id} email={session.user.email} />
               </section>
             ))}
         </section>
