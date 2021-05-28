@@ -15,7 +15,7 @@ export default async function handler(req, res) {
         ); /* find all the data in our database */
         console.log(worlds);
         let countryResult = JSON.parse(JSON.stringify(worlds));
-        countryResult = await Promise.all(
+        /*countryResult = await Promise.all(
           countryResult.map(async (row) => {
             let placeResult = await fetch(
               `${
@@ -38,7 +38,7 @@ export default async function handler(req, res) {
             row.places = placeResult.data;
             return row;
           })
-        );
+        );*/
 
         res.status(200).json({
           success: true,

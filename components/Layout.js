@@ -2,11 +2,33 @@ import Head from "next/head";
 import Link from "next/link";
 import ActiveLink from "./ActiveLink";
 import { signIn, signOut, useSession } from "next-auth/client";
+import { useEffect, useState } from "react";
 
 export const siteTitle = "NextGame";
 
 export default function Layout({ children, home }) {
   const [session, loading] = useSession();
+  const [headerBoxShadow, setHeaderBoxShadow] = useState(false);
+  const listenToScroll = () => {
+    const winScroll =
+      document.body.scrollTop || document.documentElement.scrollTop;
+    if (winScroll > 0) {
+      setHeaderBoxShadow(true);
+    } else {
+      setHeaderBoxShadow(false);
+    }
+    console.log(headerBoxShadow);
+  };
+
+  if (typeof window !== "undefined") {
+    useEffect(() => {
+      console.log("window.addEventListener");
+      window.addEventListener("scroll", listenToScroll, { passive: true });
+      return () => {
+        window.removeEventListener("scroll", listenToScroll);
+      };
+    }, []);
+  }
   return (
     <>
       <Head>
@@ -40,6 +62,7 @@ export default function Layout({ children, home }) {
           color: white;
           position: sticky;
           top: 0rem;
+          z-index: 1;
         }
         ul {
           list-style-type: none;
@@ -89,7 +112,13 @@ export default function Layout({ children, home }) {
           {session && <span>{session.user.name || session.user.email}</span>}
         </div>
       </header>
-      <nav>
+      <nav
+        style={
+          headerBoxShadow
+            ? { boxShadow: "0px 5px 5px 0px #e0e0e0", transition: "all 0.5s" }
+            : { transition: "all 0.5s" }
+        }
+      >
         <ul>
           <li>
             <ActiveLink activeClassName="active" href="/">

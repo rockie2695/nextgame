@@ -86,32 +86,33 @@ export default function Place() {
                 </header>
                 <p>description</p>
                 <div style={{ display: "flex", flexWrap: "wrap" }}>
-                  {row.places.map((place) => (
-                    <div
-                      key={place.num}
-                      style={{
-                        width: "5rem",
-                        height: "5rem",
-                        border: "1px solid black",
-                        marginRight: "0.5rem",
-                        marginBottom: "0.5rem",
-                        overflow: "hidden",
-                        borderRadius: "0.5rem",
-                      }}
-                    >
+                  {row.hasOwnProperty("places") &&
+                    row.places.map((place) => (
                       <div
+                        key={place.num}
                         style={{
-                          transform: "translateY(3.5rem)",
-                          color: "white",
-                          background: "rgba(0,0,0,0.75)",
                           width: "5rem",
                           height: "5rem",
+                          border: "1px solid black",
+                          marginRight: "0.5rem",
+                          marginBottom: "0.5rem",
+                          overflow: "hidden",
+                          borderRadius: "0.5rem",
                         }}
                       >
-                        Place {place.num}
+                        <div
+                          style={{
+                            transform: "translateY(3.5rem)",
+                            color: "white",
+                            background: "rgba(0,0,0,0.75)",
+                            width: "5rem",
+                            height: "5rem",
+                          }}
+                        >
+                          Place {place.num}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               </section>
             ))}
