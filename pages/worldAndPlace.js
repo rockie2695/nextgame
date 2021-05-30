@@ -83,9 +83,9 @@ export default function worldAndPlace() {
           ) : null}
           {data &&
             data.success &&
-            data.data.map((row) => (
+            data.data.map((world) => (
               <section
-                key={row.name}
+                key={world.name}
                 style={{
                   padding: "1rem",
                   border: "1px solid #e0e0e0",
@@ -93,11 +93,11 @@ export default function worldAndPlace() {
                 }}
               >
                 <header>
-                  <span className={"subHeader"}>{row.name} World</span>
+                  <span className={"subHeader"}>{world.name} World</span>
                 </header>
                 <p>description</p>
 
-                <MultiPlace worldId={row._id} email={session.user.email} />
+                <MultiPlace worldId={world._id} email={session.user.email} />
               </section>
             ))}
         </section>

@@ -1,10 +1,25 @@
 import usePlace from "../data/usePlace";
+import Skeleton from "react-loading-skeleton";
+
 export default function MultiPlace({ email, worldId }) {
   const { loading: usePlaceLoading, data } = usePlace(
     `email=${email}&world=${worldId}`
   );
   return (
     <div style={{ display: "flex", flexWrap: "wrap" }}>
+      {usePlaceLoading &&
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((place) => (
+          <Skeleton
+            style={{
+              width: "5rem",
+              height: "5rem",
+              border: "1px solid black",
+              marginRight: "0.5rem",
+              marginBottom: "0.5rem",
+              borderRadius: "0.5rem",
+            }}
+          />
+        ))}
       {data &&
         data.success &&
         data.data.map((place) => (
