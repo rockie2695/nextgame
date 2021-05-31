@@ -20,72 +20,9 @@ ul {
   padding: 0;
   list-style-type: none;
 }
-
-header.layout > div {
-  max-width: 75rem;
-  padding: 1rem;
-  display: flex;
-  margin: 0 auto;
-}
-
-header.layout div span {
-  font-size: 1.5rem;
-  font-weight: bold;
-  line-height: 1.25rem;
-}
-
-header.layout a:first-child span:hover {
-  text-decoration: underline;
-}
-
-header.layout div:first-child:not(:only-child) {
-  flex-grow: 1;
-}
-
-header.layout div:only-child {
-  justify-content: center;
-}
-
-nav.layout {
-  background: #2196f3;
-  color: white;
-  position: sticky;
-  top: 0rem;
-  z-index: 1;
-  transition: all 0.5s;
-}
-
-nav.layout > ul {
-  margin: auto;
-  max-width: 75rem;
-  display: flex;
-  flex-wrap: nowrap;
-  white-space: nowrap;
-}
-
-nav.layout > ul > li:nth-last-child(2) {
-  flex-grow: 1;
-}
-
-nav.layout > ul > li a {
-  display: block;
-  padding: 1rem;
-  font-size: 1.25rem;
-  line-height: 1.25rem;
-  height: 3.3rem;
-  transition: all 0.4s ease-in-out;
-}
-
-nav.layout > ul > li a:hover {
-  background: #e0e0e0;
-  color: #2196f3;
-  transform: translateY(-0.25rem);
-  box-shadow: 0 0 1rem 0.5rem rgba(0, 0, 0, 0.2);
-}
-
-nav.layout > ul > li a.active {
-  background: white;
-  color: #2196f3;
+/*
+main {
+  min-height: 90vh;
 }
 
 main > div {
@@ -147,3 +84,4 @@ main > div > div > aside {
   position: sticky;
   top: 4rem;
 }
+*/

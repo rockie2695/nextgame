@@ -5,22 +5,32 @@ import { useSession, getSession } from "next-auth/client";
 import useWorld from "../data/useWorld";
 import Skeleton from "react-loading-skeleton";
 import MultiPlace from "../components/MultiPlace";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import styles from "../styles/main.module.css";
 
 export default function worldAndPlace() {
   const [session, loading] = useSession();
-
+  const router = useRouter();
   if (typeof window !== "undefined" && loading) return null;
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/?error=pleaseLogin",
-        permanent: false,
-      },
-    };
-  }
-  const { loading: useWorldLoading, data } = useWorld(
-    `email=${session.user.email}&directControl=true`
+  useEffect(() => {
+    if (router) {
+      if (!session) {
+        router.push({
+          pathname: "/",
+          query: { error: "pleaseLogin" },
+        });
+      }
+    }
+  }, [router]);
+  const { selectDC, selectNDC } = router.query;
+  const { loading: useDCWorldLoading, data: dCdata } = useWorld(
+    `email=${session.user.email}&directControl=true`,
+    selectDC === "true"
+  );
+  const { loading: useNDCWorldLoading, data: nDCdata } = useWorld(
+    `email=${session.user.email}&directControl=false`,
+    selectNDC === "true"
   );
   return (
     <Layout>
@@ -28,7 +38,7 @@ export default function worldAndPlace() {
         <title>World And Place</title>
       </Head>
       <header>
-        <span className={"mainHeader"}>World And Place</span>
+        <span className={styles.mainHeader}>World And Place</span>
       </header>
       <div>
         <div>
@@ -58,21 +68,26 @@ export default function worldAndPlace() {
             </ul>
           </nav>
         </div>
-        <section>
+        <section
+          style={{
+            background: "#ffeb3b",
+          }}
+        >
           <header>
-            <span className={"mainHeader"}>All World</span>
-            <p>test</p>
+            <span className={styles.mainHeader}>DirectControl</span>
+            <p>direct control would get all money</p>
           </header>
-          {useWorldLoading ? (
+          {useDCWorldLoading ? (
             <section
               style={{
                 padding: "1rem",
                 border: "1px solid #e0e0e0",
                 borderRadius: "0.5rem",
+                background: "white",
               }}
             >
               <header>
-                <span className={"subHeader"}>
+                <span className={styles.subHeader}>
                   <Skeleton style={{ width: "50%" }} />
                 </span>
               </header>
@@ -81,19 +96,20 @@ export default function worldAndPlace() {
               </p>
             </section>
           ) : null}
-          {data &&
-            data.success &&
-            data.data.map((world) => (
+          {dCdata &&
+            dCdata.success &&
+            dCdata.data.map((world) => (
               <section
-                key={world.name}
+                key={world._id}
                 style={{
                   padding: "1rem",
                   border: "1px solid #e0e0e0",
                   borderRadius: "0.5rem",
+                  background: "white",
                 }}
               >
                 <header>
-                  <span className={"subHeader"}>{world.name} World</span>
+                  <span className={styles.subHeader}>{world.name} World</span>
                 </header>
                 <p>description</p>
 
@@ -134,7 +150,6 @@ export default function worldAndPlace() {
 }
 export async function getServerSideProps(context) {
   await dbConnect();
-  const contentType = "application/json";
   const session = await getSession(context);
   if (!session) {
     return {
@@ -144,5 +159,20 @@ export async function getServerSideProps(context) {
       },
     };
   }
+
+  const { selectDC, selectNDC } = context.query;
+  if (
+    (!selectDC && !selectNDC) ||
+    (!selectNDC && selectDC !== "true") ||
+    (!selectDC && selectNDC !== "true")
+  ) {
+    return {
+      redirect: {
+        destination: "/worldAndPlace?selectDC=true",
+        permanent: false,
+      },
+    };
+  }
+
   return { props: { session } };
 }

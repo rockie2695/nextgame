@@ -72,8 +72,8 @@ export async function getServerSideProps(context) {
       const countryObj = {
         email: session.user.email,
         name: session.user.name,
-        money: 0,
-        food: 0,
+        money: 1000,
+        food: 1000,
         country_num: result2 + 1,
       };
       let countryResult = await fetch(
@@ -127,6 +127,7 @@ export async function getServerSideProps(context) {
         placeNum: 12,
         controlPeople: [],
         directControl: true,
+        type: "steam",
       };
       let worldResult = await fetch(`${process.env.NEXTAUTH_URL}/api/worlds`, {
         method: "POST",

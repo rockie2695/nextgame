@@ -6,13 +6,16 @@ export default function MultiPlace({ email, worldId }) {
     `email=${email}&world=${worldId}`
   );
   return (
-    <div style={{ display: "flex", flexWrap: "wrap" }}>
+    <div
+      style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
+    >
       {usePlaceLoading &&
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((place) => (
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((place, index) => (
           <Skeleton
+            key={index}
             style={{
-              width: "5rem",
-              height: "5rem",
+              width: "6rem",
+              height: "6rem",
               border: "1px solid black",
               marginRight: "0.5rem",
               marginBottom: "0.5rem",
@@ -26,8 +29,8 @@ export default function MultiPlace({ email, worldId }) {
           <div
             key={place.num}
             style={{
-              width: "5rem",
-              height: "5rem",
+              width: "6rem",
+              height: "6rem",
               border: "1px solid black",
               marginRight: "0.5rem",
               marginBottom: "0.5rem",
@@ -37,11 +40,11 @@ export default function MultiPlace({ email, worldId }) {
           >
             <div
               style={{
-                transform: "translateY(3.5rem)",
+                transform: "translateY(4.5rem)",
                 color: "white",
                 background: "rgba(0,0,0,0.75)",
-                width: "5rem",
-                height: "5rem",
+                width: "6rem",
+                height: "6rem",
               }}
             >
               地區 {place.num}

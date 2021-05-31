@@ -3,6 +3,8 @@ import Link from "next/link";
 import ActiveLink from "./ActiveLink";
 import { signIn, signOut, useSession } from "next-auth/client";
 import { useEffect, useState } from "react";
+import styles from "../styles/Layout.module.css";
+import { main } from "../styles/main.module.css";
 
 export const siteTitle = "NextGame";
 
@@ -12,7 +14,7 @@ export default function Layout({ children, home }) {
   const listenToScroll = () => {
     const winScroll =
       document.body.scrollTop || document.documentElement.scrollTop;
-    if (winScroll > 0) {
+    if (winScroll > 56) {
       setHeaderBoxShadow(true);
     } else {
       setHeaderBoxShadow(false);
@@ -34,7 +36,7 @@ export default function Layout({ children, home }) {
         <meta name="og:title" content={siteTitle} />
         <meta name="description" content="A game build with nextjs" />
       </Head>
-      <header className="layout">
+      <header className={styles.header}>
         <div>
           <div>
             <Link href="/">
@@ -48,19 +50,23 @@ export default function Layout({ children, home }) {
         </div>
       </header>
       <nav
-        className="layout"
-        style={headerBoxShadow ? { boxShadow: "0px 5px 5px 0px #e0e0e0" } : {}}
+        className={styles.nav}
+        style={
+          headerBoxShadow
+            ? { boxShadow: "0px 5px 5px 0px rgba(0,0,0,0.5)" }
+            : {}
+        }
       >
         <ul>
           <li>
-            <ActiveLink activeClassName="active" href="/">
+            <ActiveLink activeClassName={styles.active} href="/">
               <a>
                 <span>Home</span>
               </a>
             </ActiveLink>
           </li>
           <li>
-            <ActiveLink activeClassName="active" href="/index2">
+            <ActiveLink activeClassName={styles.active} href="/index2">
               <a>
                 <span>Home2</span>
               </a>
@@ -68,7 +74,7 @@ export default function Layout({ children, home }) {
           </li>
           {session && (
             <li>
-              <ActiveLink activeClassName="active" href="/worldAndPlace">
+              <ActiveLink activeClassName={styles.active} href="/worldAndPlace">
                 <a>
                   <span>World And Place</span>
                 </a>
@@ -106,9 +112,12 @@ export default function Layout({ children, home }) {
           </li>
         </ul>
       </nav>
-      <main>
+      <main className={main}>
         <div>{children}</div>
       </main>
+      <footer className={styles.footer}>
+        <div>made by rockie2695@yahoo.com.hk</div>
+      </footer>
     </>
   );
 }
