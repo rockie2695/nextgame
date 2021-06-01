@@ -10,7 +10,7 @@ export default function MultiPlace({ email, worldId }) {
       style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
     >
       {usePlaceLoading &&
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((place, index) => (
+        [...Array(10)].map((place, index) => (
           <Skeleton
             key={index}
             style={{

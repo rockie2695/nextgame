@@ -116,7 +116,12 @@ export default function Layout({ children, home }) {
         <div>{children}</div>
       </main>
       <footer className={styles.footer}>
-        <div>made by rockie2695@yahoo.com.hk</div>
+        <div>
+          <span>made by&nbsp;</span>
+          <Link href="https://github.com/rockie2695/">
+            <a target="_blank">rockie2695</a>
+          </Link>
+        </div>
       </footer>
     </>
   );

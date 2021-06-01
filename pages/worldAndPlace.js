@@ -41,40 +41,14 @@ export default function worldAndPlace() {
         <span className={styles.mainHeader}>World And Place</span>
       </header>
       <div>
-        <div>
-          <nav>
-            <ul>
-              <li>
-                <div>test</div>
-              </li>
-              <li>
-                <div>test</div>
-              </li>
-              <li>
-                <div>test</div>
-              </li>
-              <li>
-                <div>test</div>
-              </li>
-              <li>
-                <div>test</div>
-              </li>
-              <li>
-                <div>test</div>
-              </li>
-              <li>
-                <div>test</div>
-              </li>
-            </ul>
-          </nav>
-        </div>
+        <div>Direct Control World</div>
         <section
           style={{
             background: "#ffeb3b",
           }}
         >
           <header>
-            <span className={styles.mainHeader}>DirectControl</span>
+            <span className={styles.mainHeader}>Direct Control</span>
             <p>direct control would get all money</p>
           </header>
           {useDCWorldLoading ? (
