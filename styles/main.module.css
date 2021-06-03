@@ -31,7 +31,6 @@
   font-weight: bold;
 }
 
-.main > div > div > div,
 .main > div > div > section,
 .main > div > div > aside {
   margin: 0.5rem;
@@ -48,7 +47,22 @@
   position: sticky;
   top: 4rem;
 }
+.main > div > div > div a {
+  margin: 0.5rem;
+  border-radius: 0.5rem;
+  min-width: 10rem;
+  border: 0.1rem solid #e0e0e0;
+  padding: 1rem 0.5rem;
+  display: block;
+}
 
+.main > div > div > div a + a {
+  margin: 1rem 0.5rem;
+}
+.tabActive {
+  background: #2196f3;
+  color: white;
+}
 .main > div > div > section {
   flex-basis: 60%;
   padding: 1rem;

@@ -8,6 +8,8 @@ import MultiPlace from "../components/MultiPlace";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import styles from "../styles/main.module.css";
+import Link from "next/link";
+import ActiveLink from "../components/ActiveLink";
 
 export default function worldAndPlace() {
   const [session, loading] = useSession();
@@ -41,7 +43,43 @@ export default function worldAndPlace() {
         <span className={styles.mainHeader}>World And Place</span>
       </header>
       <div>
-        <div>Direct Control World</div>
+        <div>
+          <ActiveLink
+            activeClassName={styles.tabActive}
+            href={`${router.pathname}?selectDC=true`}
+            methodGet={{ selectDC: "true" }}
+          >
+            <a>
+              <header>
+                <span className={styles.subHeader}>Direct Control World</span>
+              </header>
+            </a>
+          </ActiveLink>
+          <ActiveLink
+            activeClassName={styles.tabActive}
+            href={`${router.pathname}?selectNDC=true`}
+            methodGet={{ selectNDC: "true" }}
+          >
+            <a>
+              <header>
+                <span className={styles.subHeader}>
+                  Non Direct Control World
+                </span>
+              </header>
+            </a>
+          </ActiveLink>
+          <ActiveLink
+            activeClassName={styles.tabActive}
+            href={`${router.pathname}?selectDC=true&selectNDC=true`}
+            methodGet={{ selectDC: "true", selectNDC: "true" }}
+          >
+            <a>
+              <header>
+                <span className={styles.subHeader}>All World</span>
+              </header>
+            </a>
+          </ActiveLink>
+        </div>
         <section
           style={{
             background: "#ffeb3b",
@@ -142,7 +180,7 @@ export async function getServerSideProps(context) {
   ) {
     return {
       redirect: {
-        destination: "/worldAndPlace?selectDC=true",
+        destination: `${context.resolvedUrl.split("?")[0]}?selectDC=true`,
         permanent: false,
       },
     };
