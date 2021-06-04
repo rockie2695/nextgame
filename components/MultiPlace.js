@@ -1,5 +1,6 @@
 import usePlace from "../data/usePlace";
 import Skeleton from "react-loading-skeleton";
+import styles from "../styles/main.module.css";
 
 export default function MultiPlace({ email, worldId }) {
   const { loading: usePlaceLoading, data } = usePlace(
@@ -10,7 +11,7 @@ export default function MultiPlace({ email, worldId }) {
       style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
     >
       {usePlaceLoading &&
-        [...Array(10)].map((place, index) => (
+        [...Array(12)].map((place, index) => (
           <Skeleton
             key={index}
             style={{
@@ -26,29 +27,8 @@ export default function MultiPlace({ email, worldId }) {
       {data &&
         data.success &&
         data.data.map((place) => (
-          <div
-            key={place.num}
-            style={{
-              width: "6rem",
-              height: "6rem",
-              border: "1px solid black",
-              marginRight: "0.5rem",
-              marginBottom: "0.5rem",
-              overflow: "hidden",
-              borderRadius: "0.5rem",
-            }}
-          >
-            <div
-              style={{
-                transform: "translateY(4.5rem)",
-                color: "white",
-                background: "rgba(0,0,0,0.75)",
-                width: "6rem",
-                height: "6rem",
-              }}
-            >
-              地區 {place.num}
-            </div>
+          <div key={place.num} className={styles.place}>
+            <div className={styles.shadow}>地區 {place.num}</div>
           </div>
         ))}
     </div>

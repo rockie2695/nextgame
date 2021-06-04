@@ -13,7 +13,6 @@ export default async function handler(req, res) {
         const worlds = await World.find(
           req.query
         ); /* find all the data in our database */
-        console.log(worlds);
         let countryResult = JSON.parse(JSON.stringify(worlds));
         /*countryResult = await Promise.all(
           countryResult.map(async (row) => {

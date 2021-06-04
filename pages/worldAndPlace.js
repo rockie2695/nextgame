@@ -8,7 +8,6 @@ import MultiPlace from "../components/MultiPlace";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import styles from "../styles/main.module.css";
-import Link from "next/link";
 import ActiveLink from "../components/ActiveLink";
 
 export default function worldAndPlace() {
@@ -34,6 +33,23 @@ export default function worldAndPlace() {
     `email=${session.user.email}&directControl=false`,
     selectNDC === "true"
   );
+  const tabArray = [
+    {
+      headerName: "Direct Control World",
+      methodGet: { selectDC: "true" },
+      href: `${router.pathname}?selectDC=true`,
+    },
+    {
+      headerName: "Non Direct Control World",
+      methodGet: { selectNDC: "true" },
+      href: `${router.pathname}?selectNDC=true`,
+    },
+    {
+      headerName: "All World",
+      methodGet: { selectDC: "true", selectNDC: "true" },
+      href: `${router.pathname}?selectDC=true&selectNDC=true`,
+    },
+  ];
   return (
     <Layout>
       <Head>
@@ -43,61 +59,29 @@ export default function worldAndPlace() {
         <span className={styles.mainHeader}>World And Place</span>
       </header>
       <div>
-        <div>
-          <ActiveLink
-            activeClassName={styles.tabActive}
-            href={`${router.pathname}?selectDC=true`}
-            methodGet={{ selectDC: "true" }}
-          >
-            <a>
-              <header>
-                <span className={styles.subHeader}>Direct Control World</span>
-              </header>
-            </a>
-          </ActiveLink>
-          <ActiveLink
-            activeClassName={styles.tabActive}
-            href={`${router.pathname}?selectNDC=true`}
-            methodGet={{ selectNDC: "true" }}
-          >
-            <a>
-              <header>
-                <span className={styles.subHeader}>
-                  Non Direct Control World
-                </span>
-              </header>
-            </a>
-          </ActiveLink>
-          <ActiveLink
-            activeClassName={styles.tabActive}
-            href={`${router.pathname}?selectDC=true&selectNDC=true`}
-            methodGet={{ selectDC: "true", selectNDC: "true" }}
-          >
-            <a>
-              <header>
-                <span className={styles.subHeader}>All World</span>
-              </header>
-            </a>
-          </ActiveLink>
+        <div className={styles.tab_container}>
+          {tabArray.map((tab, index) => (
+            <ActiveLink
+              key={index}
+              activeClassName={styles.tabActive}
+              href={tab.href}
+              methodGet={tab.methodGet}
+            >
+              <a>
+                <header>
+                  <span className={styles.subHeader}>{tab.headerName}</span>
+                </header>
+              </a>
+            </ActiveLink>
+          ))}
         </div>
-        <section
-          style={{
-            background: "#ffeb3b",
-          }}
-        >
+        <section className={styles.section_container}>
           <header>
             <span className={styles.mainHeader}>Direct Control</span>
             <p>direct control would get all money</p>
           </header>
           {useDCWorldLoading ? (
-            <section
-              style={{
-                padding: "1rem",
-                border: "1px solid #e0e0e0",
-                borderRadius: "0.5rem",
-                background: "white",
-              }}
-            >
+            <section>
               <header>
                 <span className={styles.subHeader}>
                   <Skeleton style={{ width: "50%" }} />
@@ -106,20 +90,25 @@ export default function worldAndPlace() {
               <p>
                 <Skeleton />
               </p>
+              {[...Array(12)].map((place, index) => (
+                <Skeleton
+                  key={index}
+                  style={{
+                    width: "6rem",
+                    height: "6rem",
+                    border: "1px solid black",
+                    marginRight: "0.5rem",
+                    marginBottom: "0.5rem",
+                    borderRadius: "0.5rem",
+                  }}
+                />
+              ))}
             </section>
           ) : null}
           {dCdata &&
             dCdata.success &&
             dCdata.data.map((world) => (
-              <section
-                key={world._id}
-                style={{
-                  padding: "1rem",
-                  border: "1px solid #e0e0e0",
-                  borderRadius: "0.5rem",
-                  background: "white",
-                }}
-              >
+              <section key={world._id} className={styles.world}>
                 <header>
                   <span className={styles.subHeader}>{world.name} World</span>
                 </header>

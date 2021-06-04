@@ -1,5 +1,5 @@
 .main {
-  min-height: 90vh;
+  min-height: 81.5vh;
 }
 
 .main > div {
@@ -22,8 +22,9 @@
 }
 
 .main > div > header {
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1rem 0.25rem 1rem;
   border-bottom: 0.5rem solid #e0e0e0;
+  margin-bottom: 0.25rem;
 }
 
 .main > div > header > span {
@@ -34,40 +35,70 @@
 .main > div > div > section,
 .main > div > div > aside {
   margin: 0.5rem;
-  background: white;
-  border-radius: 0.5rem;
   min-width: 10rem;
-  border: 0.1rem solid #e0e0e0;
 }
 
-.main > div > div > div {
-  margin-left: 0rem;
+.tab_container {
   flex-basis: 20%;
-  height: 100%;
+  max-height: calc(100vh - 10rem);
   position: sticky;
   top: 4rem;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
-.main > div > div > div a {
+.tab_container a {
   margin: 0.5rem;
   border-radius: 0.5rem;
   min-width: 10rem;
-  border: 0.1rem solid #e0e0e0;
+  border: 0.1rem solid transparent;
   padding: 1rem 0.5rem;
   display: block;
+  transition: background-color 0.4s ease-in-out, border 0.4s ease-in-out,
+    color 0.4s ease-in-out;
 }
 
-.main > div > div > div a + a {
-  margin: 1rem 0.5rem;
+.tab_container a:not(.tabActive):hover {
+  border: 0.1rem solid #e0e0e0;
+  color: #2196f3;
 }
+
 .tabActive {
   background: #2196f3;
   color: white;
 }
-.main > div > div > section {
+.section_container {
   flex-basis: 60%;
-  padding: 1rem;
+  padding: 1rem 0.5rem;
 }
-
+.section_container > section:not(:last-child) {
+  margin-bottom: 1rem;
+}
+.section_container > .world {
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.5rem;
+  background: white;
+}
+.section_container > .world .place {
+  width: 6rem;
+  height: 6rem;
+  border: 1px solid black;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+.section_container > .world .place > .shadow {
+  transform: translateY(4.5rem);
+  color: white;
+  background: rgba(0, 0, 0, 0.75);
+  width: 6rem;
+  height: 6rem;
+  transition: transform 0.4s;
+}
+.section_container > .world .place:hover > .shadow {
+  transform: translateY(0);
+}
 .main > div > div > aside {
   margin-right: 0rem;
   flex-basis: 20%;
