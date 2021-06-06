@@ -81,7 +81,7 @@ export default function worldAndPlace() {
             <p>direct control would get all money</p>
           </header>
           {useDCWorldLoading ? (
-            <section>
+            <section className={styles.world}>
               <header>
                 <span className={styles.subHeader}>
                   <Skeleton style={{ width: "50%" }} />
@@ -110,9 +110,10 @@ export default function worldAndPlace() {
             dCdata.data.map((world) => (
               <section key={world._id} className={styles.world}>
                 <header>
-                  <span className={styles.subHeader}>{world.name} World</span>
+                  <span className={styles.subHeader}>{world.name} 世界</span>
+                  <button>rename</button>
                 </header>
-                <p>description</p>
+                <p>[{world.type}世界]description</p>
 
                 <MultiPlace worldId={world._id} email={session.user.email} />
               </section>

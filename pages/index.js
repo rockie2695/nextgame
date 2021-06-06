@@ -127,7 +127,7 @@ export async function getServerSideProps(context) {
         placeNum: 12,
         controlPeople: [],
         directControl: true,
-        type: "steam",
+        type: "蒸汽",
       };
       let worldResult = await fetch(`${process.env.NEXTAUTH_URL}/api/worlds`, {
         method: "POST",
@@ -155,6 +155,7 @@ export async function getServerSideProps(context) {
           email: session.user.email,
           num: placeArray.length + 1,
           world: worldResult.data._id,
+          roadTo: [],
         });
       }
       let placeResult = await fetch(`${process.env.NEXTAUTH_URL}/api/places`, {

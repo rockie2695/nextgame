@@ -1,5 +1,5 @@
 .main {
-  min-height: 81.5vh;
+  min-height: calc(100vh - 6.75rem - 3.333rem);
 }
 
 .main > div {
@@ -45,11 +45,11 @@
   top: 4rem;
   overflow-y: scroll;
   overflow-x: hidden;
+  min-width: 10rem;
 }
 .tab_container a {
   margin: 0.5rem;
   border-radius: 0.5rem;
-  min-width: 10rem;
   border: 0.1rem solid transparent;
   padding: 1rem 0.5rem;
   display: block;
@@ -105,4 +105,25 @@
   height: 100%;
   position: sticky;
   top: 4rem;
+}
+@media only screen and (max-width: 810px) {
+  .main > div > div {
+    flex-direction: column;
+  }
+  .tab_container {
+    position: static;
+    display: flex;
+    overflow-y: hidden;
+    overflow-x: auto;
+  }
+  .tab_container a {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .main > div > div > aside {
+    display: none;
+  }
 }

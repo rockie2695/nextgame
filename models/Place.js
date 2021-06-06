@@ -15,5 +15,9 @@ const Place = new mongoose.Schema({
     type: Number,
     required: [true, "`{PATH}` is required. Receive `{VALUE}`"],
   },
+  roadTo: {
+    type: Array,
+    required: [true, "`{PATH}` is required. Receive `{VALUE}`"],
+  },
 });
 export default mongoose.models.Place || mongoose.model("Place", Place);
