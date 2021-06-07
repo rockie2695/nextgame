@@ -30,11 +30,11 @@
   display: flex;
   flex-wrap: nowrap;
   white-space: nowrap;
-  overflow-x: auto;
 }
 .nav > ul > li:nth-last-child(2) {
   flex-grow: 1;
 }
+
 .nav > ul > li a {
   display: block;
   padding: 1rem;
@@ -64,4 +64,14 @@
   display: flex;
   margin: 0 auto;
   justify-content: center;
+}
+
+@media only screen and (max-width: 810px) {
+  .nav > ul {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .nav > ul > li a:hover {
+    transform: translateY(0rem);
+  }
 }

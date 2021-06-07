@@ -128,6 +128,7 @@ export async function getServerSideProps(context) {
         controlPeople: [],
         directControl: true,
         type: "蒸汽",
+        roadTo: [],
       };
       let worldResult = await fetch(`${process.env.NEXTAUTH_URL}/api/worlds`, {
         method: "POST",
@@ -151,13 +152,34 @@ export async function getServerSideProps(context) {
       //create Place
       const placeArray = [];
       while (placeArray.length < worldObj.placeNum) {
-        placeArray.push({
+        let placeObj = {
           email: session.user.email,
           num: placeArray.length + 1,
           world: worldResult.data._id,
-          roadTo: [],
-        });
-      }
+          discover: false,
+          type: "",
+          city: 0,
+          village: 0,
+        };
+        if (placeArray.length + 1 === 1) {
+          placeObj.type = "平原";
+          placeObj.discover = true;
+          placeObj.city = 1;
+        } else if (placeArray.length + 1 === 2) {
+          placeObj.type = "高原";
+          placeObj.discover = true;
+          placeObj.village = 1;
+        } else if (placeArray.length + 1 === 3) {
+          placeObj.type = "丘陵";
+          placeObj.discover = true;
+          placeObj.village = 1;
+        } else if (placeArray.length + 1 === 4) {
+          placeObj.type = "島嶼";
+          placeObj.discover = true;
+          placeObj.village = 1;
+        }
+        placeArray.push(placeObj);
+      } //平原高原丘陵島嶼
       let placeResult = await fetch(`${process.env.NEXTAUTH_URL}/api/places`, {
         method: "POST",
         headers: {

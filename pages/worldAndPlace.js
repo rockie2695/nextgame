@@ -90,19 +90,21 @@ export default function worldAndPlace() {
               <p>
                 <Skeleton />
               </p>
-              {[...Array(12)].map((place, index) => (
-                <Skeleton
-                  key={index}
-                  style={{
-                    width: "6rem",
-                    height: "6rem",
-                    border: "1px solid black",
-                    marginRight: "0.5rem",
-                    marginBottom: "0.5rem",
-                    borderRadius: "0.5rem",
-                  }}
-                />
-              ))}
+              <div>
+                {[...Array(12)].map((place, index) => (
+                  <Skeleton
+                    key={index}
+                    style={{
+                      width: "6rem",
+                      height: "6rem",
+                      border: "1px solid black",
+                      marginRight: "0.5rem",
+                      marginBottom: "0.5rem",
+                      borderRadius: "0.5rem",
+                    }}
+                  />
+                ))}
+              </div>
             </section>
           ) : null}
           {dCdata &&
@@ -113,7 +115,12 @@ export default function worldAndPlace() {
                   <span className={styles.subHeader}>{world.name} 世界</span>
                   <button>rename</button>
                 </header>
-                <p>[{world.type}世界]description</p>
+                <p>
+                  [{world.type}世界]
+                  {world.type === "蒸汽"
+                    ? "第一次工業革命,使用蒸汽機、煤、鐵和鋼進行工業化"
+                    : null}
+                </p>
 
                 <MultiPlace worldId={world._id} email={session.user.email} />
               </section>

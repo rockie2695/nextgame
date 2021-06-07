@@ -15,8 +15,20 @@ const Place = new mongoose.Schema({
     type: Number,
     required: [true, "`{PATH}` is required. Receive `{VALUE}`"],
   },
-  roadTo: {
-    type: Array,
+  type: {
+    type: String,
+    required: [true, "`{PATH}` is required. Receive `{VALUE}`"],
+  },
+  discover: {
+    type: Boolean,
+    required: [true, "`{PATH}` is required. Receive `{VALUE}`"],
+  },
+  city: {
+    type: Number,
+    required: [true, "`{PATH}` is required. Receive `{VALUE}`"],
+  },
+  village: {
+    type: Number,
     required: [true, "`{PATH}` is required. Receive `{VALUE}`"],
   },
 });
