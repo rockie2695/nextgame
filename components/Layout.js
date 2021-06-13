@@ -5,7 +5,7 @@ import { signIn, signOut, useSession } from "next-auth/client";
 import { useEffect, useState } from "react";
 import styles from "../styles/Layout.module.css";
 import { main } from "../styles/main.module.css";
-
+import { MdHome as MdHomeIcon } from "react-icons/md";
 export const siteTitle = "NextGame";
 
 export default function Layout({ children, home }) {
@@ -50,18 +50,19 @@ export default function Layout({ children, home }) {
         </div>
       </header>
       <nav
-        className={styles.nav}
-        style={
-          headerBoxShadow
-            ? { boxShadow: "0px 5px 5px 0px rgba(0,0,0,0.5)" }
-            : {}
-        }
+        className={[
+          styles.nav,
+          headerBoxShadow ? styles.headerBoxShadow : "",
+        ].join(" ")}
       >
         <ul>
           <li>
             <ActiveLink activeClassName={styles.active} href="/">
               <a>
-                <span>Home</span>
+                <span></span>
+                <span>
+                  <MdHomeIcon style={{ fontSize: "1.25em" }} />
+                </span>
               </a>
             </ActiveLink>
           </li>

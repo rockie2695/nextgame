@@ -73,13 +73,13 @@
 .section_container > section:not(:last-child) {
   margin-bottom: 1rem;
 }
-.section_container > .world {
+.section_container .world {
   padding: 1rem;
   border: 1px solid #e0e0e0;
   border-radius: 0.5rem;
   background: white;
 }
-.section_container > .world .place {
+.section_container .world .place {
   width: 6rem;
   height: 6rem;
   border: 1px solid black;
@@ -89,12 +89,12 @@
   border-radius: 0.5rem;
   position: relative;
 }
-.section_container > .world > div {
+.section_container .world > div {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
-.section_container > .world .place > .shadow {
+.section_container .world .place > .shadow {
   transform: translateY(75%);
   top: 0rem;
   color: white;
@@ -104,7 +104,7 @@
   transition: transform 0.4s;
   position: absolute;
 }
-.section_container > .world .place:hover > .shadow {
+.section_container .world .place:hover > .shadow {
   transform: translateY(0);
 }
 .main > div > div > aside {

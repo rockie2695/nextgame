@@ -79,10 +79,10 @@ export default function worldAndPlace() {
             </ActiveLink>
           ))}
         </div>
-        <section>
+        <section className={styles.section_container}>
           {worldResult.map((result, index) =>
             result.enable ? (
-              <section className={styles.section_container} key={index}>
+              <section key={index}>
                 {index === 0 ? (
                   <header>
                     <span className={styles.mainHeader}>Direct Control</span>
@@ -126,27 +126,29 @@ export default function worldAndPlace() {
                 ) : null}
                 {result.data &&
                   result.data.success &&
-                  result.data.data.map((world) => (
-                    <section key={world._id} className={styles.world}>
-                      <header>
-                        <span className={styles.subHeader}>
-                          {world.name} 世界
-                        </span>
-                        <button>rename</button>
-                      </header>
-                      <p>
-                        [{world.type}世界]
-                        {world.type === "蒸汽"
-                          ? "第一次工業革命,使用蒸汽機、煤、鐵和鋼進行工業化"
-                          : null}
-                      </p>
+                  (result.data.data.length === 0
+                    ? "No result"
+                    : result.data.data.map((world) => (
+                        <section key={world._id} className={styles.world}>
+                          <header>
+                            <span className={styles.subHeader}>
+                              {world.name} 世界
+                            </span>
+                            <button>rename</button>
+                          </header>
+                          <p>
+                            [{world.type}世界]
+                            {world.type === "蒸汽"
+                              ? "第一次工業革命,使用蒸汽機、煤、鐵和鋼進行工業化"
+                              : null}
+                          </p>
 
-                      <MultiPlace
-                        worldId={world._id}
-                        email={session.user.email}
-                      />
-                    </section>
-                  ))}
+                          <MultiPlace
+                            worldId={world._id}
+                            email={session.user.email}
+                          />
+                        </section>
+                      )))}
               </section>
             ) : null
           )}
