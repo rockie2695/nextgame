@@ -75,7 +75,7 @@
 
 @media only screen and (max-width: 810px) {
   .nav > ul {
-    overflow-x: auto;
+    overflow-x: overlay;
     overflow-y: hidden;
   }
   .nav > ul > li a:hover {

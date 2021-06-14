@@ -41,3 +41,24 @@ ul {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+@media only screen and (max-width: 810px) {
+  ul::-webkit-scrollbar,
+  div::-webkit-scrollbar {
+    width: 0.01rem;
+    height: 0.01rem;
+  }
+  ul::-webkit-scrollbar-track,
+  div::-webkit-scrollbar-track {
+    background: initial;
+  }
+  ul::-webkit-scrollbar-thumb,
+  div::-webkit-scrollbar-thumb {
+    background: initial;
+    border-radius: initial;
+  }
+  ul::-webkit-scrollbar-thumb:hover,
+  div::-webkit-scrollbar-thumb:hover {
+    background: initial;
+  }
+}
