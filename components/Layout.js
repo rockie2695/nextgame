@@ -21,10 +21,10 @@ export default function Layout({ children, home }) {
       setHeaderBoxShadow(false);
     }
 
-    if (winScroll > 30) {
-      setTitleHide(false)
+    if (winScroll > 36) {
+      setTitleHide(false);
     } else {
-      setTitleHide(true)
+      setTitleHide(true);
     }
   };
 
@@ -65,8 +65,15 @@ export default function Layout({ children, home }) {
         <ul>
           <li>
             <ActiveLink activeClassName={styles.active} href="/">
-              <a>
-                <span className={[styles.title, titleHide ? styles.titleHide : '']}>NextGame</span>
+              <a style={{ display: "flex" }}>
+                <div
+                  className={[
+                    styles.title,
+                    titleHide ? styles.titleHide : "",
+                  ].join(" ")}
+                >
+                  NextGame
+                </div>
                 <span>
                   <MdHomeIcon style={{ fontSize: "1.25em" }} />
                 </span>

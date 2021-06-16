@@ -1,4 +1,4 @@
-.header>div {
+.header > div {
   max-width: 75rem;
   padding: 1rem;
   display: flex;
@@ -30,18 +30,20 @@
 }
 
 .title {
-  transition: width 0.4s
+  transition: width 0.4s;
+  overflow: hidden;
+  width: 6rem;
 }
 
 .titleHide {
-  width: 0;
+  width: 0rem;
 }
 
 .headerBoxShadow {
   box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
-.nav>ul {
+.nav > ul {
   margin: auto;
   max-width: 75rem;
   display: flex;
@@ -49,32 +51,33 @@
   white-space: nowrap;
 }
 
-.nav>ul>li:nth-last-child(2) {
+.nav > ul > li:nth-last-child(2) {
   flex-grow: 1;
 }
 
-.nav>ul>li a {
+.nav > ul > li a {
   display: block;
   padding: 1rem;
   font-size: 1.25rem;
   line-height: 1.25rem;
   height: 3.3rem;
-  transition: background-color 0.4s ease-in-out, transform 0.4s ease-in-out, color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+  transition: background-color 0.4s ease-in-out, transform 0.4s ease-in-out,
+    color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
 }
 
-.nav>ul>li a:hover {
+.nav > ul > li a:hover {
   background: #e0e0e0;
   color: #2196f3;
   transform: translateY(-0.25rem);
   box-shadow: 0 0 1rem 0.5rem rgba(0, 0, 0, 0.2);
 }
 
-.nav>ul>li a.active {
+.nav > ul > li a.active {
   background: white;
   color: #2196f3;
 }
 
-.nav>ul>li a>span {
+.nav > ul > li a > span {
   vertical-align: text-top;
 }
 
@@ -83,7 +86,7 @@
   color: #e0e0e0;
 }
 
-.footer>div {
+.footer > div {
   max-width: 75rem;
   padding: 1rem;
   display: flex;
@@ -92,11 +95,11 @@
 }
 
 @media only screen and (max-width: 810px) {
-  .nav>ul {
+  .nav > ul {
     overflow-x: overlay;
     overflow-y: hidden;
   }
-  .nav>ul>li a:hover {
+  .nav > ul > li a:hover {
     transform: translateY(0rem);
   }
 }

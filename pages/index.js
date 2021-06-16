@@ -3,6 +3,7 @@ import dbConnect from "../utils/dbConnect";
 import Country from "../models/Country";
 import Layout, { siteTitle } from "../components/Layout";
 import { useSession, getSession } from "next-auth/client";
+import { randomWorldName, randomPeopleName } from "../utils/random";
 /**
 import Place from "../models/Place";
 import People from "../models/People";
@@ -103,7 +104,7 @@ export async function getServerSideProps(context) {
       while (peopleArray.length < 5) {
         peopleArray.push({
           email: session.user.email,
-          name: String(peopleArray.length),
+          name: randomPeopleName(),
           country_id: countryResult.data._id,
         });
       }
@@ -123,7 +124,7 @@ export async function getServerSideProps(context) {
       //create World
       const worldObj = {
         email: session.user.email,
-        name: "xx",
+        name: randomWorldName(),
         placeNum: 12,
         controlPeople: [],
         directControl: true,
