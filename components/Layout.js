@@ -11,6 +11,7 @@ export const siteTitle = "NextGame";
 export default function Layout({ children, home }) {
   const [session, loading] = useSession();
   const [headerBoxShadow, setHeaderBoxShadow] = useState(false);
+  const [titleHide, setTitleHide] = useState(true);
   const listenToScroll = () => {
     const winScroll =
       document.body.scrollTop || document.documentElement.scrollTop;
@@ -18,6 +19,12 @@ export default function Layout({ children, home }) {
       setHeaderBoxShadow(true);
     } else {
       setHeaderBoxShadow(false);
+    }
+
+    if (winScroll > 30) {
+      setTitleHide(false)
+    } else {
+      setTitleHide(true)
     }
   };
 
@@ -59,7 +66,7 @@ export default function Layout({ children, home }) {
           <li>
             <ActiveLink activeClassName={styles.active} href="/">
               <a>
-                <span></span>
+                <span className={[styles.title, titleHide ? styles.titleHide : '']}>NextGame</span>
                 <span>
                   <MdHomeIcon style={{ fontSize: "1.25em" }} />
                 </span>
