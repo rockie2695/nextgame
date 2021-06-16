@@ -30,7 +30,7 @@
 }
 
 .title {
-  transition: width 0.4s;
+  transition: width 0.4s ease-in-out;
   overflow: hidden;
   width: 6rem;
 }
