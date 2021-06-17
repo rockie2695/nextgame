@@ -75,7 +75,7 @@ export default function Layout({ children, home }) {
                   NextGame
                 </div>
                 <span>
-                  <MdHomeIcon style={{ fontSize: "1.25em" }} />
+                  <MdHomeIcon />
                 </span>
               </a>
             </ActiveLink>
