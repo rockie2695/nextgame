@@ -7,14 +7,21 @@
   max-width: 75rem;
 }
 
-.main header > span.mainHeader {
+.main header.mainHeader,
+.main header .mainHeader {
   font-size: 1.5rem;
   font-weight: bold;
 }
 
-.main header > span.subHeader {
+.main header.subHeader,
+.main header .subHeader {
   font-size: 1.25rem;
   font-weight: bold;
+}
+.main header.subHeader svg {
+  font-size: 1.25rem;
+  font-weight: bold;
+  vertical-align: sub;
 }
 
 .main > div > div {
@@ -78,6 +85,20 @@
   border: 1px solid #e0e0e0;
   border-radius: 0.5rem;
   background: white;
+  transition: box-shadow 0.4s ease-in-out;
+}
+.section_container .world:hover {
+  box-shadow: 0 0.25rem 0.25rem 0.1rem rgba(0, 0, 0, 0.2);
+}
+.section_container .world header {
+  display: flex;
+}
+.section_container .world header button {
+  margin: 0 0.5rem;
+}
+.section_container .world header span:last-of-type {
+  flex: 1;
+  text-align: right;
 }
 .section_container .world .place {
   width: 6rem;
@@ -133,5 +154,8 @@
   }
   .main > div > div > aside {
     display: none;
+  }
+  .section_container .world {
+    box-shadow: 0 0.25rem 0.25rem 0.1rem rgba(0, 0, 0, 0.2);
   }
 }

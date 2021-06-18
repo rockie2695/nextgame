@@ -4,11 +4,11 @@ import Layout, { siteTitle } from "../components/Layout";
 import { useSession, getSession } from "next-auth/client";
 import useWorld from "../data/useWorld";
 import Skeleton from "react-loading-skeleton";
-import MultiPlace from "../components/MultiPlace";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import styles from "../styles/main.module.css";
 import ActiveLink from "../components/ActiveLink";
+import EachWorld from "../components/EachWorld";
 
 export default function worldAndPlace() {
   const [session, loading] = useSession();
@@ -129,25 +129,11 @@ export default function worldAndPlace() {
                   (result.data.data.length === 0
                     ? "No result"
                     : result.data.data.map((world) => (
-                        <section key={world._id} className={styles.world}>
-                          <header>
-                            <span className={styles.subHeader}>
-                              {world.name} 世界
-                            </span>
-                            <button>rename</button>
-                          </header>
-                          <p>
-                            [{world.type}世界]
-                            {world.type === "蒸汽"
-                              ? "第一次工業革命,使用蒸汽機、煤、鐵和鋼進行工業化"
-                              : null}
-                          </p>
-
-                          <MultiPlace
-                            worldId={world._id}
-                            email={session.user.email}
-                          />
-                        </section>
+                        <EachWorld
+                          key={world._id}
+                          world={world}
+                          email={session.user.email}
+                        />
                       )))}
               </section>
             ) : null
