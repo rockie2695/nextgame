@@ -9,8 +9,8 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET":
       try {
-        const places = await Place.find(
-          req.query
+        const places = await Place.find(req.query).sort(
+          "num"
         ); /* find all the data in our database */
         res.status(200).json({ success: true, data: places });
       } catch (error) {

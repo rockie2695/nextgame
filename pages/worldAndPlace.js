@@ -39,17 +39,17 @@ export default function worldAndPlace() {
   ]; //return {loading,data}
   const tabArray = [
     {
-      headerName: "Direct Control World",
+      headerName: "直轄",
       methodGet: { selectDC: "true" },
       href: `${router.pathname}?selectDC=true`,
     },
     {
-      headerName: "Non Direct Control World",
+      headerName: "非直轄",
       methodGet: { selectNDC: "true" },
       href: `${router.pathname}?selectNDC=true`,
     },
     {
-      headerName: "All World",
+      headerName: "所有",
       methodGet: { selectDC: "true", selectNDC: "true" },
       href: `${router.pathname}?selectDC=true&selectNDC=true`,
     },
@@ -85,15 +85,13 @@ export default function worldAndPlace() {
               <section key={index}>
                 {index === 0 ? (
                   <header>
-                    <span className={styles.mainHeader}>Direct Control</span>
-                    <p>direct control would get all money</p>
+                    <span className={styles.mainHeader}>直轄</span>
+                    <p>直轄 world would get all money</p>
                   </header>
                 ) : (
                   <header>
-                    <span className={styles.mainHeader}>
-                      Non Direct Control
-                    </span>
-                    <p>non direct control would get X0.1 money</p>
+                    <span className={styles.mainHeader}>非直轄</span>
+                    <p>非直轄 world would get X0.1 money</p>
                   </header>
                 )}
 

@@ -88,32 +88,60 @@
   transition: box-shadow 0.4s ease-in-out;
 }
 .section_container .world:hover {
-  box-shadow: 0 0.25rem 0.25rem 0.1rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.1rem 0.25rem 0.1rem rgba(0, 0, 0, 0.2);
 }
 .section_container .world header {
   display: flex;
 }
 .section_container .world header button {
-  margin: 0 0.5rem;
+  margin: 0 0 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out, background 0.4s ease-in-out;
 }
-.section_container .world header span:last-of-type {
+.section_container .world header:hover button {
+  opacity: 0.5;
+}
+
+.section_container .world header button:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.section_container .world header input {
+  font-size: 1rem;
+  font-weight: 700;
+  width: 6.5rem;
+}
+.section_container .world header span:last-of-type:not(:only-child) {
   flex: 1;
   text-align: right;
+}
+
+.section_container .world > p {
+  margin-block-start: 0.5em;
+}
+.section_container .world > div {
+  display: flex;
+  overflow-x: scroll;
 }
 .section_container .world .place {
   width: 6rem;
   height: 6rem;
   border: 1px solid black;
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin: 0.25rem;
   overflow: hidden;
   border-radius: 0.5rem;
   position: relative;
+  flex-shrink: 0;
 }
-.section_container .world > div {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+.section_container .world .place:first-child {
+  margin-left: 0;
+}
+.section_container .world .place:last-child {
+  margin-right: 0;
 }
 .section_container .world .place > .shadow {
   transform: translateY(75%);
@@ -145,17 +173,31 @@
     overflow-y: hidden;
     overflow-x: auto;
   }
+  .tabActive {
+    background-color: transparent;
+    color: #2196f3;
+    border-bottom: 0.15rem solid #2196f3 !important;
+  }
   .tab_container a {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+    border-radius: initial;
+    margin-left: 0;
+    margin-right: 0;
   }
   .main > div > div > aside {
     display: none;
   }
   .section_container .world {
     box-shadow: 0 0.25rem 0.25rem 0.1rem rgba(0, 0, 0, 0.2);
+  }
+  .section_container .world header button {
+    opacity: 1;
+  }
+  .section_container .world header:hover button {
+    opacity: 1;
   }
 }
