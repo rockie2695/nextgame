@@ -1,5 +1,5 @@
 .main {
-  min-height: calc(100vh - 6.8rem - 3.313rem);
+  min-height: calc(100vh - 6.8rem - 3.33rem);
 }
 
 .main > div {
@@ -7,14 +7,12 @@
   max-width: 75rem;
 }
 
-.main header.mainHeader,
-.main header .mainHeader {
+.main .mainHeader {
   font-size: 1.5rem;
   font-weight: bold;
 }
 
-.main header.subHeader,
-.main header .subHeader {
+.main .subHeader {
   font-size: 1.25rem;
   font-weight: bold;
 }
@@ -105,17 +103,18 @@
   opacity: 0.5;
 }
 
-.section_container .world header button:hover {
+.section_container .world header button:hover,
+.section_container .world header button:focus {
   opacity: 1;
   background: rgba(0, 0, 0, 0.2);
 }
-
 .section_container .world header input {
   font-size: 1rem;
   font-weight: 700;
   width: 6.5rem;
   padding: 0.25rem 0.5rem;
 }
+
 .section_container .world header span:last-of-type:not(:only-child) {
   flex: 1;
   text-align: right;
@@ -154,6 +153,10 @@
 .section_container .world .place:hover > .shadow {
   transform: translateY(0);
 }
+.multiPlace {
+  cursor: grab;
+  user-select: none;
+}
 .main > div > div > aside {
   margin-right: 0rem;
   flex-basis: 20%;
@@ -171,11 +174,6 @@
     overflow-y: hidden;
     overflow-x: auto;
   }
-  .tabActive {
-    background-color: transparent;
-    color: #2196f3;
-    border-bottom: 0.15rem solid #2196f3 !important;
-  }
   .tab_container a {
     flex: 1;
     display: flex;
@@ -183,13 +181,36 @@
     justify-content: center;
     text-align: center;
     border-radius: initial;
-    margin-left: 0;
-    margin-right: 0;
-    border-bottom: 0.1rem solid #e0e0e0;
+    margin: 0;
+    position: relative;
+    border: none;
   }
+  .tab_container a:not(.tabActive):after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    background: #e0e0e0;
+    height: 0.25rem;
+    bottom: -1px;
+    left: 0;
+    z-index: 1;
+  }
+  .tabActive {
+    background-color: transparent;
+    color: #2196f3;
+  }
+  .tabActive ::after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    background: #2196f3;
+    height: 0.25rem;
+    bottom: -1px;
+    left: 0;
+  }
+
   .tab_container a:not(.tabActive):hover {
-    border: 0.1rem solid transparent;
-    border-bottom: 0.1rem solid #e0e0e0;
+    border: none;
   }
   .main > div > div > aside {
     display: none;

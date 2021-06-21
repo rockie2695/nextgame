@@ -26,20 +26,21 @@ export default function MultiPlace({ email, worldId }) {
     inputEl.current.removeEventListener("mousemove", mouseMoveHandler);
     inputEl.current.removeEventListener("mouseup", mouseUpHandler);
     inputEl.current.removeEventListener("mouseleave", mouseUpHandler);
-    inputEl.current.style.cursor = "grab";
+    inputEl.current.style.removeProperty("cursor");
     inputEl.current.style.removeProperty("user-select");
     positionX = 0;
   };
   if (typeof window !== "undefined") {
     useEffect(() => {
-      inputEl.current.addEventListener("mousedown", listenToMouseDown);
+      const currentDivRef = inputEl.current;
+      currentDivRef.addEventListener("mousedown", listenToMouseDown);
       return () => {
-        inputEl.current.removeEventListener("mousedown", listenToMouseDown);
+        currentDivRef.removeEventListener("mousedown", listenToMouseDown);
       };
-    }, []);
+    }, [inputEl]);
   }
   return (
-    <div className={"multiPlace"} ref={inputEl}>
+    <div className={styles.multiPlace} ref={inputEl}>
       {usePlaceLoading &&
         [...Array(12)].map((place, index) => (
           <Skeleton

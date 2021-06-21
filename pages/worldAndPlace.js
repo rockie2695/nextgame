@@ -39,17 +39,17 @@ export default function worldAndPlace() {
   ]; //return {loading,data}
   const tabArray = [
     {
-      headerName: "直轄",
+      name: "直轄",
       methodGet: { selectDC: "true" },
       href: `${router.pathname}?selectDC=true`,
     },
     {
-      headerName: "非直轄",
+      name: "非直轄",
       methodGet: { selectNDC: "true" },
       href: `${router.pathname}?selectNDC=true`,
     },
     {
-      headerName: "所有",
+      name: "所有",
       methodGet: { selectDC: "true", selectNDC: "true" },
       href: `${router.pathname}?selectDC=true&selectNDC=true`,
     },
@@ -72,9 +72,7 @@ export default function worldAndPlace() {
               methodGet={tab.methodGet}
             >
               <a>
-                <header>
-                  <span className={styles.subHeader}>{tab.headerName}</span>
-                </header>
+                <span className={styles.subHeader}>{tab.name}</span>
               </a>
             </ActiveLink>
           ))}

@@ -5,6 +5,7 @@ import {
   MdSave as MdSaveIcon,
   MdArrowBack as MdArrowBackIcon,
 } from "react-icons/md";
+import { BiBorderRadius, BiWorld as BiWorldIcon } from "react-icons/bi";
 import { useState } from "react";
 import { mutate } from "swr";
 import { useRouter } from "next/router";
@@ -68,20 +69,29 @@ export default function EachWorld({ email, world }) {
   return (
     <section className={styles.world}>
       <header className={styles.subHeader}>
-        <form>
-          {editNameState ? (
-            <input
-              type="text"
-              name="name"
-              value={worldName.name}
-              onChange={changeWorldName}
-              minLength="2"
-              maxLength="5"
-            />
-          ) : (
-            <span>{worldName.name}</span>
-          )}
-          <span>&nbsp;世界</span>
+        <form style={{ display: "flex" }}>
+          <div>
+            {editNameState ? (
+              <>
+                <BiWorldIcon />
+
+                <input
+                  type="text"
+                  name="name"
+                  value={worldName.name}
+                  onChange={changeWorldName}
+                  minLength="2"
+                  maxLength="5"
+                />
+              </>
+            ) : (
+              <>
+                <BiWorldIcon />
+                <span>&nbsp;{worldName.name}</span>
+              </>
+            )}
+            <span>&nbsp;世界</span>
+          </div>
           {editNameState ? (
             <>
               <button type="button" onClick={() => updateWorldName(world._id)}>

@@ -31,6 +31,16 @@ button {
   border-width: 0;
   cursor: pointer;
 }
+input {
+  border: 1px solid black;
+  border-radius: 5px;
+  transition: box-shadow 0.4s ease-in-out, border 0.4s ease-in-out;
+}
+input:focus {
+  outline: none;
+  border: 1px solid #2196f3;
+  box-shadow: 0 0 5px #2196f3;
+}
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
