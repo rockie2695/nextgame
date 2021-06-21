@@ -8,48 +8,28 @@ export default function MultiPlace({ email, worldId }) {
   const { loading: usePlaceLoading, data } = usePlace(
     `email=${email}&world=${worldId}`
   );
-  //something scroll problem since positionX is global,mouseMoveHandler get wrong position which is updated
-  //https://stackoverflow.com/questions/256754/how-to-pass-arguments-to-addeventlistener-listener-function
   let positionX = 0;
-  let storeFunc = null;
   const inputEl = useRef(null);
   const listenToMouseDown = (e) => {
     inputEl.current.style.cursor = "grabbing";
     inputEl.current.style.userSelect = "none";
-    const positionX = e.clientX + inputEl.current.scrollLeft;
-    storeFunc = addListenerWithArgs(
-      inputEl.current,
-      "mousemove",
-      mouseMoveHandler,
-      positionX
-    );
-    //inputEl.current.addEventListener("mousemove", mouseMoveHandler, false);
+    positionX = e.clientX + inputEl.current.scrollLeft;
+    inputEl.current.addEventListener("mousemove", mouseMoveHandler, false);
     inputEl.current.addEventListener("mouseup", mouseUpHandler, false);
+    inputEl.current.addEventListener("mouseleave", mouseUpHandler, false);
   };
-  const mouseMoveHandler = (e, positionX) => {
-    console.log("mouseMoveHandler", e, positionX);
-    const dx = e.clientX - positionX;
+  const mouseMoveHandler = (e) => {
+    const dx = inputEl.current.scrollLeft + e.clientX - positionX;
     inputEl.current.scrollLeft = inputEl.current.scrollLeft - dx;
   };
   const mouseUpHandler = () => {
-    inputEl.current.removeEventListener("mousemove", storeFunc);
-    //inputEl.current.removeEventListener("mousemove", mouseMoveHandler);
+    inputEl.current.removeEventListener("mousemove", mouseMoveHandler);
     inputEl.current.removeEventListener("mouseup", mouseUpHandler);
+    inputEl.current.removeEventListener("mouseleave", mouseUpHandler);
     inputEl.current.style.cursor = "grab";
     inputEl.current.style.removeProperty("user-select");
     positionX = 0;
   };
-  function addListenerWithArgs(elem, evt, func, vars) {
-    var f = (function (ff, vv) {
-      return function () {
-        ff(vv);
-      };
-    })(func, vars);
-
-    elem.addEventListener(evt, f);
-
-    return f;
-  }
   if (typeof window !== "undefined") {
     useEffect(() => {
       inputEl.current.addEventListener("mousedown", listenToMouseDown);
