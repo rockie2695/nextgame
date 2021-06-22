@@ -70,7 +70,7 @@ export default function MultiPlace({ email, worldId }) {
                 style={{ width: "100%", height: "100%" }}
               />
             ) : null}
-            <div className={styles.shadow}>地區 {place.num}</div>
+            <div className={styles.shadow}>地塊 {place.num}</div>
           </div>
         ))}
     </div>

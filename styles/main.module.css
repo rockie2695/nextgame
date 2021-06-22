@@ -102,23 +102,23 @@
 .section_container .world header:hover button {
   opacity: 0.5;
 }
-
+.section_container .world header form {
+  width: 100%;
+}
+.section_container .world header > form > div {
+  flex-grow: 1;
+}
 .section_container .world header button:hover,
-.section_container .world header button:focus {
+.section_container .world header button:active {
   opacity: 1;
   background: rgba(0, 0, 0, 0.2);
 }
 .section_container .world header input {
   font-size: 1rem;
   font-weight: 700;
-  width: 6.5rem;
   padding: 0.25rem 0.5rem;
 }
 
-.section_container .world header span:last-of-type:not(:only-child) {
-  flex: 1;
-  text-align: right;
-}
 
 .section_container .world > p {
   margin-block-start: 0.5em;

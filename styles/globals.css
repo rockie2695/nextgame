@@ -32,7 +32,7 @@ button {
   cursor: pointer;
 }
 input {
-  border: 1px solid black;
+  border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 5px;
   transition: box-shadow 0.4s ease-in-out, border 0.4s ease-in-out;
 }
@@ -41,6 +41,23 @@ input:focus {
   border: 1px solid #2196f3;
   box-shadow: 0 0 5px #2196f3;
 }
+.inputGroup {
+  display: flex;
+}
+.inputGroup input {
+  border-radius: 0;
+}
+.inputGroup div:first-child {
+  border-radius: 5px 0 0 5px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-right: none;
+}
+.inputGroup div:last-child {
+  border-radius: 0 5px 5px 0;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-left: none;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 10px;

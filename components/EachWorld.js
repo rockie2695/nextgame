@@ -70,10 +70,12 @@ export default function EachWorld({ email, world }) {
     <section className={styles.world}>
       <header className={styles.subHeader}>
         <form style={{ display: "flex" }}>
-          <div>
+          <div className="inputGroup">
             {editNameState ? (
               <>
-                <BiWorldIcon />
+                <div>
+                  <BiWorldIcon />
+                </div>
 
                 <input
                   type="text"
@@ -90,7 +92,6 @@ export default function EachWorld({ email, world }) {
                 <span>&nbsp;{worldName.name}</span>
               </>
             )}
-            <span>&nbsp;世界</span>
           </div>
           {editNameState ? (
             <>
@@ -107,8 +108,6 @@ export default function EachWorld({ email, world }) {
             </button>
           )}
         </form>
-
-        <span>{world.placeNum}</span>
       </header>
       <p>
         [{world.type}世界]
@@ -116,7 +115,7 @@ export default function EachWorld({ email, world }) {
           ? "第一次工業革命,使用蒸汽機、煤、鐵和鋼進行工業化"
           : null}
       </p>
-
+      <strong>地塊:{world.placeNum}</strong>
       <MultiPlace worldId={world._id} email={email} />
     </section>
   );
