@@ -20,7 +20,20 @@ export default function MultiPlace({ email, worldId }) {
   };
   const mouseMoveHandler = (e) => {
     const dx = inputEl.current.scrollLeft + e.clientX - positionX;
-    inputEl.current.scrollLeft = inputEl.current.scrollLeft - dx;
+    if (
+      (inputEl.current.scrollLeft == 0 && e.clientX - positionX > 0) ||
+      (inputEl.current.scrollLeft ==
+        inputEl.current.scrollWidth - inputEl.current.clientWidth &&
+        e.clientX - positionX < 0)
+    ) {
+      Array.from(inputEl.current.getElementsByClassName(styles.place)).forEach(
+        (el) => {
+          el.style.transform = "translateX(" + dx + "px)";
+        }
+      );
+    } else {
+      inputEl.current.scrollLeft = inputEl.current.scrollLeft - dx;
+    }
   };
   const mouseUpHandler = () => {
     inputEl.current.removeEventListener("mousemove", mouseMoveHandler);
@@ -28,7 +41,20 @@ export default function MultiPlace({ email, worldId }) {
     inputEl.current.removeEventListener("mouseleave", mouseUpHandler);
     inputEl.current.style.removeProperty("cursor");
     inputEl.current.style.removeProperty("user-select");
+    Array.from(inputEl.current.getElementsByClassName(styles.place)).forEach(
+      (el) => {
+        el.style.transition = "transform 0.4s ease-in-out";
+        el.style.transform = "translateX(0px)";
+      }
+    );
     positionX = 0;
+    setTimeout(() => {
+      Array.from(inputEl.current.getElementsByClassName(styles.place)).forEach(
+        (el) => {
+          el.style.removeProperty("transition");
+        }
+      );
+    }, 400);
   };
   if (typeof window !== "undefined") {
     useEffect(() => {

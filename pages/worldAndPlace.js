@@ -57,10 +57,10 @@ export default function worldAndPlace() {
   return (
     <Layout>
       <Head>
-        <title>World And Place</title>
+        <title>世界</title>
       </Head>
       <header>
-        <span className={styles.mainHeader}>World And Place</span>
+        <span className={styles.mainHeader}>世界</span>
       </header>
       <div>
         <div className={styles.tab_container}>
@@ -84,12 +84,12 @@ export default function worldAndPlace() {
                 {index === 0 ? (
                   <header>
                     <span className={styles.mainHeader}>直轄</span>
-                    <p>直轄 world would get all money</p>
+                    <p>直轄世界 would get all money</p>
                   </header>
                 ) : (
                   <header>
                     <span className={styles.mainHeader}>非直轄</span>
-                    <p>非直轄 world would get X0.1 money</p>
+                    <p>非直轄世界 would get X0.1 money</p>
                   </header>
                 )}
 
