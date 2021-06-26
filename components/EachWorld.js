@@ -6,10 +6,12 @@ import {
   MdArrowBack as MdArrowBackIcon,
 } from "react-icons/md";
 import { BiBorderRadius, BiWorld as BiWorldIcon } from "react-icons/bi";
+import { FaRandom as FaRandomIcon } from "react-icons/fa";
 import { useState } from "react";
 import { mutate } from "swr";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/client";
+import { randomWorldName } from "../utils/random";
 
 export default function EachWorld({ email, world }) {
   const [session, loading] = useSession();
@@ -26,6 +28,9 @@ export default function EachWorld({ email, world }) {
     setWorldName({
       [event.target.name]: event.target.value.replace(/\s+/g, ""),
     });
+  };
+  const changeRandomWorldName = () => {
+    setWorldName({ name: randomWorldName() });
   };
   const restoreWorldName = () => {
     setWorldName(oldWorldName);
@@ -73,7 +78,7 @@ export default function EachWorld({ email, world }) {
           <div className="inputGroup">
             {editNameState ? (
               <>
-                <div>
+                <div className={"first svg"}>
                   <BiWorldIcon />
                 </div>
 
@@ -85,11 +90,17 @@ export default function EachWorld({ email, world }) {
                   minLength="2"
                   maxLength="5"
                 />
+                <div
+                  className={"last svg button"}
+                  onClick={changeRandomWorldName}
+                >
+                  <FaRandomIcon />
+                </div>
               </>
             ) : (
               <>
                 <BiWorldIcon />
-                <span>&nbsp;{worldName.name}</span>
+                <span style={{ marginLeft: "0.25rem" }}>{worldName.name}</span>
               </>
             )}
           </div>

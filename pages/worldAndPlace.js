@@ -103,20 +103,22 @@ export default function worldAndPlace() {
                     <p>
                       <Skeleton />
                     </p>
-                    <div>
-                      {[...Array(12)].map((place, index) => (
-                        <Skeleton
-                          key={index}
-                          style={{
-                            width: "6rem",
-                            height: "6rem",
-                            border: "1px solid black",
-                            marginRight: "0.5rem",
-                            marginBottom: "0.5rem",
-                            borderRadius: "0.5rem",
-                          }}
-                        />
-                      ))}
+                    <div className={styles.multiPlace}>
+                      <div>
+                        {[...Array(12)].map((place, index) => (
+                          <Skeleton
+                            key={index}
+                            style={{
+                              width: "6rem",
+                              height: "6rem",
+                              border: "1px solid black",
+                              marginRight: "0.5rem",
+                              marginBottom: "0.5rem",
+                              borderRadius: "0.5rem",
+                            }}
+                          />
+                        ))}
+                      </div>
                     </div>
                   </section>
                 ) : null}

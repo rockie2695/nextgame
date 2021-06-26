@@ -9,96 +9,141 @@ export default function MultiPlace({ email, worldId }) {
     `email=${email}&world=${worldId}`
   );
   let positionX = 0;
-  const inputEl = useRef(null);
+  const multiPlace = useRef(null);
+  const multiPlaceContainer = useRef(null);
   const listenToMouseDown = (e) => {
-    inputEl.current.style.cursor = "grabbing";
-    inputEl.current.style.userSelect = "none";
-    positionX = e.clientX + inputEl.current.scrollLeft;
-    inputEl.current.addEventListener("mousemove", mouseMoveHandler, false);
-    inputEl.current.addEventListener("mouseup", mouseUpHandler, false);
-    inputEl.current.addEventListener("mouseleave", mouseUpHandler, false);
+    let clientX = e.clientX || e.touches[0].pageX;
+    if (e.cancelable) {
+      e.preventDefault();
+    }
+    multiPlace.current.style.cursor = "grabbing";
+    multiPlace.current.style.userSelect = "none";
+    positionX = clientX + multiPlace.current.scrollLeft;
+    multiPlace.current.addEventListener("mousemove", mouseMoveHandler, false);
+    multiPlace.current.addEventListener("mouseup", mouseUpHandler, false);
+    multiPlace.current.addEventListener("mouseleave", mouseUpHandler, false);
+    multiPlace.current.addEventListener("touchmove", mouseMoveHandler, false);
+    multiPlace.current.addEventListener("touchend", mouseUpHandler, false);
+    multiPlace.current.addEventListener("touchcancel", mouseUpHandler, false);
   };
   const mouseMoveHandler = (e) => {
-    const dx = inputEl.current.scrollLeft + e.clientX - positionX;
-    if (
-      (inputEl.current.scrollLeft == 0 && e.clientX - positionX > 0) ||
-      (inputEl.current.scrollLeft ==
-        inputEl.current.scrollWidth - inputEl.current.clientWidth &&
-        e.clientX - positionX < 0)
-    ) {
-      Array.from(inputEl.current.getElementsByClassName(styles.place)).forEach(
-        (el) => {
-          el.style.transform = "translateX(" + dx + "px)";
-        }
-      );
+    let clientX = e.clientX || e.touches[0].pageX;
+    let scrollLeft = Math.round(multiPlace.current.scrollLeft);
+    let scrollLeft_10 = scrollLeft + 10;
+    let scrollWidth_clientWidth = Math.round(
+      multiPlace.current.scrollWidth - multiPlace.current.clientWidth
+    );
+    if (e.cancelable) {
+      e.preventDefault();
+    }
+    const dx = multiPlace.current.scrollLeft + clientX - positionX;
+    if (multiPlace.current.scrollLeft == 0 && dx > 0) {
+      multiPlace.current.querySelector("div").style.marginLeft =
+        parseInt(dx / 2) + "px";
+    } else if (scrollLeft_10 >= scrollWidth_clientWidth && dx < 0) {
+      multiPlace.current.querySelector("div").style.marginRight =
+        parseInt(Math.abs(dx) / 2) + "px";
+      multiPlace.current.scrollLeft = scrollWidth_clientWidth;
     } else {
-      inputEl.current.scrollLeft = inputEl.current.scrollLeft - dx;
+      multiPlace.current.scrollLeft = multiPlace.current.scrollLeft - dx;
+    }
+    if (multiPlace.current.scrollLeft !== 0) {
+      multiPlaceContainer.current.querySelector(
+        `.${styles.front}`
+      ).style.visibility = "visible";
+    } else {
+      multiPlaceContainer.current
+        .querySelector(`.${styles.front}`)
+        .style.removeProperty("visibility");
+    }
+    let marginRight = parseFloat(
+      multiPlace.current
+        .querySelector("div")
+        .style.marginRight.replace("px", "")
+    );
+    if (scrollLeft_10 >= scrollWidth_clientWidth - marginRight) {
+      multiPlaceContainer.current
+        .querySelector(`.${styles.back}`)
+        .style.removeProperty("visibility");
+    } else {
+      multiPlaceContainer.current.querySelector(
+        `.${styles.back}`
+      ).style.visibility = "visible";
     }
   };
   const mouseUpHandler = () => {
-    inputEl.current.removeEventListener("mousemove", mouseMoveHandler);
-    inputEl.current.removeEventListener("mouseup", mouseUpHandler);
-    inputEl.current.removeEventListener("mouseleave", mouseUpHandler);
-    inputEl.current.style.removeProperty("cursor");
-    inputEl.current.style.removeProperty("user-select");
-    Array.from(inputEl.current.getElementsByClassName(styles.place)).forEach(
-      (el) => {
-        el.style.transition = "transform 0.4s ease-in-out";
-        el.style.transform = "translateX(0px)";
-      }
-    );
+    multiPlace.current.removeEventListener("mousemove", mouseMoveHandler);
+    multiPlace.current.removeEventListener("mouseup", mouseUpHandler);
+    multiPlace.current.removeEventListener("mouseleave", mouseUpHandler);
+    multiPlace.current.removeEventListener("touchmove", mouseMoveHandler);
+    multiPlace.current.removeEventListener("touchend", mouseUpHandler);
+    multiPlace.current.removeEventListener("touchcancel", mouseUpHandler);
+    multiPlace.current.style.removeProperty("cursor");
+    multiPlace.current.style.removeProperty("user-select");
+    multiPlace.current.querySelector("div").style.transition =
+      "margin 0.4s ease-in-out";
+    multiPlace.current
+      .querySelector("div")
+      .style.removeProperty("margin-right");
+    multiPlace.current.querySelector("div").style.removeProperty("margin-left");
     positionX = 0;
     setTimeout(() => {
-      Array.from(inputEl.current.getElementsByClassName(styles.place)).forEach(
-        (el) => {
-          el.style.removeProperty("transition");
-        }
-      );
+      multiPlace.current
+        .querySelector("div")
+        .style.removeProperty("transition");
     }, 400);
   };
   if (typeof window !== "undefined") {
     useEffect(() => {
-      const currentDivRef = inputEl.current;
-      currentDivRef.addEventListener("mousedown", listenToMouseDown);
+      const currentDivRef = multiPlace.current;
+      currentDivRef.addEventListener("mousedown", listenToMouseDown, false);
+      currentDivRef.addEventListener("touchstart", listenToMouseDown, false);
       return () => {
         currentDivRef.removeEventListener("mousedown", listenToMouseDown);
+        currentDivRef.removeEventListener("touchstart", listenToMouseDown);
       };
-    }, [inputEl]);
+    }, [multiPlace]);
   }
   return (
-    <div className={styles.multiPlace} ref={inputEl}>
-      {usePlaceLoading &&
-        [...Array(12)].map((place, index) => (
-          <Skeleton
-            key={index}
-            style={{
-              width: "6rem",
-              height: "6rem",
-              border: "1px solid black",
-              marginRight: "0.5rem",
-              marginBottom: "0.5rem",
-              borderRadius: "0.5rem",
-            }}
-          />
-        ))}
-      {data &&
-        data.success &&
-        data.data.map((place) => (
-          <div key={place.num} className={styles.place}>
-            {place.type &&
-            place.type !== "" &&
-            window.location.hostname !== "localhost" ? (
-              <Image
-                src={`/images/${place.type}.jpg`}
-                alt={place.type}
-                height={100}
-                width={100}
-                style={{ width: "100%", height: "100%" }}
+    <div className={styles.multiPlaceContainer} ref={multiPlaceContainer}>
+      <div className={styles.multiPlace} ref={multiPlace}>
+        <div>
+          {usePlaceLoading &&
+            [...Array(12)].map((place, index) => (
+              <Skeleton
+                key={index}
+                style={{
+                  width: "6rem",
+                  height: "6rem",
+                  border: "1px solid black",
+                  marginRight: "0.5rem",
+                  marginBottom: "0.5rem",
+                  borderRadius: "0.5rem",
+                }}
               />
-            ) : null}
-            <div className={styles.shadow}>地塊 {place.num}</div>
-          </div>
-        ))}
+            ))}
+          {data &&
+            data.success &&
+            data.data.map((place) => (
+              <div key={place.num} className={styles.place}>
+                {place.type &&
+                place.type !== "" &&
+                window.location.hostname !== "localhost" ? (
+                  <Image
+                    src={`/images/${place.type}.jpg`}
+                    alt={place.type}
+                    height={100}
+                    width={100}
+                    style={{ width: "100%", height: "100%" }}
+                  />
+                ) : null}
+                <div className={styles.shadow}>地塊 {place.num}</div>
+              </div>
+            ))}
+        </div>
+      </div>
+      <div className={styles.front}></div>
+      <div className={styles.back}></div>
     </div>
   );
 }
