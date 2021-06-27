@@ -12,13 +12,13 @@ export default function MultiPlace({ email, worldId }) {
   const multiPlace = useRef(null);
   const multiPlaceContainer = useRef(null);
   const listenToMouseDown = (e) => {
-    let clientX = e.clientX || e.touches[0].pageX;
     if (e.cancelable) {
       e.preventDefault();
     }
+    let clientX = e.clientX || e.touches[0].pageX;
+    positionX = clientX + multiPlace.current.scrollLeft;
     multiPlace.current.style.cursor = "grabbing";
     multiPlace.current.style.userSelect = "none";
-    positionX = clientX + multiPlace.current.scrollLeft;
     multiPlace.current.addEventListener("mousemove", mouseMoveHandler, false);
     multiPlace.current.addEventListener("mouseup", mouseUpHandler, false);
     multiPlace.current.addEventListener("mouseleave", mouseUpHandler, false);
@@ -27,27 +27,37 @@ export default function MultiPlace({ email, worldId }) {
     multiPlace.current.addEventListener("touchcancel", mouseUpHandler, false);
   };
   const mouseMoveHandler = (e) => {
+    if (e.cancelable) {
+      e.preventDefault();
+    }
     let clientX = e.clientX || e.touches[0].pageX;
     let scrollLeft = Math.round(multiPlace.current.scrollLeft);
     let scrollLeft_10 = scrollLeft + 10;
     let scrollWidth_clientWidth = Math.round(
       multiPlace.current.scrollWidth - multiPlace.current.clientWidth
     );
-    if (e.cancelable) {
-      e.preventDefault();
-    }
-    const dx = multiPlace.current.scrollLeft + clientX - positionX;
-    if (multiPlace.current.scrollLeft == 0 && dx > 0) {
-      multiPlace.current.querySelector("div").style.marginLeft =
-        parseInt(dx / 2) + "px";
+    const dx = scrollLeft + clientX - positionX;
+    if (scrollLeft == 0 && dx > 0) {
+      multiPlace.current.querySelector("div").style.marginLeft = `${parseInt(
+        dx / 2
+      )}px`;
     } else if (scrollLeft_10 >= scrollWidth_clientWidth && dx < 0) {
-      multiPlace.current.querySelector("div").style.marginRight =
-        parseInt(Math.abs(dx) / 2) + "px";
+      multiPlace.current.querySelector("div").style.marginRight = `${parseInt(
+        Math.abs(dx) / 2
+      )}px`;
       multiPlace.current.scrollLeft = scrollWidth_clientWidth;
     } else {
-      multiPlace.current.scrollLeft = multiPlace.current.scrollLeft - dx;
+      multiPlace.current.scrollLeft = scrollLeft - dx;
     }
-    if (multiPlace.current.scrollLeft !== 0) {
+    frontBackTransparent();
+  };
+  const frontBackTransparent = () => {
+    let scrollLeft = Math.round(multiPlace.current.scrollLeft);
+    let scrollLeft_10 = scrollLeft + 10;
+    let scrollWidth_clientWidth = Math.round(
+      multiPlace.current.scrollWidth - multiPlace.current.clientWidth
+    );
+    if (scrollLeft !== 0) {
       multiPlaceContainer.current.querySelector(
         `.${styles.front}`
       ).style.visibility = "visible";
@@ -56,11 +66,12 @@ export default function MultiPlace({ email, worldId }) {
         .querySelector(`.${styles.front}`)
         .style.removeProperty("visibility");
     }
-    let marginRight = parseFloat(
-      multiPlace.current
-        .querySelector("div")
-        .style.marginRight.replace("px", "")
-    );
+    let marginRight =
+      parseFloat(
+        multiPlace.current
+          .querySelector("div")
+          .style.marginRight.replace("px", "")
+      ) || 0;
     if (scrollLeft_10 >= scrollWidth_clientWidth - marginRight) {
       multiPlaceContainer.current
         .querySelector(`.${styles.back}`)
@@ -98,9 +109,13 @@ export default function MultiPlace({ email, worldId }) {
       const currentDivRef = multiPlace.current;
       currentDivRef.addEventListener("mousedown", listenToMouseDown, false);
       currentDivRef.addEventListener("touchstart", listenToMouseDown, false);
+      currentDivRef.addEventListener("scroll", frontBackTransparent, {
+        passive: true,
+      });
       return () => {
         currentDivRef.removeEventListener("mousedown", listenToMouseDown);
         currentDivRef.removeEventListener("touchstart", listenToMouseDown);
+        currentDivRef.removeEventListener("scroll", frontBackTransparent);
       };
     }, [multiPlace]);
   }
