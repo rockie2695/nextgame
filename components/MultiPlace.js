@@ -3,6 +3,12 @@ import Skeleton from "react-loading-skeleton";
 import styles from "../styles/main.module.css";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
+import 丘陵 from "../public/images/丘陵.jpeg";
+import 平原 from "../public/images/平原.jpeg";
+import 島嶼 from "../public/images/島嶼.jpeg";
+import 高原 from "../public/images/高原.jpeg";
+
+const imgObj = { 丘陵: 丘陵, 平原: 平原, 島嶼: 島嶼, 高原: 高原 };
 
 export default function MultiPlace({ email, worldId }) {
   const { loading: usePlaceLoading, data } = usePlace(
@@ -145,11 +151,11 @@ export default function MultiPlace({ email, worldId }) {
                 place.type !== "" &&
                 window.location.hostname !== "localhost" ? (
                   <Image
-                    src={`/images/${place.type}.jpg`}
+                    src={imgObj[place.type]}
                     alt={place.type}
                     height={100}
                     width={100}
-                    style={{ width: "100%", height: "100%" }}
+                    placeholder="blur"
                   />
                 ) : null}
                 <div className={styles.shadow}>地塊 {place.num}</div>

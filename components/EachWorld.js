@@ -89,6 +89,7 @@ export default function EachWorld({ email, world }) {
                   onChange={changeWorldName}
                   minLength="2"
                   maxLength="5"
+                  placeholder="世界名稱"
                 />
                 <div
                   className={"last svg button"}

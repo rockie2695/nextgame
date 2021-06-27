@@ -96,9 +96,10 @@ export default function worldAndPlace() {
                 {result.loading ? (
                   <section className={styles.world}>
                     <header>
-                      <span className={styles.subHeader}>
-                        <Skeleton style={{ width: "50%" }} />
-                      </span>
+                      <Skeleton
+                        style={{ width: "50%" }}
+                        className={styles.subHeader}
+                      />
                     </header>
                     <p>
                       <Skeleton />
