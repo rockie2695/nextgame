@@ -32,6 +32,8 @@ button {
   display: flex;
   align-content: center;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 input {
   border: 1px solid #2196f3;
