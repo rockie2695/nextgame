@@ -7,7 +7,7 @@ import {
 } from "react-icons/md";
 import { BiBorderRadius, BiWorld as BiWorldIcon } from "react-icons/bi";
 import { FaRandom as FaRandomIcon } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { mutate } from "swr";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/client";
@@ -21,6 +21,10 @@ export default function EachWorld({ email, world }) {
   const [worldName, setWorldName] = useState({ name: world.name });
   const [oldWorldName, setOldWorldName] = useState({ name: world.name });
   const { selectDC, selectNDC } = router.query;
+  useEffect(() => {
+    setWorldName({ name: world.name });
+    setOldWorldName({ name: world.name });
+  }, [world]);
   const editName = () => {
     setEditNameState(!editNameState);
   };
