@@ -152,6 +152,7 @@
   cursor: grab;
   user-select: none;
   overflow-x: scroll;
+  transition: background-color .4s;
 }
 .multiPlaceContainer > div.front {
   background: linear-gradient(to right, white, transparent);
@@ -189,6 +190,9 @@
   top: 4rem;
 }
 @media only screen and (max-width: 810px) {
+  .multiPlace {
+    overflow-x: hidden;
+  }
   .main > div > div {
     flex-direction: column;
   }
@@ -244,8 +248,5 @@
   }
   .section_container .world header:hover button {
     opacity: 1;
-  }
-  .multiPlace {
-    overflow-x: overlay;
   }
 }

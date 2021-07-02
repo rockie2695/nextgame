@@ -25,6 +25,13 @@ export default function MultiPlace({ email, worldId }) {
     positionX = clientX + multiPlace.current.scrollLeft;
     multiPlace.current.style.cursor = "grabbing";
     multiPlace.current.style.userSelect = "none";
+    if (
+      (window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth) <= 810
+    ) {
+      multiPlace.current.style.overflowX = "overlay";
+    }
     multiPlace.current.addEventListener("mousemove", mouseMoveHandler, false);
     multiPlace.current.addEventListener("mouseup", mouseUpHandler, false);
     multiPlace.current.addEventListener("mouseleave", mouseUpHandler, false);
@@ -97,6 +104,13 @@ export default function MultiPlace({ email, worldId }) {
     multiPlace.current.removeEventListener("touchcancel", mouseUpHandler);
     multiPlace.current.style.removeProperty("cursor");
     multiPlace.current.style.removeProperty("user-select");
+    if (
+      window.innerWidth ||
+      document.documentElement.clientWidth ||
+      document.body.clientWidth <= 810
+    ) {
+      multiPlace.current.style.removeProperty("overflow-x");
+    }
     multiPlace.current.querySelector("div").style.transition =
       "margin 0.4s ease-in-out";
     multiPlace.current
