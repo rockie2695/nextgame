@@ -109,8 +109,8 @@ input:focus {
 @media only screen and (max-width: 810px) {
   ul::-webkit-scrollbar,
   div::-webkit-scrollbar {
-    width: 0.01rem;
-    height: 0.01rem;
+    width: 4px;
+    height: 4px;
   }
   ul::-webkit-scrollbar-track,
   div::-webkit-scrollbar-track {
@@ -118,11 +118,11 @@ input:focus {
   }
   ul::-webkit-scrollbar-thumb,
   div::-webkit-scrollbar-thumb {
-    background: initial;
-    border-radius: initial;
+    background: #888;
+    border-radius: 0.5rem;
   }
   ul::-webkit-scrollbar-thumb:hover,
   div::-webkit-scrollbar-thumb:hover {
-    background: initial;
+    background: #555;
   }
 }

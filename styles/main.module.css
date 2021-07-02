@@ -245,4 +245,7 @@
   .section_container .world header:hover button {
     opacity: 1;
   }
+  .multiPlace {
+    overflow-x: overlay;
+  }
 }

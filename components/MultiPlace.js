@@ -147,9 +147,7 @@ export default function MultiPlace({ email, worldId }) {
             data.success &&
             data.data.map((place) => (
               <div key={place.num} className={styles.place}>
-                {place.type &&
-                place.type !== "" &&
-                window.location.hostname !== "localhost" ? (
+                {place.type && place.type !== "" ? (
                   <Image
                     src={imgObj[place.type]}
                     alt={place.type}
