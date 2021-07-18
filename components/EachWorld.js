@@ -12,6 +12,7 @@ import { mutate } from "swr";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/client";
 import { randomWorldName } from "../utils/random";
+import { SwitchTransition, CSSTransition } from "react-transition-group";
 
 export default function EachWorld({ email, world }) {
   const [session, loading] = useSession();
@@ -78,52 +79,65 @@ export default function EachWorld({ email, world }) {
   return (
     <section className={styles.world}>
       <header className={styles.subHeader}>
-        <form style={{ display: "flex" }}>
-          <div className="inputGroup">
-            {editNameState ? (
-              <>
-                <div className={"first svg"}>
-                  <BiWorldIcon />
-                </div>
+        <SwitchTransition mode="out-in">
+          <CSSTransition
+            key={editNameState}
+            addEndListener={(node, done) => {
+              node.addEventListener("transitionend", done, false);
+            }}
+            classNames="fade"
+          >
+            <form style={{ display: "flex" }}>
+              {editNameState ? (
+                <div className="inputGroup">
+                  <div className={"first svg"}>
+                    <BiWorldIcon />
+                  </div>
 
-                <input
-                  type="text"
-                  name="name"
-                  value={worldName.name}
-                  onChange={changeWorldName}
-                  minLength="2"
-                  maxLength="5"
-                  placeholder="世界名稱"
-                />
-                <div
-                  className={"last svg button"}
-                  onClick={changeRandomWorldName}
-                >
-                  <FaRandomIcon />
+                  <input
+                    type="text"
+                    name="name"
+                    value={worldName.name}
+                    onChange={changeWorldName}
+                    minLength="2"
+                    maxLength="5"
+                    placeholder="世界名稱"
+                  />
+                  <div
+                    className={"last svg button"}
+                    onClick={changeRandomWorldName}
+                  >
+                    <FaRandomIcon />
+                  </div>
                 </div>
-              </>
-            ) : (
-              <>
-                <BiWorldIcon />
-                <span style={{ marginLeft: "0.25rem" }}>{worldName.name}</span>
-              </>
-            )}
-          </div>
-          {editNameState ? (
-            <>
-              <button type="button" onClick={() => updateWorldName(world._id)}>
-                <MdSaveIcon />
-              </button>
-              <button type="button" onClick={restoreWorldName}>
-                <MdArrowBackIcon />
-              </button>
-            </>
-          ) : (
-            <button type="button" onClick={editName}>
-              <MdEditIcon />
-            </button>
-          )}
-        </form>
+              ) : (
+                <div>
+                  <BiWorldIcon />
+                  <span style={{ marginLeft: "0.25rem" }}>
+                    {worldName.name}
+                  </span>
+                </div>
+              )}
+              {editNameState ? (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => updateWorldName(world._id)}
+                  >
+                    <MdSaveIcon />
+                  </button>
+                  <button type="button" onClick={restoreWorldName}>
+                    <MdArrowBackIcon />
+                  </button>
+                </>
+              ) : (
+                <button type="button" onClick={editName}>
+                  <MdEditIcon />
+                </button>
+              )}
+            </form>
+          </CSSTransition>
+        </SwitchTransition>
       </header>
       <p>
         [{world.type}世界]

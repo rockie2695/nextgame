@@ -77,12 +77,14 @@
   border-radius: 0.5rem;
   background: white;
   transition: box-shadow 0.4s ease-in-out;
+  box-shadow: 0.1rem 0.1rem 0.5rem 0 rgb(0 0 0 / 20%);
 }
 .subHeader {
   display: flex;
   font-size: 1.25rem;
   font-weight: bold;
 }
+
 .subHeader svg {
   font-size: 1.25rem;
   font-weight: bold;
@@ -109,6 +111,9 @@
 }
 .subHeader > form > div {
   flex: 1;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 .subHeader button:hover,
 .subHeader button:active {
@@ -152,7 +157,7 @@
   cursor: grab;
   user-select: none;
   overflow-x: scroll;
-  transition: background-color .4s;
+  transition: background-color 0.4s;
 }
 .multiPlaceContainer > div.front {
   background: linear-gradient(to right, white, transparent);
@@ -189,6 +194,7 @@
   position: sticky;
   top: 4rem;
 }
+
 @media only screen and (max-width: 810px) {
   .multiPlace {
     overflow-x: hidden;
