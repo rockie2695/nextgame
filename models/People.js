@@ -11,6 +11,10 @@ const People = new mongoose.Schema({
     type: String,
     required: [true, "`{PATH}` is required. Receive `{VALUE}`"],
   },
+  firstName: {
+    type: String,
+    required: [true, "`{PATH}` is required. Receive `{VALUE}`"],
+  },
   country_id: {
     type: mongoose.ObjectId,
     required: [true, "`{PATH}` is required. Receive `{VALUE}`"],

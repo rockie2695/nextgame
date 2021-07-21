@@ -102,9 +102,11 @@ export async function getServerSideProps(context) {
       //create people
       const peopleArray = [];
       while (peopleArray.length < 5) {
+        let nameObj=randomPeopleName()
         peopleArray.push({
           email: session.user.email,
-          name: randomPeopleName(),
+          name: nameObj.name,
+          firstName:nameObj.firstName,
           country_id: countryResult.data._id,
         });
       }
