@@ -35,7 +35,7 @@
 
 .tab_container {
   flex-basis: 20%;
-  max-height: 21rem;
+  max-height: calc(100vh - 3.25rem);
   position: sticky;
   top: 4rem;
   overflow-y: scroll;
