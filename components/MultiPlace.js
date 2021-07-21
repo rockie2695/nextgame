@@ -8,6 +8,10 @@ import 平原 from "../public/images/平原.jpeg";
 import 島嶼 from "../public/images/島嶼.jpeg";
 import 高原 from "../public/images/高原.jpeg";
 
+import { MdAccountBalance as CityIcon } from "react-icons/md";
+
+import { GiVillage as VillageIcon } from "react-icons/gi";
+
 const imgObj = { 丘陵: 丘陵, 平原: 平原, 島嶼: 島嶼, 高原: 高原 };
 
 export default function MultiPlace({ email, worldId }) {
@@ -168,6 +172,28 @@ export default function MultiPlace({ email, worldId }) {
                     height={100}
                     width={100}
                     placeholder="blur"
+                  />
+                ) : null}
+                {place.village && place.village !== 0 ? (
+                  <VillageIcon
+                    style={{
+                      top: "1rem",
+                      position: "absolute",
+                      left: "1rem",
+                      fontSize: "4rem",
+                      color: "white",
+                    }}
+                  />
+                ) : null}
+                {place.city && place.city !== 0 ? (
+                  <CityIcon
+                    style={{
+                      top: "1rem",
+                      position: "absolute",
+                      left: "1rem",
+                      fontSize: "4rem",
+                      color: "white",
+                    }}
                   />
                 ) : null}
                 <div className={styles.shadow}>地塊 {place.num}</div>

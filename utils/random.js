@@ -52,7 +52,7 @@ export function randomWorldName() {
   }
   return firstName + secondName + thirdName + forthName + fifthName;
 }
-export function randomInteger(min, max) {
+export function randomInteger(min = 10, max = 25) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
