@@ -185,7 +185,7 @@ export default function MultiPlace({ email, worldId }) {
                       position: "absolute",
                       left: "1rem",
                       fontSize: "4rem",
-                      color: "white",
+                      color: "rgba(255,255,255,0.75)",
                     }}
                   />
                 ) : null}
@@ -196,7 +196,7 @@ export default function MultiPlace({ email, worldId }) {
                       position: "absolute",
                       left: "1rem",
                       fontSize: "4rem",
-                      color: "white",
+                      color: "rgba(255,255,255,0.75)",
                     }}
                   />
                 ) : null}

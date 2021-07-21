@@ -72,7 +72,7 @@
   margin-bottom: 1rem;
 }
 .section_container .world {
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   border: 1px solid #e0e0e0;
   border-radius: 0.5rem;
   background: white;
@@ -106,10 +106,10 @@
 .subHeader:hover button {
   opacity: 0.5;
 }
-.subHeader form {
+.subHeader > div {
   width: 100%;
 }
-.subHeader > form > div {
+.subHeader > div > div {
   flex: 1;
   display: flex;
   align-items: center;
@@ -121,7 +121,7 @@
   background: rgba(0, 0, 0, 0.2);
 }
 
-.section_container .world > p {
+.section_container .world p {
   margin-block-start: 0.5em;
 }
 .section_container .world .place {

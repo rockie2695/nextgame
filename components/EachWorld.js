@@ -78,75 +78,83 @@ export default function EachWorld({ email, world }) {
 
   return (
     <section className={styles.world}>
-      <header className={styles.subHeader}>
-        <SwitchTransition mode="out-in">
-          <CSSTransition
-            key={editNameState}
-            addEndListener={(node, done) => {
-              node.addEventListener("transitionend", done, false);
-            }}
-            classNames="fade"
-          >
-            <form style={{ display: "flex" }}>
-              {editNameState ? (
-                <div className="inputGroup">
-                  <div className={"first svg"}>
-                    <BiWorldIcon />
-                  </div>
+      <form>
+        <header className={styles.subHeader}>
+          <SwitchTransition mode="out-in">
+            <CSSTransition
+              key={editNameState}
+              addEndListener={(node, done) => {
+                node.addEventListener("transitionend", done, false);
+              }}
+              classNames="fade"
+            >
+              <div style={{ display: "flex" }}>
+                {editNameState ? (
+                  <div className="inputGroup">
+                    <div className={"first svg"}>
+                      <BiWorldIcon />
+                    </div>
 
-                  <input
-                    type="text"
-                    name="name"
-                    value={worldName.name}
-                    onChange={changeWorldName}
-                    minLength="2"
-                    maxLength="5"
-                    placeholder="世界名稱"
-                  />
-                  <div
-                    className={"last svg button"}
-                    onClick={changeRandomWorldName}
-                  >
-                    <FaRandomIcon />
+                    <input
+                      type="text"
+                      name="name"
+                      value={worldName.name}
+                      onChange={changeWorldName}
+                      minLength="2"
+                      maxLength="5"
+                      placeholder="世界名稱"
+                    />
+                    <div
+                      className={"last svg button"}
+                      onClick={changeRandomWorldName}
+                    >
+                      <FaRandomIcon />
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <div>
-                  <BiWorldIcon />
-                  <span style={{ marginLeft: "0.25rem" }}>
-                    {worldName.name}
-                  </span>
-                </div>
-              )}
-              {editNameState ? (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => updateWorldName(world._id)}
-                  >
-                    <MdSaveIcon />
+                ) : (
+                  <div>
+                    <BiWorldIcon />
+                    <span style={{ marginLeft: "0.25rem" }}>
+                      {worldName.name}
+                    </span>
+                  </div>
+                )}
+                {editNameState ? (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => updateWorldName(world._id)}
+                    >
+                      <MdSaveIcon />
+                    </button>
+                    <button type="button" onClick={restoreWorldName}>
+                      <MdArrowBackIcon />
+                    </button>
+                  </>
+                ) : (
+                  <button type="button" onClick={editName}>
+                    <MdEditIcon />
                   </button>
-                  <button type="button" onClick={restoreWorldName}>
-                    <MdArrowBackIcon />
-                  </button>
-                </>
-              ) : (
-                <button type="button" onClick={editName}>
-                  <MdEditIcon />
-                </button>
-              )}
-            </form>
-          </CSSTransition>
-        </SwitchTransition>
-      </header>
-      <p>
-        [{world.type}世界]
-        {world.type === "蒸汽"
-          ? "第一次工業革命,使用蒸汽機、煤、鐵和鋼進行工業化"
-          : null}
-      </p>
-      <strong>地塊:{world.placeNum}</strong>
-      <MultiPlace worldId={world._id} email={email} />
+                )}
+              </div>
+            </CSSTransition>
+          </SwitchTransition>
+        </header>
+        <p>
+          [{world.type}世界]
+          {world.type === "蒸汽"
+            ? "第一次工業革命,使用蒸汽機、煤、鐵和鋼進行工業化"
+            : null}
+        </p>
+        <div style={{ marginBottom: "1rem" }}>
+          <strong>manger</strong>
+          <div>aaa</div>
+        </div>
+        <div>
+          <strong>地塊:{world.placeNum}</strong>
+          <MultiPlace worldId={world._id} email={email} />
+        </div>
+      </form>
     </section>
   );
 }
