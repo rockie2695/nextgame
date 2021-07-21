@@ -157,7 +157,6 @@
   cursor: grab;
   user-select: none;
   overflow-x: scroll;
-  transition: background-color 0.4s;
 }
 .multiPlaceContainer > div.front {
   background: linear-gradient(to right, white, transparent);

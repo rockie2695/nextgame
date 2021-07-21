@@ -122,6 +122,7 @@ input:focus {
 }
 
 @media only screen and (max-width: 810px) {
+  /*https://codepen.io/waterplea/pen/dVMopv*/
   ul::-webkit-scrollbar,
   div::-webkit-scrollbar {
     width: 4px;

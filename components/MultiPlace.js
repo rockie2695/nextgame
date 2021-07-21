@@ -39,7 +39,9 @@ export default function MultiPlace({ email, worldId }) {
     multiPlace.current.addEventListener("mousemove", mouseMoveHandler, false);
     multiPlace.current.addEventListener("mouseup", mouseUpHandler, false);
     multiPlace.current.addEventListener("mouseleave", mouseUpHandler, false);
-    multiPlace.current.addEventListener("touchmove", mouseMoveHandler, false);
+    multiPlace.current.addEventListener("touchmove", mouseMoveHandler, {
+      passive: true,
+    });
     multiPlace.current.addEventListener("touchend", mouseUpHandler, false);
     multiPlace.current.addEventListener("touchcancel", mouseUpHandler, false);
   };
@@ -132,7 +134,9 @@ export default function MultiPlace({ email, worldId }) {
     useEffect(() => {
       const currentDivRef = multiPlace.current;
       currentDivRef.addEventListener("mousedown", listenToMouseDown, false);
-      currentDivRef.addEventListener("touchstart", listenToMouseDown, false);
+      currentDivRef.addEventListener("touchstart", listenToMouseDown, {
+        passive: true,
+      });
       currentDivRef.addEventListener("scroll", frontBackTransparent, {
         passive: true,
       });
