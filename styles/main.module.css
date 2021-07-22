@@ -33,37 +33,6 @@
   min-width: 10rem;
 }
 
-.tab_container {
-  flex-basis: 20%;
-  max-height: calc(100vh - 3.25rem);
-  position: sticky;
-  top: 4rem;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  min-width: 10rem;
-}
-.tab_container a {
-  margin: 0.5rem;
-  border-radius: 0.5rem;
-  border: 0.1rem solid transparent;
-  padding: 0.5rem;
-  display: block;
-  transition: background-color 0.4s ease-in-out, border 0.4s ease-in-out,
-    color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
-}
-
-.tab_container a:not(.tabActive):hover {
-  border: 0.1rem solid #e0e0e0;
-  color: #2196f3;
-}
-
-.tabActive {
-  background: #2196f3;
-  color: white;
-}
-.tabActive:hover {
-  box-shadow: inset 0 0 5px white;
-}
 .section_container {
   flex-basis: 60%;
   padding: 0.5rem;
@@ -94,8 +63,13 @@
   font-weight: 700;
   width: 100%;
 }
-.subHeader button {
+.subHeader .buttonContainer {
   margin: 0 0 0 0.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.subHeader button {
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
@@ -109,7 +83,7 @@
 .subHeader > div {
   width: 100%;
 }
-.subHeader > div > div {
+.subHeader > div > div:first-child {
   flex: 1;
   display: flex;
   align-items: center;
@@ -120,9 +94,12 @@
   opacity: 1;
   background: rgba(0, 0, 0, 0.2);
 }
-
+.section_container .world form > div:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
 .section_container .world p {
-  margin-block-start: 0.5em;
+  margin-block-start: 0em;
+  margin-block-end: 0em;
 }
 .section_container .world .place {
   width: 6rem;
@@ -158,7 +135,8 @@
   user-select: none;
   overflow-x: scroll;
 }
-.multiPlaceContainer > div.front {
+.maskBefore::before {
+  content: "";
   background: linear-gradient(to right, white, transparent);
   position: absolute;
   user-select: none;
@@ -168,10 +146,10 @@
   top: 0;
   left: 0;
   bottom: 0;
-  visibility: hidden;
+  pointer-events: none;
 }
-
-.multiPlaceContainer > div.back {
+.maskAfter::after {
+  content: "";
   background: linear-gradient(to left, white, transparent);
   position: absolute;
   user-select: none;
@@ -179,9 +157,9 @@
   height: 6.5rem;
   z-index: 1;
   top: 0;
-  right: 0;
+  left: calc(100% - 1rem);
   bottom: 0;
-  visibility: hidden;
+  pointer-events: none;
 }
 .multiPlace > div {
   display: inline-flex;
@@ -193,57 +171,16 @@
   position: sticky;
   top: 4rem;
 }
-
+.svgWithTextContainer {
+  display: flex;
+  align-items: center;
+}
 @media only screen and (max-width: 810px) {
   .multiPlace {
     overflow-x: hidden;
   }
   .main > div > div {
     flex-direction: column;
-  }
-  .tab_container {
-    position: static;
-    display: flex;
-    overflow-y: hidden;
-    overflow-x: auto;
-  }
-  .tab_container a {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    border-radius: initial;
-    margin: 0;
-    position: relative;
-    border: none;
-  }
-  .tab_container a:not(.tabActive):after {
-    position: absolute;
-    content: "";
-    width: 100%;
-    background: #e0e0e0;
-    height: 0.25rem;
-    bottom: -1px;
-    left: 0;
-    z-index: 1;
-  }
-  .tabActive {
-    background-color: transparent;
-    color: #2196f3;
-  }
-  .tabActive ::after {
-    position: absolute;
-    content: "";
-    width: 100%;
-    background: #2196f3;
-    height: 0.25rem;
-    bottom: -1px;
-    left: 0;
-  }
-
-  .tab_container a:not(.tabActive):hover {
-    border: none;
   }
   .main > div > div > aside {
     display: none;

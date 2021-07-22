@@ -6,11 +6,12 @@ import useWorld from "../data/useWorld";
 import Skeleton from "react-loading-skeleton";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import styles from "../styles/main.module.css";
+import mainStyles from "../styles/main.module.css";
+import tabStyles from "../styles/mainTab.module.css";
 import ActiveLink from "../components/ActiveLink";
 import EachWorld from "../components/EachWorld";
 
-export default function worldAndPlace() {
+export default function world() {
   const [session, loading] = useSession();
   const router = useRouter();
   if (typeof window !== "undefined" && loading) return null;
@@ -60,51 +61,51 @@ export default function worldAndPlace() {
         <title>世界</title>
       </Head>
       <header>
-        <span className={styles.mainHeader}>世界</span>
+        <span className={mainStyles.mainHeader}>世界</span>
       </header>
       <div>
-        <div className={styles.tab_container}>
+        <div className={tabStyles.tab_container}>
           {tabArray.map((tab, index) => (
             <ActiveLink
               key={index}
-              activeClassName={styles.tabActive}
+              activeClassName={tabStyles.tabActive}
               href={tab.href}
               methodGet={tab.methodGet}
             >
               <a>
-                <span className={styles.subHeader}>{tab.name}</span>
+                <span className={mainStyles.subHeader}>{tab.name}</span>
               </a>
             </ActiveLink>
           ))}
         </div>
-        <section className={styles.section_container}>
+        <section className={mainStyles.section_container}>
           {worldResult.map((result, index) =>
             result.enable ? (
               <section key={index}>
                 {index === 0 ? (
                   <header>
-                    <span className={styles.mainHeader}>直轄</span>
+                    <span className={mainStyles.mainHeader}>直轄</span>
                     <p>直轄世界 would get all money</p>
                   </header>
                 ) : (
                   <header>
-                    <span className={styles.mainHeader}>非直轄</span>
+                    <span className={mainStyles.mainHeader}>非直轄</span>
                     <p>非直轄世界 would get X0.1 money</p>
                   </header>
                 )}
 
                 {result.loading ? (
-                  <section className={styles.world}>
+                  <section className={mainStyles.world}>
                     <header>
                       <Skeleton
                         style={{ width: "50%" }}
-                        className={styles.subHeader}
+                        className={mainStyles.subHeader}
                       />
                     </header>
                     <p>
                       <Skeleton />
                     </p>
-                    <div className={styles.multiPlace}>
+                    <div className={mainStyles.multiPlace}>
                       <div>
                         {[...Array(12)].map((place, index) => (
                           <Skeleton

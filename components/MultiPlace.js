@@ -77,13 +77,9 @@ export default function MultiPlace({ email, worldId }) {
       multiPlace.current.scrollWidth - multiPlace.current.clientWidth
     );
     if (scrollLeft !== 0) {
-      multiPlaceContainer.current.querySelector(
-        `.${styles.front}`
-      ).style.visibility = "visible";
+      multiPlaceContainer.current.classList.add(styles.maskBefore);
     } else {
-      multiPlaceContainer.current
-        .querySelector(`.${styles.front}`)
-        .style.removeProperty("visibility");
+      multiPlaceContainer.current.classList.remove(styles.maskBefore);
     }
     let marginRight =
       parseFloat(
@@ -92,13 +88,9 @@ export default function MultiPlace({ email, worldId }) {
           .style.marginRight.replace("px", "")
       ) || 0;
     if (scrollLeft_10 >= scrollWidth_clientWidth - marginRight) {
-      multiPlaceContainer.current
-        .querySelector(`.${styles.back}`)
-        .style.removeProperty("visibility");
+      multiPlaceContainer.current.classList.remove(styles.maskAfter);
     } else {
-      multiPlaceContainer.current.querySelector(
-        `.${styles.back}`
-      ).style.visibility = "visible";
+      multiPlaceContainer.current.classList.add(styles.maskAfter);
     }
   };
   const mouseUpHandler = () => {
@@ -205,8 +197,6 @@ export default function MultiPlace({ email, worldId }) {
             ))}
         </div>
       </div>
-      <div className={styles.front}></div>
-      <div className={styles.back}></div>
     </div>
   );
 }

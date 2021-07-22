@@ -80,18 +80,11 @@ export default function Layout({ children, home }) {
               </a>
             </ActiveLink>
           </li>
-          <li>
-            <ActiveLink activeClassName={styles.active} href="/index2">
-              <a>
-                <span>Home2</span>
-              </a>
-            </ActiveLink>
-          </li>
           {session && (
             <li>
-              <ActiveLink activeClassName={styles.active} href="/worldAndPlace">
+              <ActiveLink activeClassName={styles.active} href="/world">
                 <a>
-                  <span>World And Place</span>
+                  <span>世界</span>
                 </a>
               </ActiveLink>
             </li>
