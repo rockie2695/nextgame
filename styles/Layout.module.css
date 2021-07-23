@@ -23,7 +23,7 @@
 }
 
 .nav {
-  background: #2196f3;
+  background: var(--color-blue-500);
   color: white;
   position: sticky;
   top: 0rem;
@@ -64,7 +64,7 @@
 }
 
 .nav > ul > li a {
-  display: block;
+  display: flex;
   padding: 1rem;
   font-size: 1.25rem;
   line-height: 1.25rem;
@@ -74,20 +74,20 @@
 }
 
 .nav > ul > li a:hover {
-  background: #e0e0e0;
-  color: #2196f3;
+  background: var(--color-gray-300);
+  color: var(--color-blue-500);
   transform: translateY(-0.25rem);
   box-shadow: 0 0 1rem 0.5rem rgba(0, 0, 0, 0.2);
 }
 
 .nav > ul > li a.active {
   background: white;
-  color: #2196f3;
+  color: var(--color-blue-500);
 }
 
 .footer {
   background: black;
-  color: #e0e0e0;
+  color: var(--color-gray-300);
 }
 
 .footer > div {

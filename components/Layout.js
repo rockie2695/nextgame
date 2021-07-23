@@ -65,7 +65,7 @@ export default function Layout({ children, home }) {
         <ul>
           <li>
             <ActiveLink activeClassName={styles.active} href="/">
-              <a style={{ display: "flex" }}>
+              <a>
                 <div
                   className={[
                     styles.title,
@@ -120,9 +120,7 @@ export default function Layout({ children, home }) {
           </li>
         </ul>
       </nav>
-      <main className={main}>
-        <div>{children}</div>
-      </main>
+      <main className={main}>{children}</main>
       <footer className={styles.footer}>
         <div>
           <span>made by&nbsp;</span>

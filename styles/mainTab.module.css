@@ -18,12 +18,12 @@
 }
 
 .tab_container a:not(.tabActive):hover {
-  border: 0.1rem solid #e0e0e0;
-  color: #2196f3;
+  border: 0.1rem solid var(--color-gray-300);
+  color: var(--color-blue-500);
 }
 
 .tabActive {
-  background: #2196f3;
+  background: var(--color-blue-500);
   color: white;
 }
 .tabActive:hover {
@@ -51,7 +51,7 @@
     position: absolute;
     content: "";
     width: 100%;
-    background: #e0e0e0;
+    background: var(--color-gray-300);
     height: 0.25rem;
     bottom: -1px;
     left: 0;
@@ -59,13 +59,13 @@
   }
   .tabActive {
     background-color: transparent;
-    color: #2196f3;
+    color: var(--color-blue-500);
   }
   .tabActive ::after {
     position: absolute;
     content: "";
     width: 100%;
-    background: #2196f3;
+    background: var(--color-blue-500);
     height: 0.25rem;
     bottom: -1px;
     left: 0;

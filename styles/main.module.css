@@ -1,8 +1,5 @@
 .main {
   min-height: calc(100vh - 9.75rem);
-}
-
-.main > div {
   margin: 0 auto;
   max-width: 75rem;
 }
@@ -10,25 +7,24 @@
 .mainHeader {
   font-size: 1.5rem;
   font-weight: bold;
+  flex-grow: 1;
 }
-
-.main > div > div {
+.subHeader {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+.main > div {
   display: flex;
 }
 
-.main > div > header {
+.main > header {
   padding: 0.5rem 1rem 0.25rem 1rem;
-  border-bottom: 0.5rem solid #e0e0e0;
+  border-bottom: 0.5rem solid var(--color-gray-300);
   margin-bottom: 0.25rem;
 }
 
-.main > div > header > span {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.main > div > div > section,
-.main > div > div > aside {
+.main > div > section,
+.main > div > aside {
   margin: 0.5rem;
   min-width: 10rem;
 }
@@ -41,35 +37,28 @@
   margin-bottom: 1rem;
 }
 .section_container .world {
-  padding: 0.5rem 1rem;
-  border: 1px solid #e0e0e0;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-gray-300);
   border-radius: 0.5rem;
   background: white;
   transition: box-shadow 0.4s ease-in-out;
-  box-shadow: 0.1rem 0.1rem 0.5rem 0 rgb(0 0 0 / 20%);
-}
-.subHeader {
-  display: flex;
-  font-size: 1.25rem;
-  font-weight: bold;
+  box-shadow: 0.1rem 0.1rem 0.5rem 0 var(--color-gray-300);
 }
 
-.subHeader svg {
-  font-size: 1.25rem;
+.world .mainHeader.inputGroup,
+.world .mainHeader.inputGroup input {
+  font-size: 1.3rem;
   font-weight: bold;
 }
-.subHeader input {
-  font-size: 1rem;
-  font-weight: 700;
-  width: 100%;
-}
-.subHeader .buttonContainer {
+.world header .buttonContainer {
   margin: 0 0 0 0.5rem;
   border-radius: 50%;
   overflow: hidden;
 }
-
-.subHeader button {
+.world header .buttonContainer svg {
+  font-size: 1.4rem;
+}
+.world header button {
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
@@ -77,25 +66,33 @@
   transition: opacity 0.4s ease-in-out, background 0.4s ease-in-out;
   user-select: none;
 }
-.subHeader:hover button {
+.world header:hover button {
   opacity: 0.5;
 }
-.subHeader > div {
+.world header > div {
+  display: flex;
   width: 100%;
 }
-.subHeader > div > div:first-child {
+/*
+.world header > div > div:first-child {
   flex: 1;
   display: flex;
   align-items: center;
   flex-shrink: 0;
-}
-.subHeader button:hover,
-.subHeader button:active {
+}*/
+.world:hover header button {
   opacity: 1;
-  background: rgba(0, 0, 0, 0.2);
+}
+.world header button:hover,
+.world header button:active {
+  opacity: 1;
+  background: var(--color-gray-300);
+}
+.section_container .world form > div:not(:first-child) {
+  padding-top: 0.5rem;
 }
 .section_container .world form > div:not(:last-child) {
-  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
 }
 .section_container .world p {
   margin-block-start: 0em;
@@ -175,14 +172,17 @@
   display: flex;
   align-items: center;
 }
+.description {
+  color: var(--color-gray-600);
+}
 @media only screen and (max-width: 810px) {
   .multiPlace {
     overflow-x: hidden;
   }
-  .main > div > div {
+  .main > div {
     flex-direction: column;
   }
-  .main > div > div > aside {
+  .main > div > aside {
     display: none;
   }
   .section_container .world header button {

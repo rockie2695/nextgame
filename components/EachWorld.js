@@ -82,7 +82,7 @@ export default function EachWorld({ email, world }) {
     <section className={styles.world}>
       <form>
         <div>
-          <header className={styles.subHeader}>
+          <header>
             <SwitchTransition mode="out-in">
               <CSSTransition
                 key={editNameState}
@@ -91,9 +91,15 @@ export default function EachWorld({ email, world }) {
                 }}
                 classNames="fade"
               >
-                <div style={{ display: "flex" }}>
+                <div>
                   {editNameState ? (
-                    <div className="inputGroup">
+                    <div
+                      className={[
+                        "inputGroup",
+                        styles.mainHeader,
+                        styles.inputGroup,
+                      ].join(" ")}
+                    >
                       <div className={"first svg"}>
                         <BiWorldIcon />
                       </div>
@@ -115,7 +121,11 @@ export default function EachWorld({ email, world }) {
                       </div>
                     </div>
                   ) : (
-                    <div>
+                    <div
+                      className={
+                        styles.mainHeader + " " + styles.svgWithTextContainer
+                      }
+                    >
                       <BiWorldIcon />
                       <span style={{ marginLeft: "0.25rem" }}>
                         {worldName.name}
@@ -156,10 +166,14 @@ export default function EachWorld({ email, world }) {
             </SwitchTransition>
           </header>
           <p>
-            [{world.type}世界]
-            {world.type === "蒸汽"
-              ? "第一次工業革命,使用蒸汽機、煤、鐵和鋼進行機械化生產"
-              : null}
+            <span>[{world.type}世界]</span>
+          </p>
+          <p>
+            <span className={styles.description}>
+              {world.type === "蒸汽"
+                ? " 第一次工業革命, 使用蒸汽機、煤、鐵和鋼, 進行機械化生產"
+                : null}
+            </span>
           </p>
         </div>
         <div>

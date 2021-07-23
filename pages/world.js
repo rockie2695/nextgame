@@ -85,12 +85,20 @@ export default function world() {
                 {index === 0 ? (
                   <header>
                     <span className={mainStyles.mainHeader}>直轄</span>
-                    <p>直轄世界 would get all money</p>
+                    <p>
+                      <span className={mainStyles.description}>
+                        直轄世界 would get all money
+                      </span>
+                    </p>
                   </header>
                 ) : (
                   <header>
                     <span className={mainStyles.mainHeader}>非直轄</span>
-                    <p>非直轄世界 would get X0.1 money</p>
+                    <p>
+                      <span className={mainStyles.description}>
+                        非直轄世界 would get X0.1 money
+                      </span>
+                    </p>
                   </header>
                 )}
 
