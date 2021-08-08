@@ -10,12 +10,10 @@ import mainStyles from "../styles/main.module.css";
 import tabStyles from "../styles/mainTab.module.css";
 import ActiveLink from "../components/ActiveLink";
 import EachWorld from "../components/EachWorld";
-import webSocket from "socket.io-client";
 
 export default function world() {
   const [session, loading] = useSession();
   const router = useRouter();
-  const [ws, setWs] = useState(null);
   if (typeof window !== "undefined" && loading) return null;
   useEffect(() => {
     if (router) {
@@ -27,17 +25,6 @@ export default function world() {
       }
     }
   }, [router]);
-  useEffect(() => {
-    console.log("startConnectWS");
-    connectWebSocket();
-    return () => {
-      setWs(() => null);
-    };
-  }, []);
-  const connectWebSocket = () => {
-    //開啟
-    setWs(webSocket("http://localhost:3001/"));
-  };
   const { selectDC, selectNDC } = router.query;
   const useDCWorldResult = useWorld(
     `email=${session.user.email}&directControl=true`,

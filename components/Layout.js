@@ -89,6 +89,15 @@ export default function Layout({ children, home }) {
               </ActiveLink>
             </li>
           )}
+          {session && (
+            <li>
+              <ActiveLink activeClassName={styles.active} href="/room">
+                <a>
+                  <span>Room</span>
+                </a>
+              </ActiveLink>
+            </li>
+          )}
           <li></li>
           <li>
             {!session && (
