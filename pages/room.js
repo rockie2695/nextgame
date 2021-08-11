@@ -24,19 +24,29 @@ export default function room() {
     }
   }, [router]);
   useEffect(() => {
-    console.log("startConnectWS");
     socket.connect();
+    socket.emit("joinRoom", "roomList");
     return () => {
+      console.log("close");
       socket.close();
     };
   }, []);
-  socket.onAny((event, ...args) => {
-    console.log(event, args);
+  useEffect(() => {
+    socket.on("roomList", (roomList) => {
+      //if(Array.isArray(roomList)){}
+      //if(!Array.isArray(roomList)){}
+      console.log(roomList);
+    });
+    return () => {
+      console.log("test2");
+      socket.off("roomList");
+    };
   });
   const testAddRoom = () => {
     socket.emit("addRoom", {
       roomName: "testAddRoom",
       creator: session.user.name || session.user.email,
+      order: [session.user.name || session.user.email],
     });
   };
   return (
