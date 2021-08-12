@@ -24,14 +24,6 @@ export default function room() {
     }
   }, [router]);
   useEffect(() => {
-    socket.connect();
-    socket.emit("joinRoom", "roomList");
-    return () => {
-      console.log("close");
-      socket.close();
-    };
-  }, []);
-  useEffect(() => {
     socket.on("roomList", (roomList) => {
       //if(Array.isArray(roomList)){}
       //if(!Array.isArray(roomList)){}
@@ -42,6 +34,15 @@ export default function room() {
       socket.off("roomList");
     };
   });
+  useEffect(() => {
+    socket.connect();
+    socket.emit("joinRoom", "roomList");
+    return () => {
+      console.log("close");
+      socket.close();
+    };
+  }, []); //empty array means render once when init page
+  
   const testAddRoom = () => {
     socket.emit("addRoom", {
       roomName: "testAddRoom",
