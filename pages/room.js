@@ -72,6 +72,7 @@ export default function room() {
       <style jsx>{`
         div.roomListContainer {
           padding: 10px;
+          margin: 10px;
         }
         div.roomList {
           height: 4rem;
@@ -105,11 +106,26 @@ export default function room() {
           display: flex;
           flex-direction: row;
         }
+        div.roomAddContainer {
+          padding: 10px;
+          display: flex;
+        }
+        input.roomAddInput {
+          padding: 10px;
+          flex-grow: 1;
+        }
+        button.roomAddButton {
+          background: var(--color-gray-300);
+        }
       `}</style>
       <div>
         <button onClick={testAddRoom}>test add Room</button>
       </div>
       <div className={"roomListContainer"}>
+        <div className={"roomAddContainer"}>
+          <input className={"roomAddInput"}></input>
+          <button className={"roomAddButton"}>Add Room</button>
+        </div>
         {roomList.map(({ roomName, creator }, index) => (
           <div className={"roomList"} key={index}>
             <div>
@@ -126,7 +142,6 @@ export default function room() {
             </div>
             <div>
               <button className={"joinRoomButton"}>
-                {" "}
                 <RightIcon
                   style={{
                     fontSize: "1rem",
