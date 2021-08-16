@@ -13,7 +13,7 @@
   font-size: 1.25rem;
   font-weight: bold;
 }
-.main > div :not(:only-child) {
+.main > div:not(:only-child) {
   display: flex;
 }
 

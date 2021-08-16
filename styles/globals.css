@@ -47,6 +47,7 @@ input {
   border-radius: 5px;
   transition: box-shadow 0.4s ease-in-out;
   color: var(--color-blue-500);
+  min-width: 0px;
 }
 input:focus {
   outline: none;
@@ -75,6 +76,9 @@ input:focus {
 }
 .inputGroup_focus {
   box-shadow: 0 0 5px var(--color-blue-500);
+}
+.cursorNotAllow {
+  cursor: not-allowed !important;
 }
 /* width */
 ::-webkit-scrollbar {
