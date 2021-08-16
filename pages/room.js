@@ -18,6 +18,8 @@ export default function room() {
   const [isAddRoom, setIsAddRoom] = useState(false);
   const [isSelfRoomTab, setIsSelfRoomTab] = useState(false);
   const [addRoomValue, setAddRoomValue] = useState("");
+  const addRoomValueRef = useRef(addRoomValue);
+  addRoomValueRef.current = addRoomValue;
   const router = useRouter();
   if (typeof window !== "undefined" && loading) return null;
   useEffect(() => {
@@ -30,6 +32,17 @@ export default function room() {
       }
     }
   }, [router]);
+  useEffect(() => {
+    const beforeunload = (e) => {
+      if (addRoomValueRef.current !== "") {
+        socket.emit("leaveRoom", addRoomValueRef.current);
+      }
+    };
+    window.addEventListener("beforeunload", beforeunload);
+    return () => {
+      window.removeEventListener("beforeunload", beforeunload);
+    };
+  }, []);
   useEffect(() => {
     socket.on("addRoom", (message) => {
       console.log(message);
@@ -58,16 +71,17 @@ export default function room() {
     socket.connect();
     socket.emit("joinRoom", "roomList");
     return () => {
-      alert("123");
-      console.log("123");
-      if (addRoomValue !== "") {
-        socket.emit("leaveRoom", addRoomValue);
+      alert("here 1");
+      console.log("here 1", addRoomValueRef.current);
+      if (addRoomValueRef.current !== "") {
+        socket.emit("leaveRoom", addRoomValueRef.current);
       }
       socket.off("roomList");
       socket.off("addRoom");
       socket.close();
     };
   }, []); //empty array means render once when init page
+
   const roomAddButtonClick = () => {
     if (roomAddInputValue.length < 3 || roomAddInputValue.length > 15) {
       alert("roomName should be 3 to 15 characters");
@@ -138,6 +152,7 @@ export default function room() {
           <div
             className={[
               "tab",
+              "borderRightNone",
               isAddRoom ? "cursorNotAllow" : "",
               !isSelfRoomTab ? "tabActive" : "",
             ].join(" ")}
@@ -150,7 +165,11 @@ export default function room() {
             Public Room
           </div>
           <div
-            className={["tab", isSelfRoomTab ? "tabActive" : ""].join(" ")}
+            className={[
+              "tab",
+              "borderLeftNone",
+              isSelfRoomTab ? "tabActive" : "",
+            ].join(" ")}
             onClick={() => setIsSelfRoomTab(true)}
           >
             Self Room
