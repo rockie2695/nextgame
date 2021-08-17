@@ -4,13 +4,14 @@ import { useSession, getSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { useEffect, useState, useRef } from "react";
 import socket from "../components/socket";
-import { isNull } from "lodash";
 import mainStyles from "../styles/main.module.css";
 import {
   MdRoom as RoomIcon,
   MdKeyboardArrowRight as RightIcon,
   MdKeyboardArrowLeft as LeftIcon,
 } from "react-icons/md";
+import ReactTooltip from "react-tooltip";
+
 export default function room() {
   const [session, loading] = useSession();
   const [roomList, setRoomList] = useState([]);
@@ -45,7 +46,6 @@ export default function room() {
   }, []);
   useEffect(() => {
     socket.on("addRoom", (message) => {
-      console.log(message);
       if (message.success) {
         setIsAddRoom(true);
         setAddRoomValue(message.roomName);
@@ -55,8 +55,15 @@ export default function room() {
       }
     });
 
+    socket.on("removeRoom", (room) => {
+      if (addRoomValueRef.current === room) {
+        setIsAddRoom(false);
+        setAddRoomValue("");
+      }
+      setRoomList((prev) => prev.filter((row) => row.roomName !== room));
+    });
+
     socket.on("roomList", (roomList) => {
-      console.log(roomList);
       if (Array.isArray(roomList) && roomList.length === 0) {
         return;
       }
@@ -71,12 +78,11 @@ export default function room() {
     socket.connect();
     socket.emit("joinRoom", "roomList");
     return () => {
-      alert("here 1");
-      console.log("here 1", addRoomValueRef.current);
       if (addRoomValueRef.current !== "") {
         socket.emit("leaveRoom", addRoomValueRef.current);
       }
       socket.off("roomList");
+      socket.off("removeRoom");
       socket.off("addRoom");
       socket.close();
     };
@@ -113,7 +119,7 @@ export default function room() {
           display: flex;
         }
         div.roomAddContainer {
-          padding: 10px 0px;
+          padding: 10px 0px 0px 0px;
           display: flex;
           width: 100%;
         }
@@ -142,6 +148,10 @@ export default function room() {
           border: 1px solid var(--color-gray-300);
           padding: 10px;
           cursor: pointer;
+          transition: background 0.2s ease-in-out, border 0.2s ease-in-out;
+        }
+        div.tab:hover {
+          background: var(--color-gray-300);
         }
         div.tabActive {
           border-bottom: 2px solid var(--color-blue-500);
@@ -176,7 +186,11 @@ export default function room() {
           </div>
         </div>
         {isSelfRoomTab && !isAddRoom && (
-          <div className={"roomAddContainer"}>
+          <div
+            className={"roomAddContainer"}
+            data-tip="roomName should be 3 to 15 characters"
+          >
+            <ReactTooltip place="bottom" type="dark" effect="solid" />
             <input
               className={"roomAddInput"}
               placeholder="roomName"
@@ -186,8 +200,19 @@ export default function room() {
               onChange={(e) => {
                 setRoomAddInputValue(e.target.value);
               }}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  roomAddButtonClick();
+                }
+              }}
             ></input>
-            <button className={"roomAddButton"} onClick={roomAddButtonClick}>
+            <button
+              className={[
+                "roomAddButton",
+                roomAddInputValue.length >= 3 ? "" : "cursorNotAllow",
+              ].join(" ")}
+              onClick={roomAddButtonClick}
+            >
               Add Room
             </button>
           </div>
@@ -197,17 +222,31 @@ export default function room() {
             roomList={roomList.filter(
               (row) => row.creator === session.user.email
             )}
+            addRoomValue={addRoomValueRef.current}
+            socket={socket}
           />
         ) : null}
-        {!isSelfRoomTab ? <RoomList roomList={roomList} /> : null}
+        {!isSelfRoomTab ? (
+          <RoomList
+            roomList={roomList}
+            addRoomValue={addRoomValueRef.current}
+            socket={socket}
+          />
+        ) : null}
       </div>
     </Layout>
   );
 }
 
-export function RoomList({ roomList }) {
+export function RoomList({ roomList, addRoomValue, socket }) {
   const [session, loading] = useSession();
   if (typeof window !== "undefined" && loading) return null;
+  const removeRoomButtonClick = () => {
+    if (addRoomValue !== "") {
+      socket.emit("leaveRoom", addRoomValue);
+    }
+  };
+  const joinRoomButtonClick = () => {};
   return roomList.map(({ roomName, creator }, index) => (
     <div className={"roomList"} key={index}>
       <style jsx>
@@ -226,12 +265,15 @@ export function RoomList({ roomList }) {
             flex-wrap: wrap;
           }
           div.roomList:hover {
-            border: 5px solid var(--color-gray-500);
             transform: scale(1.025);
+            box-shadow: 0px 0px 5px var(--color-gray-600);
           }
           div.roomName {
             font-size: 18px;
             font-weight: bold;
+          }
+          div.creator {
+            color: var(--color-gray-600);
           }
           button.joinRoomButton {
             background: var(--color-gray-300);
@@ -240,6 +282,11 @@ export function RoomList({ roomList }) {
             padding: 10px;
             display: flex;
             flex-direction: row;
+            transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+          }
+          button.joinRoomButton:hover {
+            background: black;
+            color: white;
           }
           div.roomNameCreator {
             display: flex;
@@ -266,22 +313,20 @@ export function RoomList({ roomList }) {
       </div>
       <div>
         {creator === session.user.email ? (
-          <button className={"joinRoomButton"}>
+          <button className={"joinRoomButton"} onClick={removeRoomButtonClick}>
             <LeftIcon
               style={{
                 fontSize: "1rem",
-                color: "rgba(0,0,0,0.75)",
               }}
             />
             Remove Room
           </button>
         ) : null}
         {creator !== session.user.email ? (
-          <button className={"joinRoomButton"}>
+          <button className={"joinRoomButton"} onClick={joinRoomButtonClick}>
             <RightIcon
               style={{
                 fontSize: "1rem",
-                color: "rgba(0,0,0,0.75)",
               }}
             />
             Join Room
