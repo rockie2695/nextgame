@@ -18,9 +18,8 @@
 }
 
 .main > header {
-  padding: 0.5rem 1rem 0.25rem 1rem;
   border-bottom: 0.5rem solid var(--color-gray-300);
-  margin-bottom: 0.25rem;
+  margin: 0.5rem 20px 0.25rem 20px;
 }
 
 .main > div > section,

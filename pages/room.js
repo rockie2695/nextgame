@@ -11,6 +11,8 @@ import {
   MdKeyboardArrowLeft as LeftIcon,
 } from "react-icons/md";
 import ReactTooltip from "react-tooltip";
+import store from "./app/store";
+import { Provider } from "react-redux";
 
 export default function room() {
   const [session, loading] = useSession();
@@ -109,131 +111,138 @@ export default function room() {
       <header>
         <span className={mainStyles.mainHeader}>Room</span>
       </header>
-      <style jsx>{`
-        div.roomListContainer {
-          padding: 10px;
-          margin: 10px;
-          align-items: center;
-          justify-content: center;
-          flex-direction: column;
-          display: flex;
-        }
-        div.roomAddContainer {
-          padding: 10px 0px 0px 0px;
-          display: flex;
-          width: 100%;
-        }
-        input.roomAddInput {
-          padding: 10px 20px;
-          flex-grow: 1;
-          border-radius: 20px 0px 0px 20px;
-          font-size: 18px;
-          font-weight: bold;
-          border: 1px solid var(--color-gray-300);
-        }
-        button.roomAddButton {
-          background: var(--color-gray-300);
-          border-radius: 0px 20px 20px 0px;
-          padding: 10px;
-        }
-        div.tabContainer {
-          display: flex;
-          width: 100%;
-          margin-bottom: 10px;
-        }
-        div.tab {
-          flex-grow: 1;
-          text-align: center;
-          background: white;
-          border: 1px solid var(--color-gray-300);
-          padding: 10px;
-          cursor: pointer;
-          transition: background 0.2s ease-in-out, border 0.2s ease-in-out;
-        }
-        div.tab:hover {
-          background: var(--color-gray-300);
-        }
-        div.tabActive {
-          border-bottom: 2px solid var(--color-blue-500);
-        }
-      `}</style>
-      <div className={"roomListContainer"}>
-        <div className={"tabContainer"}>
-          <div
-            className={[
-              "tab",
-              "borderRightNone",
-              isAddRoom ? "cursorNotAllow" : "",
-              !isSelfRoomTab ? "tabActive" : "",
-            ].join(" ")}
-            onClick={() => {
-              if (!isAddRoom) {
-                setIsSelfRoomTab(false);
-              }
-            }}
-          >
-            Public Room
-          </div>
-          <div
-            className={[
-              "tab",
-              "borderLeftNone",
-              isSelfRoomTab ? "tabActive" : "",
-            ].join(" ")}
-            onClick={() => setIsSelfRoomTab(true)}
-          >
-            Self Room
-          </div>
-        </div>
-        {isSelfRoomTab && !isAddRoom && (
-          <div
-            className={"roomAddContainer"}
-            data-tip="roomName should be 3 to 15 characters"
-          >
-            <ReactTooltip place="bottom" type="dark" effect="solid" />
-            <input
-              className={"roomAddInput"}
-              placeholder="roomName"
-              minLength="3"
-              maxLength="15"
-              value={roomAddInputValue}
-              onChange={(e) => {
-                setRoomAddInputValue(e.target.value);
-              }}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  roomAddButtonClick();
+      <Provider store={store}>
+        <style jsx>{`
+          div.roomListContainer {
+            padding: 10px;
+            margin: 10px;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            display: flex;
+          }
+          div.roomAddContainer {
+            padding: 10px 0px 0px 0px;
+            display: flex;
+            width: 100%;
+          }
+          input.roomAddInput {
+            padding: 10px 20px;
+            flex-grow: 1;
+            border-radius: 20px 0px 0px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            border: 1px solid var(--color-gray-300);
+          }
+          button.roomAddButton {
+            background: var(--color-gray-300);
+            border-radius: 0px 20px 20px 0px;
+            padding: 10px;
+            transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+          }
+          button.roomAddButton:hover {
+            background: black;
+            color: white;
+          }
+          div.tabContainer {
+            display: flex;
+            width: 100%;
+            margin-bottom: 10px;
+          }
+          div.tab {
+            flex-grow: 1;
+            text-align: center;
+            background: white;
+            border: 1px solid var(--color-gray-300);
+            padding: 10px;
+            cursor: pointer;
+            transition: background 0.2s ease-in-out, border 0.2s ease-in-out;
+          }
+          div.tab:hover {
+            background: var(--color-gray-300);
+          }
+          div.tabActive {
+            border-bottom: 2px solid var(--color-blue-500);
+          }
+        `}</style>
+        <div className={"roomListContainer"}>
+          <div className={"tabContainer"}>
+            <div
+              className={[
+                "tab",
+                "borderRightNone",
+                isAddRoom ? "cursorNotAllow" : "",
+                !isSelfRoomTab ? "tabActive" : "",
+              ].join(" ")}
+              onClick={() => {
+                if (!isAddRoom) {
+                  setIsSelfRoomTab(false);
                 }
               }}
-            ></input>
-            <button
-              className={[
-                "roomAddButton",
-                roomAddInputValue.length >= 3 ? "" : "cursorNotAllow",
-              ].join(" ")}
-              onClick={roomAddButtonClick}
             >
-              Add Room
-            </button>
+              Public Room
+            </div>
+            <div
+              className={[
+                "tab",
+                "borderLeftNone",
+                isSelfRoomTab ? "tabActive" : "",
+              ].join(" ")}
+              onClick={() => setIsSelfRoomTab(true)}
+            >
+              Self Room
+            </div>
           </div>
-        )}
-        {isSelfRoomTab ? (
-          <RoomList
-            roomList={roomList.filter(
-              (row) => row.creator === session.user.email
-            )}
-            addRoomValue={addRoomValueRef.current}
-            socket={socket}
-          />
-        ) : null}
-        {!isSelfRoomTab ? (
-          <RoomList
-            roomList={roomList}
-            addRoomValue={addRoomValueRef.current}
-            socket={socket}
-          />
-        ) : null}
-      </div>
+          {isSelfRoomTab && !isAddRoom && (
+            <div
+              className={"roomAddContainer"}
+              data-tip="roomName should be 3 to 15 characters"
+            >
+              <ReactTooltip place="bottom" type="dark" effect="solid" />
+              <input
+                className={"roomAddInput"}
+                placeholder="roomName"
+                minLength="3"
+                maxLength="15"
+                value={roomAddInputValue}
+                onChange={(e) => {
+                  setRoomAddInputValue(e.target.value);
+                }}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    roomAddButtonClick();
+                  }
+                }}
+              ></input>
+              <button
+                className={[
+                  "roomAddButton",
+                  roomAddInputValue.length >= 3 ? "" : "cursorNotAllow",
+                ].join(" ")}
+                onClick={roomAddButtonClick}
+              >
+                Add Room
+              </button>
+            </div>
+          )}
+          {isSelfRoomTab ? (
+            <RoomList
+              roomList={roomList.filter(
+                (row) => row.creator === session.user.email
+              )}
+              addRoomValue={addRoomValueRef.current}
+              socket={socket}
+            />
+          ) : null}
+          {!isSelfRoomTab ? (
+            <RoomList
+              roomList={roomList}
+              addRoomValue={addRoomValueRef.current}
+              socket={socket}
+            />
+          ) : null}
+        </div>
+      </Provider>
     </Layout>
   );
 }
