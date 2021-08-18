@@ -11,7 +11,7 @@ import {
   MdKeyboardArrowLeft as LeftIcon,
 } from "react-icons/md";
 import ReactTooltip from "react-tooltip";
-import store from "./app/store";
+import store from "../app/store";
 import { Provider } from "react-redux";
 
 export default function room() {
