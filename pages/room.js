@@ -21,8 +21,11 @@ export default function room() {
   const [isAddRoom, setIsAddRoom] = useState(false);
   const [isSelfRoomTab, setIsSelfRoomTab] = useState(false);
   const [addRoomValue, setAddRoomValue] = useState("");
+  const [isGoToRoom, setIsGoToRoom] = useState(false);
   const addRoomValueRef = useRef(addRoomValue);
   addRoomValueRef.current = addRoomValue;
+  const isGoToRoomRef = useRef(isGoToRoom);
+  isGoToRoomRef.current = isGoToRoom;
   const router = useRouter();
   if (typeof window !== "undefined" && loading) return null;
   useEffect(() => {
@@ -77,16 +80,24 @@ export default function room() {
       }
     });
 
+    socket.on("goToRoom", (room) => {
+      setIsGoToRoom(true);
+      router.push("room/" + room);
+    });
+
     socket.connect();
     socket.emit("joinRoom", "roomList");
     return () => {
-      if (addRoomValueRef.current !== "") {
+      if (addRoomValueRef.current !== "" && isGoToRoomRef.current === false) {
         socket.emit("leaveRoom", addRoomValueRef.current);
       }
       socket.off("roomList");
       socket.off("removeRoom");
       socket.off("addRoom");
-      socket.close();
+      socket.off("goToRoom");
+      if (isGoToRoomRef.current === false) {
+        socket.close();
+      }
     };
   }, []); //empty array means render once when init page
 
@@ -111,23 +122,24 @@ export default function room() {
       <header>
         <span className={mainStyles.mainHeader}>Room</span>
       </header>
+
       <Provider store={store}>
         <style jsx>{`
           div.roomListContainer {
-            padding: 10px;
-            margin: 10px;
+            padding: 0.5rem;
+            margin: 0.5rem;
             align-items: center;
             justify-content: center;
             flex-direction: column;
             display: flex;
           }
           div.roomAddContainer {
-            padding: 10px 0px 0px 0px;
+            padding: 0.5rem 0px 0px 0px;
             display: flex;
             width: 100%;
           }
           input.roomAddInput {
-            padding: 10px 20px;
+            padding: 0.5rem 1rem;
             flex-grow: 1;
             border-radius: 20px 0px 0px 20px;
             font-size: 18px;
@@ -137,7 +149,7 @@ export default function room() {
           button.roomAddButton {
             background: var(--color-gray-300);
             border-radius: 0px 20px 20px 0px;
-            padding: 10px;
+            padding: 0.5rem;
             transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
           }
           button.roomAddButton:hover {
@@ -147,14 +159,14 @@ export default function room() {
           div.tabContainer {
             display: flex;
             width: 100%;
-            margin-bottom: 10px;
+            margin-bottom: 0.5rem;
           }
           div.tab {
-            flex-grow: 1;
+            flex: 1;
             text-align: center;
             background: white;
             border: 1px solid var(--color-gray-300);
-            padding: 10px;
+            padding: 0.5rem;
             cursor: pointer;
             transition: background 0.2s ease-in-out, border 0.2s ease-in-out;
           }
@@ -255,7 +267,9 @@ export function RoomList({ roomList, addRoomValue, socket }) {
       socket.emit("leaveRoom", addRoomValue);
     }
   };
-  const joinRoomButtonClick = () => {};
+  const joinRoomButtonClick = (roomName) => {
+    socket.emit("joinRoom", roomName, session.user.email);
+  };
   return roomList.map(({ roomName, creator }, index) => (
     <div className={"roomList"} key={index}>
       <style jsx>
@@ -266,8 +280,8 @@ export function RoomList({ roomList, addRoomValue, socket }) {
             background: white;
             border-radius: 40px;
             border: 1px solid var(--color-gray-300);
-            margin: 10px;
-            padding: 6px 20px;
+            margin: 0.5rem;
+            padding: 0.25rem 1rem;
             align-items: center;
             transition: transform 0.2s ease-in-out;
             width: 100%;
@@ -288,7 +302,7 @@ export function RoomList({ roomList, addRoomValue, socket }) {
             background: var(--color-gray-300);
             border-radius: 20px;
             color: black;
-            padding: 10px;
+            padding: 0.5rem;
             display: flex;
             flex-direction: row;
             transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
@@ -332,7 +346,10 @@ export function RoomList({ roomList, addRoomValue, socket }) {
           </button>
         ) : null}
         {creator !== session.user.email ? (
-          <button className={"joinRoomButton"} onClick={joinRoomButtonClick}>
+          <button
+            className={"joinRoomButton"}
+            onClick={() => joinRoomButtonClick(roomName)}
+          >
             <RightIcon
               style={{
                 fontSize: "1rem",
