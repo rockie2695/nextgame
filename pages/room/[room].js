@@ -24,6 +24,17 @@ export default function room() {
     }
   }, [router]);
   useEffect(() => {
+    const beforeunload = (e) => {
+      if (room !== "") {
+        socket.emit("leaveRoom", room, session.user.email);
+      }
+    };
+    window.addEventListener("beforeunload", beforeunload);
+    return () => {
+      window.removeEventListener("beforeunload", beforeunload);
+    };
+  }, []);
+  useEffect(() => {
     return () => {
       socket.emit("leaveRoom", room, session.user.email);
       socket.close();
