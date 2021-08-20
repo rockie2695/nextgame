@@ -21,12 +21,17 @@ export default function room() {
           query: { error: "pleaseLogin" },
         });
       }
+      if (!socket.connected) {
+        router.push({
+          pathname: "/room",
+        });
+      }
     }
   }, [router]);
   useEffect(() => {
     const beforeunload = (e) => {
-      if (room !== "") {
-        socket.emit("leaveRoom", room, session.user.email);
+      if (socket.connected) {
+        socket.emit("leaveRoom", room);
       }
     };
     window.addEventListener("beforeunload", beforeunload);
@@ -35,9 +40,14 @@ export default function room() {
     };
   }, []);
   useEffect(() => {
+    if (socket.connected) {
+      socket.emit("askRoomInfo", room);
+    }
     return () => {
-      socket.emit("leaveRoom", room, session.user.email);
-      socket.close();
+      if (socket.connected) {
+        socket.emit("leaveRoom", room);
+        socket.close();
+      }
     };
   }, []); //empty array means render once when init page
   return (
@@ -46,7 +56,7 @@ export default function room() {
         <title>Room {room}</title>
       </Head>
       <header>
-        <span className={mainStyles.mainHeader}>Room {room}</span>
+        <span className={mainStyles.mainHeader}>Room / {room}</span>
       </header>
     </Layout>
   );

@@ -13,6 +13,7 @@ import {
 import ReactTooltip from "react-tooltip";
 import store from "../app/store";
 import { Provider } from "react-redux";
+const mobile = require("is-mobile");
 
 export default function room() {
   const [session, loading] = useSession();
@@ -50,6 +51,12 @@ export default function room() {
     };
   }, []);
   useEffect(() => {
+    //error handling
+    socket.on("connect_error", (err) => {
+      if (err.message === "invalid email") {
+        alert(err.message);
+      }
+    });
     socket.on("addRoom", (message) => {
       if (message.success) {
         setIsAddRoom(true);
@@ -73,6 +80,7 @@ export default function room() {
         return;
       }
       if (Array.isArray(roomList)) {
+        roomList = roomList.map((row) => row[1]);
         setRoomList(roomList);
       }
       if (!Array.isArray(roomList)) {
@@ -82,15 +90,16 @@ export default function room() {
 
     socket.on("goToRoom", (room) => {
       setIsGoToRoom(true);
-      router.push("room/" + room);
+      router.push({ pathname: "/room/[room]", query: { room: room } });
     });
-
+    socket.auth = { email: session.user.email };
     socket.connect();
     socket.emit("joinRoom", "roomList");
     return () => {
       if (addRoomValueRef.current !== "" && isGoToRoomRef.current === false) {
         socket.emit("leaveRoom", addRoomValueRef.current);
       }
+      socket.off("connect_error");
       socket.off("roomList");
       socket.off("removeRoom");
       socket.off("addRoom");
@@ -106,11 +115,15 @@ export default function room() {
       alert("roomName should be 3 to 15 characters");
       return;
     }
-
+    let card = [];
+    for (let i = 1; i <= 10; i++) {
+      card = [...card, i, i, i];
+    }
     socket.emit("addRoom", {
       roomName: roomAddInputValue,
       creator: session.user.email,
       order: [session.user.email],
+      card: { [session.user.email]: card },
     });
     setRoomAddInputValue("");
   };
@@ -141,14 +154,14 @@ export default function room() {
           input.roomAddInput {
             padding: 0.5rem 1rem;
             flex-grow: 1;
-            border-radius: 20px 0px 0px 20px;
+            border-radius: 2em 0px 0px 2em;
             font-size: 18px;
             font-weight: bold;
             border: 1px solid var(--color-gray-300);
           }
           button.roomAddButton {
             background: var(--color-gray-300);
-            border-radius: 0px 20px 20px 0px;
+            border-radius: 0px 2em 2em 0px;
             padding: 0.5rem;
             transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
           }
@@ -162,6 +175,7 @@ export default function room() {
             margin-bottom: 0.5rem;
           }
           div.tab {
+            user-select: none;
             flex: 1;
             text-align: center;
             background: white;
@@ -210,7 +224,12 @@ export default function room() {
               className={"roomAddContainer"}
               data-tip="roomName should be 3 to 15 characters"
             >
-              <ReactTooltip place="bottom" type="dark" effect="solid" />
+              <ReactTooltip
+                place="bottom"
+                type="dark"
+                effect="solid"
+                disable={mobile()}
+              />
               <input
                 className={"roomAddInput"}
                 placeholder="roomName"
@@ -268,7 +287,12 @@ export function RoomList({ roomList, addRoomValue, socket }) {
     }
   };
   const joinRoomButtonClick = (roomName) => {
-    socket.emit("joinRoom", roomName, session.user.email);
+    let card = [];
+
+    for (let i = 1; i <= 10; i++) {
+      card = [...card, i, i, i];
+    }
+    socket.emit("joinRoom", roomName, { [session.user.email]: card });
   };
   return roomList.map(({ roomName, creator }, index) => (
     <div className={"roomList"} key={index}>
