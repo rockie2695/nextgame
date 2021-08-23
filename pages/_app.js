@@ -3,6 +3,8 @@ import Router from "next/router";
 import Head from "next/head";
 import NProgress from "nprogress";
 import { Provider } from "next-auth/client";
+import store from "../app/store";
+import { Provider as ReduxProvider } from "react-redux";
 
 NProgress.configure({ showSpinner: false });
 
@@ -49,7 +51,9 @@ function MyApp({ Component, pageProps }) {
         }}
         session={pageProps.session}
       >
-        <Component {...pageProps} />
+        <ReduxProvider store={store}>
+          <Component {...pageProps} />
+        </ReduxProvider>
       </Provider>
     </>
   );

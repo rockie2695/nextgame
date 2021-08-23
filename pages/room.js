@@ -11,8 +11,8 @@ import {
   MdKeyboardArrowLeft as LeftIcon,
 } from "react-icons/md";
 import ReactTooltip from "react-tooltip";
-import store from "../app/store";
-import { Provider } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { decrement, increment } from "../features/counter/counterSlice";
 const mobile = require("is-mobile");
 
 export default function room() {
@@ -28,6 +28,9 @@ export default function room() {
   const isGoToRoomRef = useRef(isGoToRoom);
   isGoToRoomRef.current = isGoToRoom;
   const router = useRouter();
+
+  const count = useSelector((state) => state.counter.value);
+  const dispatch = useDispatch();
   if (typeof window !== "undefined" && loading) return null;
   useEffect(() => {
     if (router) {
@@ -124,6 +127,7 @@ export default function room() {
       creator: session.user.email,
       order: [session.user.email],
       card: { [session.user.email]: card },
+      state: "waiting",
     });
     setRoomAddInputValue("");
   };
@@ -135,151 +139,193 @@ export default function room() {
       <header>
         <span className={mainStyles.mainHeader}>Room</span>
       </header>
-
-      <Provider store={store}>
-        <style jsx>{`
-          div.roomListContainer {
-            padding: 0.5rem;
-            margin: 0.5rem;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            display: flex;
-          }
-          div.roomAddContainer {
-            padding: 0.5rem 0px 0px 0px;
-            display: flex;
-            width: 100%;
-          }
-          input.roomAddInput {
-            padding: 0.5rem 1rem;
-            flex-grow: 1;
-            border-radius: 2em 0px 0px 2em;
-            font-size: 18px;
-            font-weight: bold;
-            border: 1px solid var(--color-gray-300);
-          }
-          button.roomAddButton {
-            background: var(--color-gray-300);
-            border-radius: 0px 2em 2em 0px;
-            padding: 0.5rem;
-            transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
-          }
-          button.roomAddButton:hover {
-            background: black;
-            color: white;
-          }
-          div.tabContainer {
-            display: flex;
-            width: 100%;
-            margin-bottom: 0.5rem;
-          }
-          div.tab {
-            user-select: none;
-            flex: 1;
-            text-align: center;
-            background: white;
-            border: 1px solid var(--color-gray-300);
-            padding: 0.5rem;
-            cursor: pointer;
-            transition: background 0.2s ease-in-out, border 0.2s ease-in-out;
-          }
-          div.tab:hover {
-            background: var(--color-gray-300);
-          }
-          div.tabActive {
-            border-bottom: 2px solid var(--color-blue-500);
-          }
-        `}</style>
-        <div className={"roomListContainer"}>
-          <div className={"tabContainer"}>
-            <div
-              className={[
-                "tab",
-                "borderRightNone",
-                isAddRoom ? "cursorNotAllow" : "",
-                !isSelfRoomTab ? "tabActive" : "",
-              ].join(" ")}
-              onClick={() => {
-                if (!isAddRoom) {
-                  setIsSelfRoomTab(false);
+      <style jsx>{`
+        div.roomListContainer {
+          padding: 0.5rem;
+          margin: 0.5rem;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          display: flex;
+        }
+        div.roomAddContainer {
+          padding: 0.5rem 0px 0px 0px;
+          display: flex;
+          width: 100%;
+        }
+        input.roomAddInput {
+          padding: 0.5rem 1rem;
+          flex-grow: 1;
+          border-radius: 2em 0px 0px 2em;
+          font-size: 18px;
+          font-weight: bold;
+          border: 1px solid var(--color-gray-300);
+        }
+        button.roomAddButton {
+          background: var(--color-gray-300);
+          border-radius: 0px 2em 2em 0px;
+          padding: 0.5rem;
+          transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        button.roomAddButton:hover {
+          background: black;
+          color: white;
+        }
+        div.tabContainer {
+          display: flex;
+          width: 100%;
+          margin-bottom: 0.5rem;
+        }
+        div.tab {
+          user-select: none;
+          flex: 1;
+          text-align: center;
+          background: white;
+          border: 1px solid var(--color-gray-300);
+          padding: 0.5rem;
+          cursor: pointer;
+          transition: background 0.2s ease-in-out, border 0.2s ease-in-out;
+        }
+        div.tab:hover {
+          background: var(--color-gray-300);
+        }
+        div.tabActive {
+          border-bottom: 2px solid var(--color-blue-500);
+        }
+      `}</style>
+      <div className={"roomListContainer"}>
+        {/*playingList start*/}
+        <>
+          <RoomList
+            roomList={roomList.filter((row) => row.state === "playing")}
+            addRoomValue={addRoomValueRef.current}
+            socket={socket}
+            state={"playing"}
+          />
+        </>
+        {/*playingList end*/}
+        {/*tab start*/}
+        <div className={"tabContainer"}>
+          <div
+            className={[
+              "tab",
+              "borderRightNone",
+              isAddRoom ? "cursorNotAllow" : "",
+              !isSelfRoomTab ? "tabActive" : "",
+            ].join(" ")}
+            onClick={() => {
+              if (!isAddRoom) {
+                setIsSelfRoomTab(false);
+              }
+            }}
+          >
+            Public Room
+          </div>
+          <div
+            className={[
+              "tab",
+              "borderLeftNone",
+              isSelfRoomTab ? "tabActive" : "",
+            ].join(" ")}
+            onClick={() => setIsSelfRoomTab(true)}
+          >
+            Self Room
+          </div>
+        </div>
+        {/*tab end*/}
+        {/*room Add input start*/}
+        {isSelfRoomTab && !isAddRoom && (
+          <div
+            className={"roomAddContainer"}
+            data-tip="Room Name should be 3 to 15 characters"
+          >
+            <ReactTooltip
+              place="bottom"
+              type="dark"
+              effect="solid"
+              disable={mobile()}
+            />
+            <input
+              className={"roomAddInput"}
+              placeholder="Room Name"
+              minLength="3"
+              maxLength="15"
+              value={roomAddInputValue}
+              onChange={(e) => {
+                setRoomAddInputValue(e.target.value);
+              }}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  roomAddButtonClick();
                 }
               }}
-            >
-              Public Room
-            </div>
-            <div
+              aria-label="Room Name Input"
+            ></input>
+            <button
               className={[
-                "tab",
-                "borderLeftNone",
-                isSelfRoomTab ? "tabActive" : "",
+                "roomAddButton",
+                roomAddInputValue.length >= 3 ? "" : "cursorNotAllow",
               ].join(" ")}
-              onClick={() => setIsSelfRoomTab(true)}
+              onClick={roomAddButtonClick}
+              aria-label="Add Room"
             >
-              Self Room
-            </div>
+              Add Room
+            </button>
           </div>
-          {isSelfRoomTab && !isAddRoom && (
-            <div
-              className={"roomAddContainer"}
-              data-tip="roomName should be 3 to 15 characters"
-            >
-              <ReactTooltip
-                place="bottom"
-                type="dark"
-                effect="solid"
-                disable={mobile()}
-              />
-              <input
-                className={"roomAddInput"}
-                placeholder="roomName"
-                minLength="3"
-                maxLength="15"
-                value={roomAddInputValue}
-                onChange={(e) => {
-                  setRoomAddInputValue(e.target.value);
-                }}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    roomAddButtonClick();
-                  }
-                }}
-              ></input>
-              <button
-                className={[
-                  "roomAddButton",
-                  roomAddInputValue.length >= 3 ? "" : "cursorNotAllow",
-                ].join(" ")}
-                onClick={roomAddButtonClick}
-              >
-                Add Room
-              </button>
-            </div>
-          )}
-          {isSelfRoomTab ? (
+        )}
+        {/*room Add input end*/}
+        {/*self room roomList start*/}
+        {isSelfRoomTab ? (
+          <RoomList
+            roomList={roomList.filter(
+              (row) =>
+                row.creator === session.user.email && row.state === "waiting"
+            )}
+            addRoomValue={addRoomValueRef.current}
+            socket={socket}
+            state={"waiting"}
+          />
+        ) : null}
+        {/*self room roomList end*/}
+        {/*public room roomList start*/}
+        {!isSelfRoomTab ? (
+          <>
             <RoomList
-              roomList={roomList.filter(
-                (row) => row.creator === session.user.email
-              )}
+              roomList={roomList.filter((row) => row.state === "waiting")}
               addRoomValue={addRoomValueRef.current}
               socket={socket}
+              state={"waiting"}
             />
-          ) : null}
-          {!isSelfRoomTab ? (
-            <RoomList
-              roomList={roomList}
-              addRoomValue={addRoomValueRef.current}
-              socket={socket}
-            />
-          ) : null}
-        </div>
-      </Provider>
+          </>
+        ) : null}
+        {/*public room roomList end*/}
+
+        <button
+          aria-label="Increment value"
+          onClick={() => dispatch(increment())}
+        >
+          Increment
+        </button>
+        <span>{count}</span>
+        <button
+          aria-label="Decrement value"
+          onClick={() => dispatch(decrement())}
+        >
+          Decrement
+        </button>
+      </div>
     </Layout>
   );
 }
 
-export function RoomList({ roomList, addRoomValue, socket }) {
+export function RoomList({
+  roomList = [],
+  addRoomValue = "",
+  socket,
+  state = "waiting",
+}) {
   const [session, loading] = useSession();
+
   if (typeof window !== "undefined" && loading) return null;
   const removeRoomButtonClick = () => {
     if (addRoomValue !== "") {
@@ -294,8 +340,11 @@ export function RoomList({ roomList, addRoomValue, socket }) {
     }
     socket.emit("joinRoom", roomName, { [session.user.email]: card });
   };
-  return roomList.map(({ roomName, creator }, index) => (
-    <div className={"roomList"} key={index}>
+  const continuesButtonClick = (roomName) => {
+    socket.emit("joinRoom", roomName);
+  };
+  return (
+    <>
       <style jsx>
         {`
           div.roomList {
@@ -343,48 +392,74 @@ export function RoomList({ roomList, addRoomValue, socket }) {
           }
         `}
       </style>
-      <div>
-        <RoomIcon
-          style={{
-            fontSize: "2rem",
-            color: "rgba(0,0,0,0.75)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        />
-      </div>
-      <div className={"roomNameCreator"}>
-        <div className={"roomName"}>{roomName}</div>
-        <div className={"creator"}>{creator}</div>
-      </div>
-      <div>
-        {creator === session.user.email ? (
-          <button className={"joinRoomButton"} onClick={removeRoomButtonClick}>
-            <LeftIcon
+      {roomList.length !== 0 && state === "playing" ? (
+        <span>Playing</span>
+      ) : null}
+      {roomList.map(({ roomName, creator, order }, index) => (
+        <div className={"roomList"} key={index}>
+          <div>
+            <RoomIcon
               style={{
-                fontSize: "1rem",
+                fontSize: "2rem",
+                color: "rgba(0,0,0,0.75)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             />
-            Remove Room
-          </button>
-        ) : null}
-        {creator !== session.user.email ? (
-          <button
-            className={"joinRoomButton"}
-            onClick={() => joinRoomButtonClick(roomName)}
-          >
-            <RightIcon
-              style={{
-                fontSize: "1rem",
-              }}
-            />
-            Join Room
-          </button>
-        ) : null}
-      </div>
-    </div>
-  ));
+          </div>
+          <div className={"roomNameCreator"}>
+            <div className={"roomName"}>{roomName}</div>
+            <div className={"creator"}>{creator}</div>
+          </div>
+          <div>
+            {creator === session.user.email && state === "waiting" ? (
+              <button
+                className={"joinRoomButton"}
+                onClick={removeRoomButtonClick}
+                aria-label="Remove Room"
+              >
+                <LeftIcon
+                  style={{
+                    fontSize: "1rem",
+                  }}
+                />
+                Remove Room
+              </button>
+            ) : null}
+            {creator !== session.user.email && state === "waiting" ? (
+              <button
+                className={"joinRoomButton"}
+                onClick={() => joinRoomButtonClick(roomName)}
+                aria-label="Join Room"
+              >
+                <RightIcon
+                  style={{
+                    fontSize: "1rem",
+                  }}
+                />
+                Join Room
+              </button>
+            ) : null}
+            {order.includes(session.user.email) && state === "playing" ? (
+              <button
+                className={"joinRoomButton"}
+                onClick={() => continuesButtonClick(roomName)}
+                aria-label="continues"
+              >
+                <RightIcon
+                  style={{
+                    fontSize: "1rem",
+                  }}
+                />
+                Continues
+              </button>
+            ) : null}
+          </div>
+        </div>
+      ))}
+    </>
+  );
 }
 
 export async function getServerSideProps(context) {

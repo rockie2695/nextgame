@@ -42,6 +42,14 @@ export default function room() {
   useEffect(() => {
     if (socket.connected) {
       socket.emit("askRoomInfo", room);
+
+      socket.on("requestRoomInfo", (message) => {
+        if (!message.order.includes(session.user.email)) {
+          router.push({
+            pathname: "/room",
+          });
+        }
+      });
     }
     return () => {
       if (socket.connected) {
@@ -58,6 +66,33 @@ export default function room() {
       <header>
         <span className={mainStyles.mainHeader}>Room / {room}</span>
       </header>
+      <div className={"board"}>
+        <div className={"flex1"}></div>
+        <div className={"flex3"}>
+          <div className={"height5rem"}></div>
+          <div className={"height5rem"}></div>
+          <div className={"height5rem"}></div>
+          <div className={"height5rem"}></div>
+          <div className={"height5rem"}></div>
+          <div className={"height5rem"}></div>
+        </div>
+        <div className={"flex1"}></div>
+      </div>
+      <style jsx>{`
+        .board {
+          padding: 0.5rem;
+          margin: 0.5rem;
+        }
+        .flex1 {
+          flex: 1;
+        }
+        .flex3 {
+          flex-grow: 3;
+        }
+        .height5rem {
+          height: 5rem;
+        }
+      `}</style>
     </Layout>
   );
 }

@@ -15,7 +15,6 @@ export default async function handler(req, res) {
           new: false,
           runValidators: true,
         });
-        console.log(world);
         if (!world) {
           return res.status(400).json({ success: false });
         }

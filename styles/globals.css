@@ -32,6 +32,7 @@ blockquote {
   border-left: 1rem solid var(--color-gray-300);
 }
 button {
+  user-select: none;
   background-color: transparent;
   border-color: transparent;
   padding: 0;
