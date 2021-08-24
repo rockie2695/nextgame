@@ -313,6 +313,12 @@ export default function room() {
         >
           Decrement
         </button>
+        <button
+          className={styles.button}
+          onClick={() => dispatch(incrementIfOdd(2))}
+        >
+          Add If Odd
+        </button>
       </div>
     </Layout>
   );
