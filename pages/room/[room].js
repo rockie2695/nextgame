@@ -53,8 +53,8 @@ export default function room() {
     }
     return () => {
       if (socket.connected) {
-        socket.emit("leaveRoom", room);
-        socket.close();
+        socket.off("askRoomInfo");
+        socket.off("requestRoomInfo");
       }
     };
   }, []); //empty array means render once when init page

@@ -12,14 +12,17 @@ import {
 } from "react-icons/md";
 import ReactTooltip from "react-tooltip";
 import { useSelector, useDispatch } from "react-redux";
-import { decrement, increment } from "../features/counter/counterSlice";
+import {
+  decrement,
+  increment,
+  incrementByAmount,
+} from "../features/counter/counterSlice";
 const mobile = require("is-mobile");
 
 export default function room() {
   const [session, loading] = useSession();
   const [roomList, setRoomList] = useState([]);
   const [roomAddInputValue, setRoomAddInputValue] = useState("");
-  const [isAddRoom, setIsAddRoom] = useState(false);
   const [isSelfRoomTab, setIsSelfRoomTab] = useState(false);
   const [addRoomValue, setAddRoomValue] = useState("");
   const [isGoToRoom, setIsGoToRoom] = useState(false);
@@ -62,7 +65,6 @@ export default function room() {
     });
     socket.on("addRoom", (message) => {
       if (message.success) {
-        setIsAddRoom(true);
         setAddRoomValue(message.roomName);
       }
       if (!message.success) {
@@ -72,7 +74,6 @@ export default function room() {
 
     socket.on("removeRoom", (room) => {
       if (addRoomValueRef.current === room) {
-        setIsAddRoom(false);
         setAddRoomValue("");
       }
       setRoomList((prev) => prev.filter((row) => row.roomName !== room));
@@ -92,6 +93,7 @@ export default function room() {
     });
 
     socket.on("goToRoom", (room) => {
+      socket.emit("leaveRoom", "roomList");
       setIsGoToRoom(true);
       router.push({ pathname: "/room/[room]", query: { room: room } });
     });
@@ -102,6 +104,7 @@ export default function room() {
       if (addRoomValueRef.current !== "" && isGoToRoomRef.current === false) {
         socket.emit("leaveRoom", addRoomValueRef.current);
       }
+      socket.emit("leaveRoom", "roomList");
       socket.off("connect_error");
       socket.off("roomList");
       socket.off("removeRoom");
@@ -197,7 +200,11 @@ export default function room() {
         {/*playingList start*/}
         <>
           <RoomList
-            roomList={roomList.filter((row) => row.state === "playing")}
+            roomList={roomList.filter(
+              (row) =>
+                row.state === "playing" &&
+                row.order.includes(session.user.email)
+            )}
             addRoomValue={addRoomValueRef.current}
             socket={socket}
             state={"playing"}
@@ -210,11 +217,11 @@ export default function room() {
             className={[
               "tab",
               "borderRightNone",
-              isAddRoom ? "cursorNotAllow" : "",
+              addRoomValue !== "" ? "cursorNotAllow" : "",
               !isSelfRoomTab ? "tabActive" : "",
             ].join(" ")}
             onClick={() => {
-              if (!isAddRoom) {
+              if (addRoomValue === "") {
                 setIsSelfRoomTab(false);
               }
             }}
@@ -234,7 +241,7 @@ export default function room() {
         </div>
         {/*tab end*/}
         {/*room Add input start*/}
-        {isSelfRoomTab && !isAddRoom && (
+        {isSelfRoomTab && addRoomValue === "" && (
           <div
             className={"roomAddContainer"}
             data-tip="Room Name should be 3 to 15 characters"
@@ -313,12 +320,7 @@ export default function room() {
         >
           Decrement
         </button>
-        <button
-          className={styles.button}
-          onClick={() => dispatch(incrementIfOdd(2))}
-        >
-          Add If Odd
-        </button>
+        <button onClick={() => dispatch(incrementByAmount(2))}>Add 2</button>
       </div>
     </Layout>
   );
