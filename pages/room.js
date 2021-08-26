@@ -13,10 +13,10 @@ import {
 import ReactTooltip from "react-tooltip";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  decrement,
-  increment,
-  incrementByAmount,
-} from "../features/counter/counterSlice";
+  successConnect,
+  failConnect,
+} from "../features/socketConnection/socketConnectionSlice";
+import SocketConnectionSnack from "../components/SocketConnectionSnack";
 const mobile = require("is-mobile");
 
 export default function room() {
@@ -58,9 +58,18 @@ export default function room() {
   }, []);
   useEffect(() => {
     //error handling
+    socket.on("connect", () => {
+      dispatch(successConnect());
+    });
+    socket.on("disconnect", () => {
+      dispatch(failConnect());
+    });
     socket.on("connect_error", (err) => {
       if (err.message === "invalid email") {
         alert(err.message);
+      }
+      if (err.message === "xhr poll error") {
+        dispatch(failConnect());
       }
     });
     socket.on("addRoom", (message) => {
@@ -105,6 +114,8 @@ export default function room() {
         socket.emit("leaveRoom", addRoomValueRef.current);
       }
       socket.emit("leaveRoom", "roomList");
+      socket.off("connect");
+      socket.off("disconnect");
       socket.off("connect_error");
       socket.off("roomList");
       socket.off("removeRoom");
@@ -131,6 +142,7 @@ export default function room() {
       order: [session.user.email],
       card: { [session.user.email]: card },
       state: "waiting",
+      globalCardId: 1,
     });
     setRoomAddInputValue("");
   };
@@ -196,6 +208,7 @@ export default function room() {
           border-bottom: 2px solid var(--color-blue-500);
         }
       `}</style>
+      <SocketConnectionSnack />
       <div className={"roomListContainer"}>
         {/*playingList start*/}
         <>
@@ -306,21 +319,6 @@ export default function room() {
           </>
         ) : null}
         {/*public room roomList end*/}
-
-        <button
-          aria-label="Increment value"
-          onClick={() => dispatch(increment())}
-        >
-          Increment
-        </button>
-        <span>{count}</span>
-        <button
-          aria-label="Decrement value"
-          onClick={() => dispatch(decrement())}
-        >
-          Decrement
-        </button>
-        <button onClick={() => dispatch(incrementByAmount(2))}>Add 2</button>
       </div>
     </Layout>
   );
@@ -466,6 +464,7 @@ export function RoomList({
           </div>
         </div>
       ))}
+      {roomList.length === 0 && state === "waiting" ? "No result" : null}
     </>
   );
 }

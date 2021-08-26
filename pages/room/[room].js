@@ -7,12 +7,19 @@ import socket from "../../components/socket";
 import mainStyles from "../../styles/main.module.css";
 import { MdRoom as RoomIcon } from "react-icons/md";
 import ReactTooltip from "react-tooltip";
+import SocketConnectionSnack from "../../components/SocketConnectionSnack";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  successConnect,
+  failConnect,
+} from "../../features/socketConnection/socketConnectionSlice";
 
 export default function room() {
   const [session, loading] = useSession();
   if (typeof window !== "undefined" && loading) return null;
   const router = useRouter();
   const { room } = router.query;
+  const dispatch = useDispatch();
   useEffect(() => {
     if (router) {
       if (!session) {
@@ -43,6 +50,20 @@ export default function room() {
     if (socket.connected) {
       socket.emit("askRoomInfo", room);
 
+      socket.on("connect", () => {
+        dispatch(successConnect());
+      });
+
+      socket.on("disconnect", () => {
+        dispatch(failConnect());
+      });
+
+      socket.on("connect_error", (err) => {
+        if (err.message === "xhr poll error") {
+          dispatch(failConnect());
+        }
+      });
+
       socket.on("requestRoomInfo", (message) => {
         if (!message.order.includes(session.user.email)) {
           router.push({
@@ -53,7 +74,8 @@ export default function room() {
     }
     return () => {
       if (socket.connected) {
-        socket.off("askRoomInfo");
+        socket.off("disconnect");
+        socket.off("connect_error");
         socket.off("requestRoomInfo");
       }
     };
@@ -66,17 +88,31 @@ export default function room() {
       <header>
         <span className={mainStyles.mainHeader}>Room / {room}</span>
       </header>
+      <SocketConnectionSnack />
       <div className={"board"}>
-        <div className={"flex1"}></div>
-        <div className={"flex3"}>
-          <div className={"height5rem"}></div>
-          <div className={"height5rem"}></div>
-          <div className={"height5rem"}></div>
-          <div className={"height5rem"}></div>
-          <div className={"height5rem"}></div>
-          <div className={"height5rem"}></div>
+        <div className={["flex1", "width5rem"].join(" ")}>
+          <div className={["height8rem", "width100p"].join(" ")}></div>
+          <div className={["height8rem", "width100p"].join(" ")}></div>
+          <div className={["height8rem", "width100p"].join(" ")}></div>
+          <div className={["height8rem", "width100p"].join(" ")}></div>
+          <div className={["height8rem", "width100p"].join(" ")}></div>
         </div>
-        <div className={"flex1"}></div>
+        <div className={"flex3"}>
+          <div className={["height8rem", "width100p"].join(" ")}></div>
+          <div className={["height8rem", "width100p"].join(" ")}></div>
+          <div className={["height8rem", "width100p"].join(" ")}></div>
+          <div className={["height8rem", "width100p"].join(" ")}></div>
+          <div className={["height8rem", "width100p"].join(" ")}></div>
+          <div className={["height8rem", "width100p"].join(" ")}></div>
+        </div>
+        <div className={["flex1", "width5rem"].join(" ")}>
+          <div className={["height8rem", "width100p"].join(" ")}></div>
+          <div className={["height8rem", "width100p"].join(" ")}></div>
+          <div className={["height8rem", "width100p"].join(" ")}></div>
+          <div className={["height8rem", "width100p"].join(" ")}></div>
+          <div className={["height8rem", "width100p"].join(" ")}></div>
+          <div className={["height8rem", "width100p"].join(" ")}></div>
+        </div>
       </div>
       <style jsx>{`
         .board {
@@ -89,8 +125,14 @@ export default function room() {
         .flex3 {
           flex-grow: 3;
         }
-        .height5rem {
-          height: 5rem;
+        .height8rem {
+          height: 8rem;
+        }
+        .width5rem {
+          width: 5rem;
+        }
+        .width100p {
+          width: 100%;
         }
       `}</style>
     </Layout>
