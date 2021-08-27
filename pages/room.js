@@ -16,6 +16,7 @@ import {
   successConnect,
   failConnect,
 } from "../features/socketConnection/socketConnectionSlice";
+import { changeAddRoomValue } from "../features/addRoomValue/addRoomValueSlice";
 import SocketConnectionSnack from "../components/SocketConnectionSnack";
 const mobile = require("is-mobile");
 
@@ -24,16 +25,15 @@ export default function room() {
   const [roomList, setRoomList] = useState([]);
   const [roomAddInputValue, setRoomAddInputValue] = useState("");
   const [isSelfRoomTab, setIsSelfRoomTab] = useState(false);
-  const [addRoomValue, setAddRoomValue] = useState("");
   const [isGoToRoom, setIsGoToRoom] = useState(false);
+  const addRoomValue = useSelector((state) => state.addRoomValue.value);
   const addRoomValueRef = useRef(addRoomValue);
   addRoomValueRef.current = addRoomValue;
   const isGoToRoomRef = useRef(isGoToRoom);
   isGoToRoomRef.current = isGoToRoom;
   const router = useRouter();
-
-  const count = useSelector((state) => state.counter.value);
   const dispatch = useDispatch();
+
   if (typeof window !== "undefined" && loading) return null;
   useEffect(() => {
     if (router) {
@@ -45,17 +45,24 @@ export default function room() {
       }
     }
   }, [router]);
+
   useEffect(() => {
-    const beforeunload = (e) => {
-      if (addRoomValueRef.current !== "") {
-        socket.emit("leaveRoom", addRoomValueRef.current);
-      }
-    };
-    window.addEventListener("beforeunload", beforeunload);
+    window.addEventListener("beforeunload", leaveThisPage);
     return () => {
-      window.removeEventListener("beforeunload", beforeunload);
+      window.removeEventListener("beforeunload", leaveThisPage);
     };
   }, []);
+  useEffect(() => {
+    socket.on("removeRoom", (room) => {
+      if (addRoomValue === room) {
+        dispatch(changeAddRoomValue(""));
+      }
+      setRoomList((prev) => prev.filter((row) => row.roomName !== room));
+    });
+    return () => {
+      socket.off("removeRoom");
+    };
+  }, [addRoomValue]);
   useEffect(() => {
     //error handling
     socket.on("connect", () => {
@@ -72,20 +79,14 @@ export default function room() {
         dispatch(failConnect());
       }
     });
+
     socket.on("addRoom", (message) => {
       if (message.success) {
-        setAddRoomValue(message.roomName);
+        dispatch(changeAddRoomValue(message.roomName));
       }
       if (!message.success) {
         alert(message.reason);
       }
-    });
-
-    socket.on("removeRoom", (room) => {
-      if (addRoomValueRef.current === room) {
-        setAddRoomValue("");
-      }
-      setRoomList((prev) => prev.filter((row) => row.roomName !== room));
     });
 
     socket.on("roomList", (roomList) => {
@@ -110,22 +111,27 @@ export default function room() {
     socket.connect();
     socket.emit("joinRoom", "roomList");
     return () => {
-      if (addRoomValueRef.current !== "" && isGoToRoomRef.current === false) {
-        socket.emit("leaveRoom", addRoomValueRef.current);
-      }
-      socket.emit("leaveRoom", "roomList");
-      socket.off("connect");
-      socket.off("disconnect");
-      socket.off("connect_error");
-      socket.off("roomList");
-      socket.off("removeRoom");
-      socket.off("addRoom");
-      socket.off("goToRoom");
-      if (isGoToRoomRef.current === false) {
-        socket.close();
-      }
+      leaveThisPage();
     };
   }, []); //empty array means render once when init page
+
+  const leaveThisPage = () => {
+    if (addRoomValueRef.current !== "" && isGoToRoomRef.current === false) {
+      socket.emit("leaveRoom", addRoomValueRef.current);
+    }
+    dispatch(changeAddRoomValue(""));
+    socket.emit("leaveRoom", "roomList");
+    socket.off("connect");
+    socket.off("disconnect");
+    socket.off("connect_error");
+    socket.off("roomList");
+    socket.off("addRoom");
+    socket.off("goToRoom");
+    if (isGoToRoomRef.current === false) {
+      dispatch(failConnect());
+      socket.close();
+    }
+  };
 
   const roomAddButtonClick = () => {
     if (roomAddInputValue.length < 3 || roomAddInputValue.length > 15) {
@@ -146,6 +152,7 @@ export default function room() {
     });
     setRoomAddInputValue("");
   };
+
   return (
     <Layout>
       <Head>
@@ -218,8 +225,6 @@ export default function room() {
                 row.state === "playing" &&
                 row.order.includes(session.user.email)
             )}
-            addRoomValue={addRoomValueRef.current}
-            socket={socket}
             state={"playing"}
           />
         </>
@@ -301,8 +306,6 @@ export default function room() {
               (row) =>
                 row.creator === session.user.email && row.state === "waiting"
             )}
-            addRoomValue={addRoomValueRef.current}
-            socket={socket}
             state={"waiting"}
           />
         ) : null}
@@ -312,8 +315,6 @@ export default function room() {
           <>
             <RoomList
               roomList={roomList.filter((row) => row.state === "waiting")}
-              addRoomValue={addRoomValueRef.current}
-              socket={socket}
               state={"waiting"}
             />
           </>
@@ -324,14 +325,9 @@ export default function room() {
   );
 }
 
-export function RoomList({
-  roomList = [],
-  addRoomValue = "",
-  socket,
-  state = "waiting",
-}) {
+export function RoomList({ roomList = [], state = "waiting" }) {
   const [session, loading] = useSession();
-
+  const addRoomValue = useSelector((state) => state.addRoomValue.value);
   if (typeof window !== "undefined" && loading) return null;
   const removeRoomButtonClick = () => {
     if (addRoomValue !== "") {

@@ -13,6 +13,7 @@ import {
   successConnect,
   failConnect,
 } from "../../features/socketConnection/socketConnectionSlice";
+import { setHandCard } from "../../features/handCard/handCardSlice";
 
 export default function room() {
   const [session, loading] = useSession();
@@ -69,6 +70,10 @@ export default function room() {
           router.push({
             pathname: "/room",
           });
+        }
+        if (message.order.includes(session.user.email)) {
+          console.log(message.handCard[session.user.email]);
+          dispatch(setHandCard(message.handCard[session.user.email]));
         }
       });
     }
@@ -138,6 +143,7 @@ export default function room() {
     </Layout>
   );
 }
+/*
 export async function getServerSideProps(context) {
   //await dbConnect
   const session = await getSession(context);
@@ -151,3 +157,4 @@ export async function getServerSideProps(context) {
   }
   return { props: { session } };
 }
+*/
