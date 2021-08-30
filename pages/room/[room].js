@@ -21,6 +21,7 @@ export default function room() {
   const router = useRouter();
   const { room } = router.query;
   const dispatch = useDispatch();
+  const handCard = useSelector((state) => state.handCard.value);
   useEffect(() => {
     if (router) {
       if (!session) {
@@ -95,55 +96,105 @@ export default function room() {
       </header>
       <SocketConnectionSnack />
       <div className={"board"}>
-        <div className={["flex1", "width5rem"].join(" ")}>
-          <div className={["height8rem", "width100p"].join(" ")}></div>
-          <div className={["height8rem", "width100p"].join(" ")}></div>
-          <div className={["height8rem", "width100p"].join(" ")}></div>
-          <div className={["height8rem", "width100p"].join(" ")}></div>
-          <div className={["height8rem", "width100p"].join(" ")}></div>
+        <div className={["flex1"].join(" ")}>
+          <div className={["height9rem"].join(" ")}></div>
+          <div className={["height9rem"].join(" ")}></div>
+          <div className={["height9rem"].join(" ")}></div>
+          <div className={["height9rem"].join(" ")}></div>
+          <div className={["height9rem"].join(" ")}></div>
         </div>
-        <div className={"flex3"}>
-          <div className={["height8rem", "width100p"].join(" ")}></div>
-          <div className={["height8rem", "width100p"].join(" ")}></div>
-          <div className={["height8rem", "width100p"].join(" ")}></div>
-          <div className={["height8rem", "width100p"].join(" ")}></div>
-          <div className={["height8rem", "width100p"].join(" ")}></div>
-          <div className={["height8rem", "width100p"].join(" ")}></div>
+        <div className={["flex3", "overflowAuto"].join(" ")}>
+          <div className={["height9rem"].join(" ")}></div>
+          <div className={["height9rem"].join(" ")}></div>
+          <div className={["height9rem"].join(" ")}></div>
+          <div className={["height9rem"].join(" ")}></div>
+          <div
+            className={["height9rem", "displayFlex", "overflowAuto"].join(" ")}
+          >
+            {handCard.map(({ cardId, name, lv }, index) => (
+              <div
+                key={cardId}
+                className={[
+                  "height7rem",
+                  "width6rem",
+                  "border1px",
+                  "margin05rem",
+                  "padding025rem",
+                  "flexShrink0",
+                ].join(" ")}
+              >
+                <div className={["textAlignCenter"].join(" ")}>{name}</div>
+                <div className={["textAlignCenter"].join(" ")}>lv{lv}</div>
+              </div>
+            ))}
+          </div>
+          <div className={["height9rem"].join(" ")}></div>
         </div>
-        <div className={["flex1", "width5rem"].join(" ")}>
-          <div className={["height8rem", "width100p"].join(" ")}></div>
-          <div className={["height8rem", "width100p"].join(" ")}></div>
-          <div className={["height8rem", "width100p"].join(" ")}></div>
-          <div className={["height8rem", "width100p"].join(" ")}></div>
-          <div className={["height8rem", "width100p"].join(" ")}></div>
-          <div className={["height8rem", "width100p"].join(" ")}></div>
+        <div className={["flex1"].join(" ")}>
+          <div className={["height9rem"].join(" ")}></div>
+          <div className={["height9rem"].join(" ")}></div>
+          <div className={["height9rem"].join(" ")}></div>
+          <div className={["height9rem"].join(" ")}></div>
+          <div className={["height9rem"].join(" ")}></div>
+          <div className={["height9rem"].join(" ")}></div>
         </div>
       </div>
       <style jsx>{`
         .board {
           padding: 0.5rem;
           margin: 0.5rem;
+          display: flex;
+          flex-direction: row;
         }
         .flex1 {
           flex: 1;
         }
         .flex3 {
           flex-grow: 3;
+          flex-shrink: 1;
+          flex-basis: 0%;
+        }
+        .flexShrink0 {
+          flex-shrink: 0;
+        }
+        .height9rem {
+          height: 9rem;
         }
         .height8rem {
           height: 8rem;
         }
-        .width5rem {
-          width: 5rem;
+        .height7rem {
+          height: 7rem;
         }
-        .width100p {
-          width: 100%;
+        .width6rem {
+          width: 6rem;
+        }
+        .displayFlex {
+          display: -webkit-box;
+          justify-content: center;
+          align-items: center;
+        }
+        .border1px {
+          border: 1px solid black;
+          border-radius: 0.5rem;
+        }
+        .margin05rem {
+          margin: 0.5rem;
+        }
+        .padding025rem {
+          padding: 0.25rem;
+        }
+        .textAlignCenter {
+          text-align: center;
+        }
+        .overflowAuto {
+          overflow: auto;
         }
       `}</style>
     </Layout>
   );
 }
-/*
+
 export async function getServerSideProps(context) {
   //await dbConnect
   const session = await getSession(context);
@@ -157,4 +208,3 @@ export async function getServerSideProps(context) {
   }
   return { props: { session } };
 }
-*/
