@@ -171,9 +171,12 @@ export default function room() {
           display: flex;
         }
         div.roomAddContainer {
-          padding: 0.5rem 0px 0px 0px;
-          display: flex;
+          padding: 0.5rem 0px 0.5rem 0px;
           width: 100%;
+        }
+        div.roomAddContainerSub {
+          display: flex;
+         
         }
         input.roomAddInput {
           padding: 0.5rem 1rem;
@@ -260,42 +263,44 @@ export default function room() {
         {/*tab end*/}
         {/*room Add input start*/}
         {isSelfRoomTab && addRoomValue === "" && (
-          <div
-            className={"roomAddContainer"}
-            data-tip="Room Name should be 3 to 15 characters"
-          >
-            <ReactTooltip
-              place="bottom"
-              type="dark"
-              effect="solid"
-              disable={mobile()}
-            />
-            <input
-              className={"roomAddInput"}
-              placeholder="Room Name"
-              minLength="3"
-              maxLength="15"
-              value={roomAddInputValue}
-              onChange={(e) => {
-                setRoomAddInputValue(e.target.value);
-              }}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  roomAddButtonClick();
-                }
-              }}
-              aria-label="Room Name Input"
-            ></input>
-            <button
-              className={[
-                "roomAddButton",
-                roomAddInputValue.length >= 3 ? "" : "cursorNotAllow",
-              ].join(" ")}
-              onClick={roomAddButtonClick}
-              aria-label="Add Room"
+          <div className={"roomAddContainer"}>
+            <div
+              className={"roomAddContainerSub"}
+              data-tip="Room Name should be 3 to 15 characters"
             >
-              Add Room
-            </button>
+              <ReactTooltip
+                place="bottom"
+                type="dark"
+                effect="solid"
+                disable={mobile()}
+              />
+              <input
+                className={"roomAddInput"}
+                placeholder="Room Name"
+                minLength="3"
+                maxLength="15"
+                value={roomAddInputValue}
+                onChange={(e) => {
+                  setRoomAddInputValue(e.target.value);
+                }}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    roomAddButtonClick();
+                  }
+                }}
+                aria-label="Room Name Input"
+              ></input>
+              <button
+                className={[
+                  "roomAddButton",
+                  roomAddInputValue.length >= 3 ? "" : "cursorNotAllow",
+                ].join(" ")}
+                onClick={roomAddButtonClick}
+                aria-label="Add Room"
+              >
+                Add Room
+              </button>
+            </div>
           </div>
         )}
         {/*room Add input end*/}

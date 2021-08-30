@@ -14,6 +14,7 @@ import {
   failConnect,
 } from "../../features/socketConnection/socketConnectionSlice";
 import { setHandCard } from "../../features/handCard/handCardSlice";
+const mobile = require("is-mobile");
 
 export default function room() {
   const [session, loading] = useSession();
@@ -66,7 +67,7 @@ export default function room() {
         }
       });
 
-      socket.on("requestRoomInfo", (message) => {
+      socket.on("responseRoomInfo", (message) => {
         if (!message.order.includes(session.user.email)) {
           router.push({
             pathname: "/room",
@@ -75,6 +76,8 @@ export default function room() {
         if (message.order.includes(session.user.email)) {
           console.log(message.handCard[session.user.email]);
           dispatch(setHandCard(message.handCard[session.user.email]));
+          dispatch(changecardLength(message.cardLength));
+          dispatch(changeHandCardLength(message.handCardLength));
         }
       });
     }
@@ -82,7 +85,7 @@ export default function room() {
       if (socket.connected) {
         socket.off("disconnect");
         socket.off("connect_error");
-        socket.off("requestRoomInfo");
+        socket.off("responseRoomInfo");
       }
     };
   }, []); //empty array means render once when init page
@@ -111,7 +114,13 @@ export default function room() {
           <div
             className={["height9rem", "displayFlex", "overflowAuto"].join(" ")}
           >
-            {handCard.map(({ cardId, name, lv }, index) => (
+            <ReactTooltip
+              place="bottom"
+              type="dark"
+              effect="solid"
+              disable={mobile()}
+            />
+            {handCard.map(({ cardId, name, lv, effectDescription }, index) => (
               <div
                 key={cardId}
                 className={[
@@ -122,6 +131,7 @@ export default function room() {
                   "padding025rem",
                   "flexShrink0",
                 ].join(" ")}
+                data-tip={effectDescription}
               >
                 <div className={["textAlignCenter"].join(" ")}>{name}</div>
                 <div className={["textAlignCenter"].join(" ")}>lv{lv}</div>
