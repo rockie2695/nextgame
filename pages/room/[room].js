@@ -14,6 +14,10 @@ import {
   failConnect,
 } from "../../features/socketConnection/socketConnectionSlice";
 import { setHandCard } from "../../features/handCard/handCardSlice";
+import { changeHandCardLength } from "../../features/handCard/handCardLengthSlice";
+import { changeCardLength } from "../../features/card/cardLengthSlice";
+import { setOrder } from "../../features/order/orderSlice";
+import { findEnemyEmail } from "../../features/enemyEmail/enemyEmailSlice";
 const mobile = require("is-mobile");
 
 export default function room() {
@@ -23,6 +27,10 @@ export default function room() {
   const { room } = router.query;
   const dispatch = useDispatch();
   const handCard = useSelector((state) => state.handCard.value);
+  const handCardLength = useSelector((state) => state.handCardLength.value);
+  const cardLength = useSelector((state) => state.cardLength.value);
+  const enemyEmail = useSelector((state) => state.enemyEmail.value);
+  const order = useSelector((state) => state.order.value);
   useEffect(() => {
     if (router) {
       if (!session) {
@@ -74,10 +82,17 @@ export default function room() {
           });
         }
         if (message.order.includes(session.user.email)) {
-          console.log(message.handCard[session.user.email]);
           dispatch(setHandCard(message.handCard[session.user.email]));
-          dispatch(changecardLength(message.cardLength));
+          console.log(
+            message.cardLength,
+            message.handCardLength,
+            changeHandCardLength,
+            changeCardLength
+          );
+          dispatch(changeCardLength(message.cardLength));
           dispatch(changeHandCardLength(message.handCardLength));
+          dispatch(setOrder(message.order));
+          dispatch(findEnemyEmail(message.order, session.user.email));
         }
       });
     }

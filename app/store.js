@@ -5,6 +5,8 @@ import addRoomValueReducer from "../features/addRoomValue/addRoomValueSlice";
 import handCardReducer from "../features/handCard/handCardSlice";
 import handCardLengthReducer from "../features/handCard/handCardLengthSlice";
 import cardLengthReducer from "../features/card/cardLengthSlice";
+import orderReducer from "../features/order/orderSlice";
+import enemyEmailReducer from "../features/enemyEmail/enemyEmailSlice";
 
 export default configureStore({
   reducer: {
@@ -14,5 +16,7 @@ export default configureStore({
     handCard: handCardReducer,
     handCardLength: handCardLengthReducer,
     cardLength: cardLengthReducer,
+    order:orderReducer,
+    enemyEmail:enemyEmailReducer
   },
 });
