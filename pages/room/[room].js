@@ -31,6 +31,7 @@ export default function room() {
   const cardLength = useSelector((state) => state.cardLength.value);
   const enemyEmail = useSelector((state) => state.enemyEmail.value);
   const order = useSelector((state) => state.order.value);
+  console.log(handCardLength, enemyEmail);
   useEffect(() => {
     if (router) {
       if (!session) {
@@ -88,6 +89,7 @@ export default function room() {
           dispatch(setOrder(message.order));
           dispatch(findEnemyEmail(message.order, session.user.email));
           ReactTooltip.rebuild();
+          console.log(handCardLength);
         }
       });
     }
@@ -125,7 +127,30 @@ export default function room() {
         </div>
         <div className={["flex3", "overflowAuto"].join(" ")}>
           <div className={["height9rem"].join(" ")}></div>
-          <div className={["height9rem"].join(" ")}></div>
+          <div
+            className={["height9rem", "displayFlex", "overflowAuto"].join(" ")}
+          >
+            {[
+              ...Array(handCardLength?.[enemyEmail]
+              ),
+            ].map((row, index) => (
+              <div className={["margin025rem", "border025rem"].join(" ")}>
+                <div
+                  key={index}
+                  className={[
+                    "height7rem",
+                    "width6rem",
+                    "border1px",
+                    "margin025rem",
+                    "padding025rem",
+                    "flexShrink0",
+                    "backgroundWhite",
+                    "borderColorBlack",
+                  ].join(" ")}
+                ></div>
+              </div>
+            ))}
+          </div>
           <div className={["height9rem"].join(" ")}></div>
           <div className={["height9rem"].join(" ")}></div>
           <div
@@ -208,6 +233,7 @@ export default function room() {
         .border025rem {
           border: 0.25rem solid transparent;
           border-radius: 0.5rem;
+          transition: border 0.2s ease-in-out;
         }
         .border1px {
           border: 1px solid transparent;

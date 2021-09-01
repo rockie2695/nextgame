@@ -7,7 +7,7 @@ export const cardLengthSlice = createSlice({
   },
   reducers: {
     changeCardLength: (state, action) => {
-      return { ...state.value, ...action.payload };
+      state.value = { ...state.value, ...action.payload };
     },
   },
 });
