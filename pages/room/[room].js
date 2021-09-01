@@ -83,16 +83,11 @@ export default function room() {
         }
         if (message.order.includes(session.user.email)) {
           dispatch(setHandCard(message.handCard[session.user.email]));
-          console.log(
-            message.cardLength,
-            message.handCardLength,
-            changeHandCardLength,
-            changeCardLength
-          );
           dispatch(changeCardLength(message.cardLength));
           dispatch(changeHandCardLength(message.handCardLength));
           dispatch(setOrder(message.order));
           dispatch(findEnemyEmail(message.order, session.user.email));
+          ReactTooltip.rebuild();
         }
       });
     }
@@ -114,6 +109,13 @@ export default function room() {
       </header>
       <SocketConnectionSnack />
       <div className={"board"}>
+        <ReactTooltip
+          place="right"
+          type="dark"
+          effect="float"
+          disable={mobile()}
+          html={true}
+        />
         <div className={["flex1"].join(" ")}>
           <div className={["height9rem"].join(" ")}></div>
           <div className={["height9rem"].join(" ")}></div>
@@ -129,12 +131,6 @@ export default function room() {
           <div
             className={["height9rem", "displayFlex", "overflowAuto"].join(" ")}
           >
-            <ReactTooltip
-              place="bottom"
-              type="dark"
-              effect="solid"
-              disable={mobile()}
-            />
             {handCard.map(({ cardId, name, lv, effectDescription }, index) => (
               <div
                 key={cardId}
@@ -146,7 +142,7 @@ export default function room() {
                   "padding025rem",
                   "flexShrink0",
                 ].join(" ")}
-                data-tip={effectDescription}
+                data-tip={effectDescription || ""}
               >
                 <div className={["textAlignCenter"].join(" ")}>{name}</div>
                 <div className={["textAlignCenter"].join(" ")}>lv{lv}</div>

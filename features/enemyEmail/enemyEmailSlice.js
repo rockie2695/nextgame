@@ -16,14 +16,13 @@ export const enemyEmailSlice = createSlice({
 export const { setEnemyEmail } = enemyEmailSlice.actions;
 
 export const findEnemyEmail = (order, email) => (dispatch, getState) => {
-  myOrderIndex = order.indexOf(email);
+  const myOrderIndex = order.indexOf(email);
   if (myOrderIndex == 0) {
     dispatch(setEnemyEmail(order[1]));
   }
   if (myOrderIndex == 1) {
     dispatch(setEnemyEmail(order[0]));
   }
-  //dispatch(findEnemyEmail(message.order,session.user.email));
 };
 
 export default enemyEmailSlice.reducer;

@@ -176,20 +176,21 @@ export default function room() {
         }
         div.roomAddContainerSub {
           display: flex;
-         
+          border-radius: 2em;
+          border: 1px solid var(--color-gray-300);
+          background: white;
         }
         input.roomAddInput {
-          padding: 0.5rem 1rem;
+          padding: 0.5rem 0rem;
           flex-grow: 1;
-          border-radius: 2em 0px 0px 2em;
           font-size: 18px;
           font-weight: bold;
-          border: 1px solid var(--color-gray-300);
+          margin-left: 1rem;
         }
         button.roomAddButton {
           background: var(--color-gray-300);
-          border-radius: 0px 2em 2em 0px;
-          padding: 0.5rem;
+          border-radius: 2em;
+          padding: 0.5rem 1rem;
           transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
         }
         button.roomAddButton:hover {
