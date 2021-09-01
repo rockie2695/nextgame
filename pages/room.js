@@ -110,6 +110,7 @@ export default function room() {
     socket.auth = { email: session.user.email };
     socket.connect();
     socket.emit("joinRoom", "roomList");
+    ReactTooltip.rebuild();
     return () => {
       leaveThisPage();
     };

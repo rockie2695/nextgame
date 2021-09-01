@@ -133,19 +133,29 @@ export default function room() {
           >
             {handCard.map(({ cardId, name, lv, effectDescription }, index) => (
               <div
-                key={cardId}
                 className={[
-                  "height7rem",
-                  "width6rem",
-                  "border1px",
-                  "margin05rem",
-                  "padding025rem",
-                  "flexShrink0",
+                  "margin025rem",
+                  "border025rem",
+                  "hoverBorderColorOrange",
                 ].join(" ")}
-                data-tip={effectDescription || ""}
               >
-                <div className={["textAlignCenter"].join(" ")}>{name}</div>
-                <div className={["textAlignCenter"].join(" ")}>lv{lv}</div>
+                <div
+                  key={cardId}
+                  className={[
+                    "height7rem",
+                    "width6rem",
+                    "border1px",
+                    "margin025rem",
+                    "padding025rem",
+                    "flexShrink0",
+                    "backgroundWhite",
+                    "borderColorBlack",
+                  ].join(" ")}
+                  data-tip={effectDescription || ""}
+                >
+                  <div className={["textAlignCenter"].join(" ")}>{name}</div>
+                  <div className={["textAlignCenter"].join(" ")}>lv{lv}</div>
+                </div>
               </div>
             ))}
           </div>
@@ -195,12 +205,19 @@ export default function room() {
           justify-content: center;
           align-items: center;
         }
+        .border025rem {
+          border: 0.25rem solid transparent;
+          border-radius: 0.5rem;
+        }
         .border1px {
-          border: 1px solid black;
+          border: 1px solid transparent;
           border-radius: 0.5rem;
         }
         .margin05rem {
           margin: 0.5rem;
+        }
+        .margin025rem {
+          margin: 0.25rem;
         }
         .padding025rem {
           padding: 0.25rem;
@@ -210,6 +227,15 @@ export default function room() {
         }
         .overflowAuto {
           overflow: auto;
+        }
+        .backgroundWhite {
+          background: white;
+        }
+        .borderColorBlack {
+          border-color: black;
+        }
+        .hoverBorderColorOrange:hover {
+          border-color: var(--color-orange-500);
         }
       `}</style>
     </Layout>
