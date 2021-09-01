@@ -31,7 +31,6 @@ export default function room() {
   const cardLength = useSelector((state) => state.cardLength.value);
   const enemyEmail = useSelector((state) => state.enemyEmail.value);
   const order = useSelector((state) => state.order.value);
-  console.log(handCardLength, enemyEmail);
   useEffect(() => {
     if (router) {
       if (!session) {
@@ -89,7 +88,6 @@ export default function room() {
           dispatch(setOrder(message.order));
           dispatch(findEnemyEmail(message.order, session.user.email));
           ReactTooltip.rebuild();
-          console.log(handCardLength);
         }
       });
     }
