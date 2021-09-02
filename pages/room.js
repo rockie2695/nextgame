@@ -18,6 +18,7 @@ import {
 } from "../features/socketConnection/socketConnectionSlice";
 import { changeAddRoomValue } from "../features/addRoomValue/addRoomValueSlice";
 import SocketConnectionSnack from "../components/SocketConnectionSnack";
+import Badge from "@material-ui/core/Badge";
 const mobile = require("is-mobile");
 
 export default function room() {
@@ -249,7 +250,14 @@ export default function room() {
               }
             }}
           >
-            Public Room
+            <Badge
+              color="default"
+              badgeContent={
+                roomList.filter((row) => row.state === "waiting").length
+              }
+            >
+              Public Room
+            </Badge>
           </div>
           <div
             className={[

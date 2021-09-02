@@ -18,6 +18,7 @@ import { changeHandCardLength } from "../../features/handCard/handCardLengthSlic
 import { changeCardLength } from "../../features/card/cardLengthSlice";
 import { setOrder } from "../../features/order/orderSlice";
 import { findEnemyEmail } from "../../features/enemyEmail/enemyEmailSlice";
+import Badge from "@material-ui/core/Badge";
 const mobile = require("is-mobile");
 
 export default function room() {
@@ -99,6 +100,12 @@ export default function room() {
       }
     };
   }, []); //empty array means render once when init page
+  const pickNewCard = () => {
+    socket.emit("askPickNewCard", room);
+  };
+  const putCardToStay = () => {
+    socket.emit("askPutCardToStay", room);
+  };
   return (
     <Layout>
       <Head>
@@ -117,24 +124,47 @@ export default function room() {
           html={true}
         />
         <div className={["flex1"].join(" ")}>
+          <div className={["height9rem", "displayFlex"].join(" ")}>
+            <div
+              className={["padding05rem", "border1px", "borderColorBlack"].join(
+                " "
+              )}
+            >
+              {order.indexOf(enemyEmail) === 0 ? "先手" : "後手"}
+            </div>
+          </div>
           <div className={["height9rem"].join(" ")}></div>
           <div className={["height9rem"].join(" ")}></div>
           <div className={["height9rem"].join(" ")}></div>
           <div className={["height9rem"].join(" ")}></div>
-          <div className={["height9rem"].join(" ")}></div>
+          <div className={["height9rem", "displayFlex"].join(" ")}>
+            <div
+              className={["padding05rem", "border1px", "borderColorBlack"].join(
+                " "
+              )}
+            >
+              {order.indexOf(session.user.email) === 0 ? "先手" : "後手"}
+            </div>
+          </div>
         </div>
-        <div className={["flex3", "overflowAuto"].join(" ")}>
+        <div className={["flex3", "overflowXAuto"].join(" ")}>
           <div className={["height9rem"].join(" ")}></div>
           <div
-            className={["height9rem", "displayFlex", "overflowAuto"].join(" ")}
+            className={[
+              "height9rem",
+              "displayFlex",
+              "overflowXAuto",
+              "overflowYHidden",
+            ].join(" ")}
           >
             {[
-              ...Array(handCardLength?.[enemyEmail]
-              ),
+              ...Array(enemyEmail == "" ? 0 : handCardLength?.[enemyEmail]),
             ].map((row, index) => (
-              <div className={["margin025rem", "border025rem"].join(" ")}>
+              <div
+                className={["margin025rem", "borderRadius"].join(" ")}
+                key={index}
+              >
                 <div
-                  key={index}
                   className={[
                     "height7rem",
                     "width6rem",
@@ -144,6 +174,7 @@ export default function room() {
                     "flexShrink0",
                     "backgroundWhite",
                     "borderColorBlack",
+                    "maskCard",
                   ].join(" ")}
                 ></div>
               </div>
@@ -152,18 +183,26 @@ export default function room() {
           <div className={["height9rem"].join(" ")}></div>
           <div className={["height9rem"].join(" ")}></div>
           <div
-            className={["height9rem", "displayFlex", "overflowAuto"].join(" ")}
+            className={[
+              "height9rem",
+              "displayFlex",
+              "overflowXAuto",
+              "overflowYHidden",
+            ].join(" ")}
           >
             {handCard.map(({ cardId, name, lv, effectDescription }, index) => (
               <div
+                key={cardId}
                 className={[
                   "margin025rem",
-                  "border025rem",
-                  "hoverBorderColorOrange",
+                  "borderRadius",
+                  "cursorPointer",
+                  "hoverBoxShadowOrange",
+                  "boxShadowTransition",
                 ].join(" ")}
+                onClick={putCardToStay}
               >
                 <div
-                  key={cardId}
                   className={[
                     "height7rem",
                     "width6rem",
@@ -186,10 +225,118 @@ export default function room() {
         </div>
         <div className={["flex1"].join(" ")}>
           <div className={["height9rem"].join(" ")}></div>
-          <div className={["height9rem"].join(" ")}></div>
-          <div className={["height9rem"].join(" ")}></div>
-          <div className={["height9rem"].join(" ")}></div>
-          <div className={["height9rem"].join(" ")}></div>
+          <div className={["height9rem", "displayFlex"].join(" ")}>
+            {enemyEmail !== "" && cardLength?.[enemyEmail] !== 0 ? (
+              <Badge color="default" badgeContent={cardLength[enemyEmail]}>
+                <div
+                  className={[
+                    "margin025rem",
+                    "positionRelative",
+                    "borderRadius",
+                  ].join(" ")}
+                >
+                  <div
+                    className={[
+                      "height7rem",
+                      "width6rem",
+                      "border1px",
+                      "margin025rem",
+                      "padding025rem",
+                      "flexShrink0",
+                      "backgroundWhite",
+                      "maskCard",
+                    ].join(" ")}
+                  ></div>
+                  <div
+                    className={[
+                      "height7rem",
+                      "width6rem",
+                      "border1px",
+                      "margin025rem",
+                      "padding025rem",
+                      "flexShrink0",
+                      "backgroundWhite",
+                      "multiCard1",
+                      "maskCard",
+                    ].join(" ")}
+                  ></div>
+                  <div
+                    className={[
+                      "height7rem",
+                      "width6rem",
+                      "border1px",
+                      "margin025rem",
+                      "padding025rem",
+                      "flexShrink0",
+                      "backgroundWhite",
+                      "multiCard2",
+                      "maskCard",
+                    ].join(" ")}
+                  ></div>
+                </div>
+              </Badge>
+            ) : null}
+          </div>
+          <div className={["height9rem", "displayFlex"].join(" ")}></div>
+          <div className={["height9rem", "displayFlex"].join(" ")}></div>
+          <div className={["height9rem", "displayFlex"].join(" ")}>
+            {(typeof session?.user?.email === "undefined") !== "undefined" &&
+            cardLength?.[session.user.email] !== 0 ? (
+              <Badge
+                color="default"
+                badgeContent={cardLength[session.user.email]}
+              >
+                <div
+                  className={[
+                    "margin025rem",
+                    "border025rem",
+                    "positionRelative",
+                    "cursorPointer",
+                  ].join(" ")}
+                  onClick={pickNewCard}
+                >
+                  <div
+                    className={[
+                      "height7rem",
+                      "width6rem",
+                      "border1px",
+                      "margin025rem",
+                      "padding025rem",
+                      "flexShrink0",
+                      "backgroundWhite",
+                      "maskCard",
+                    ].join(" ")}
+                  ></div>
+                  <div
+                    className={[
+                      "height7rem",
+                      "width6rem",
+                      "border1px",
+                      "margin025rem",
+                      "padding025rem",
+                      "flexShrink0",
+                      "backgroundWhite",
+                      "multiCard1",
+                      "maskCard",
+                    ].join(" ")}
+                  ></div>
+                  <div
+                    className={[
+                      "height7rem",
+                      "width6rem",
+                      "border1px",
+                      "margin025rem",
+                      "padding025rem",
+                      "flexShrink0",
+                      "backgroundWhite",
+                      "multiCard2",
+                      "maskCard",
+                    ].join(" ")}
+                  ></div>
+                </div>
+              </Badge>
+            ) : null}
+          </div>
           <div className={["height9rem"].join(" ")}></div>
         </div>
       </div>
@@ -228,10 +375,11 @@ export default function room() {
           justify-content: center;
           align-items: center;
         }
-        .border025rem {
-          border: 0.25rem solid transparent;
+        .borderRadius {
           border-radius: 0.5rem;
-          transition: border 0.2s ease-in-out;
+        }
+        .boxShadowTransition {
+          transition: box-shadow 0.2s ease-in-out;
         }
         .border1px {
           border: 1px solid transparent;
@@ -243,14 +391,20 @@ export default function room() {
         .margin025rem {
           margin: 0.25rem;
         }
+        .padding05rem {
+          padding: 0.5rem;
+        }
         .padding025rem {
           padding: 0.25rem;
         }
         .textAlignCenter {
           text-align: center;
         }
-        .overflowAuto {
-          overflow: auto;
+        .overflowXAuto {
+          overflow-x: auto;
+        }
+        .overflowYHidden {
+          overflow-y: hidden;
         }
         .backgroundWhite {
           background: white;
@@ -259,7 +413,33 @@ export default function room() {
           border-color: black;
         }
         .hoverBorderColorOrange:hover {
-          border-color: var(--color-orange-500);
+          border-color: rgba(255, 152, 0, 0.8);
+        }
+        .hoverBoxShadowOrange:hover {
+          box-shadow: 0 0 0.25rem 0.25rem var(--color-orange-500);
+        }
+        .positionRelative {
+          position: relative;
+        }
+        .multiCard1 {
+          position: absolute;
+          top: 0.25rem;
+          left: 0.25rem;
+        }
+        .multiCard2 {
+          position: absolute;
+          top: 0.5rem;
+          left: 0.5rem;
+        }
+        .cursorPointer {
+          cursor: pointer;
+        }
+        .maskCard {
+          background-image: repeating-radial-gradient(
+            var(--color-brown-500),
+            black 20%
+          );
+          border-color: white;
         }
       `}</style>
     </Layout>
