@@ -7,6 +7,9 @@ import handCardLengthReducer from "../features/handCard/handCardLengthSlice";
 import cardLengthReducer from "../features/card/cardLengthSlice";
 import orderReducer from "../features/order/orderSlice";
 import enemyEmailReducer from "../features/enemyEmail/enemyEmailSlice";
+import bloodReducer from "../features/blood/bloodSlice";
+import deadCardReducer from "../features/deadCard/deadCardSlice";
+import boardActionReducer from "../features/boardAction/boardActionSlice";
 
 export default configureStore({
   reducer: {
@@ -16,7 +19,10 @@ export default configureStore({
     handCard: handCardReducer,
     handCardLength: handCardLengthReducer,
     cardLength: cardLengthReducer,
-    order:orderReducer,
-    enemyEmail:enemyEmailReducer
+    order: orderReducer,
+    enemyEmail: enemyEmailReducer,
+    blood: bloodReducer,
+    deadCard: deadCardReducer,
+    boardAction: boardActionReducer,
   },
 });
