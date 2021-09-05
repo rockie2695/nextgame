@@ -10,6 +10,7 @@ import enemyEmailReducer from "../features/enemyEmail/enemyEmailSlice";
 import bloodReducer from "../features/blood/bloodSlice";
 import deadCardReducer from "../features/deadCard/deadCardSlice";
 import boardActionReducer from "../features/boardAction/boardActionSlice";
+import roundReducer from "../features/round/roundSlice";
 
 export default configureStore({
   reducer: {
@@ -24,5 +25,6 @@ export default configureStore({
     blood: bloodReducer,
     deadCard: deadCardReducer,
     boardAction: boardActionReducer,
+    round: roundReducer,
   },
 });
