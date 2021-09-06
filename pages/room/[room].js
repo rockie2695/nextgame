@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState, useRef } from "react";
 import socket from "../../components/socket";
 import mainStyles from "../../styles/main.module.css";
-import { MdRoom as RoomIcon } from "react-icons/md";
 import ReactTooltip from "react-tooltip";
 import SocketConnectionSnack from "../../components/SocketConnectionSnack";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,8 +21,9 @@ import Badge from "@material-ui/core/Badge";
 import { setBoardAction } from "../../features/boardAction/boardActionSlice";
 import { setDeadCard } from "../../features/deadCard/deadCardSlice";
 import { setBlood } from "../../features/blood/bloodSlice";
-import Chip from "@material-ui/core/Chip";
-import { height } from "dom-helpers";
+import { setRound } from "../../features/round/roundSlice";
+import { BackCard } from "../../components/card/BackCard";
+import { FrontCard } from "../../components/card/FrontCard";
 const mobile = require("is-mobile");
 
 export default function room() {
@@ -40,6 +40,7 @@ export default function room() {
   const deadCard = useSelector((state) => state.deadCard.value);
   const blood = useSelector((state) => state.blood.value);
   const boardAction = useSelector((state) => state.boardAction.value);
+  const round = useSelector((state) => state.round.value);
   useEffect(() => {
     if (router) {
       if (!session) {
@@ -99,6 +100,7 @@ export default function room() {
           dispatch(setBlood(message.blood));
           dispatch(setDeadCard(message.deadCard));
           dispatch(setBoardAction(message.boardAction));
+          dispatch(setRound(message.round));
           ReactTooltip.rebuild();
         }
       });
@@ -149,7 +151,29 @@ export default function room() {
             </div>
           </div>
           <div className={["height9rem"].join(" ")}></div>
-          <div className={["height18rem", "displayFlex2"].join(" ")}>
+          <div
+            className={[
+              "height18rem",
+              "displayFlex2",
+              "flexDirectionColumn",
+            ].join(" ")}
+          >
+            <div
+              className={[
+                "borderCircle",
+                "backgroundWhite",
+                "width5rem",
+                "height5rem",
+                "displayFlex2",
+                "border1px",
+                "borderColorBlack",
+                "fontSize3rem",
+              ].join(" ")}
+            >
+              {round?.[session.user.email] > round?.[enemyEmail]
+                ? round?.[session.user.email]
+                : round?.[enemyEmail]}
+            </div>
             <div
               className={[
                 "padding05rem",
@@ -236,21 +260,7 @@ export default function room() {
                 className={["margin025rem", "borderRadius05rem"].join(" ")}
                 key={index}
               >
-                <div
-                  className={[
-                    "height7rem",
-                    "width6rem",
-                    "border1px",
-                    "margin025rem",
-                    "padding025rem",
-                    "flexShrink0",
-                    "backgroundWhite",
-                    "borderColorBlack",
-                    "maskCard",
-                    "cardBoxShadow",
-                    "borderRadius05rem",
-                  ].join(" ")}
-                ></div>
+                <BackCard className={["cardBoxShadow"].join(" ")} />
               </div>
             ))}
           </div>
@@ -286,29 +296,13 @@ export default function room() {
                   ].join(" ")}
                   onClick={putCardToStay}
                 >
-                  <div
-                    className={[
-                      "height7rem",
-                      "width6rem",
-                      "border1px",
-                      "margin025rem",
-                      "padding025rem",
-                      "flexShrink0",
-                      "backgroundWhite",
-                      "borderColorBlack",
-                      "cardBoxShadow",
-                      "borderRadius05rem",
-                    ].join(" ")}
-                    data-tip={effectDescription || ""}
-                  >
-                    <div className={["textAlignCenter"].join(" ")}>{name}</div>
-                    <div className={["textAlignCenter"].join(" ")}>lv{lv}</div>
-                    <div>
-                      {fusion.map(({ name = "" }) => (
-                        <Chip label="Basic" variant="outlined" size="small" />
-                      ))}
-                    </div>
-                  </div>
+                  <FrontCard
+                    className={["cardBoxShadow"].join(" ")}
+                    name={name}
+                    lv={lv}
+                    effectDescription={effectDescription}
+                    fusion={fusion}
+                  />
                 </div>
               )
             )}
@@ -355,47 +349,9 @@ export default function room() {
                     "borderRadius05rem",
                   ].join(" ")}
                 >
-                  <div
-                    className={[
-                      "height7rem",
-                      "width6rem",
-                      "border1px",
-                      "margin025rem",
-                      "padding025rem",
-                      "flexShrink0",
-                      "backgroundWhite",
-                      "maskCard",
-                      "borderRadius05rem",
-                    ].join(" ")}
-                  ></div>
-                  <div
-                    className={[
-                      "height7rem",
-                      "width6rem",
-                      "border1px",
-                      "margin025rem",
-                      "padding025rem",
-                      "flexShrink0",
-                      "backgroundWhite",
-                      "multiCard1",
-                      "maskCard",
-                      "borderRadius05rem",
-                    ].join(" ")}
-                  ></div>
-                  <div
-                    className={[
-                      "height7rem",
-                      "width6rem",
-                      "border1px",
-                      "margin025rem",
-                      "padding025rem",
-                      "flexShrink0",
-                      "backgroundWhite",
-                      "multiCard2",
-                      "maskCard",
-                      "borderRadius05rem",
-                    ].join(" ")}
-                  ></div>
+                  <BackCard />
+                  <BackCard className={["multiCard1"].join(" ")} />
+                  <BackCard className={["multiCard2"].join(" ")} />
                 </div>
               </Badge>
             ) : null}
@@ -418,191 +374,19 @@ export default function room() {
                   ].join(" ")}
                   onClick={pickNewCard}
                 >
-                  <div
-                    className={[
-                      "height7rem",
-                      "width6rem",
-                      "border1px",
-                      "margin025rem",
-                      "padding025rem",
-                      "flexShrink0",
-                      "backgroundWhite",
-                      "maskCard",
-                      "borderRadius05rem",
-                    ].join(" ")}
-                  ></div>
-                  <div
-                    className={[
-                      "height7rem",
-                      "width6rem",
-                      "border1px",
-                      "margin025rem",
-                      "padding025rem",
-                      "flexShrink0",
-                      "backgroundWhite",
-                      "multiCard1",
-                      "maskCard",
-                      "borderRadius05rem",
-                    ].join(" ")}
-                  ></div>
-                  <div
-                    className={[
-                      "height7rem",
-                      "width6rem",
-                      "border1px",
-                      "margin025rem",
-                      "padding025rem",
-                      "flexShrink0",
-                      "backgroundWhite",
-                      "multiCard2",
-                      "maskCard",
-                      "borderRadius05rem",
-                    ].join(" ")}
-                  ></div>
+                  <BackCard />
+                  <BackCard className={["multiCard1"].join(" ")} />
+                  <BackCard className={["multiCard2"].join(" ")} />
                 </div>
               </Badge>
             ) : null}
           </div>
-          <div className={["height9rem"].join(" ")}></div>
+          <div className={["height9rem", "displayFlex2"].join(" ")}></div>
         </div>
       </div>
-      <style jsx>{`
-        .board {
-          padding: 0.5rem;
-          margin: 0.5rem;
-          display: flex;
-          flex-direction: row;
-        }
-        .flex1 {
-          flex: 1;
-        }
-        .flex3 {
-          flex-grow: 3;
-          flex-shrink: 1;
-          flex-basis: 0%;
-        }
-        .flexShrink0 {
-          flex-shrink: 0;
-        }
-        .height18rem {
-          height: 18rem;
-        }
-        .height9rem {
-          height: 9rem;
-        }
-        .height8rem {
-          height: 8rem;
-        }
-        .height5rem {
-          height: 5rem;
-        }
-        .height7rem {
-          height: 7rem;
-        }
-        .width6rem {
-          width: 6rem;
-        }
-        .width5rem {
-          width: 5rem;
-        }
-        .displayFlex {
-          display: -webkit-box;
-          justify-content: center;
-          align-items: center;
-        }
-        .displayFlex2 {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        .flexDirectionColumn {
-          flex-direction: column;
-        }
-        .borderCircle {
-          border-radius: 50%;
-        }
-        .boxShadowTransition {
-          transition: box-shadow 0.2s ease-in-out;
-        }
-        .border1px {
-          border: 1px solid transparent;
-        }
-        .borderRadius05rem {
-          border-radius: 0.5rem;
-        }
-        .margin05rem {
-          margin: 0.5rem;
-        }
-        .margin025rem {
-          margin: 0.25rem;
-        }
-        .padding05rem {
-          padding: 0.5rem;
-        }
-        .padding025rem {
-          padding: 0.25rem;
-        }
-        .textAlignCenter {
-          text-align: center;
-        }
-        .overflowXAuto {
-          overflow-x: auto;
-        }
-        .overflowYHidden {
-          overflow-y: hidden;
-        }
-        .backgroundWhite {
-          background: white;
-        }
-        .borderColorBlack {
-          border-color: black;
-        }
-        .hoverBorderColorOrange:hover {
-          border-color: rgba(255, 152, 0, 0.8);
-        }
-        .hoverBoxShadowOrange:hover {
-          box-shadow: 0 0 0.25rem 0.25rem var(--color-orange-500);
-        }
-        .positionRelative {
-          position: relative;
-        }
-        .multiCard1 {
-          position: absolute;
-          top: 0.25rem;
-          left: 0.25rem;
-        }
-        .multiCard2 {
-          position: absolute;
-          top: 0.5rem;
-          left: 0.5rem;
-        }
-        .cursorPointer {
-          cursor: pointer;
-        }
-        .maskCard {
-          background-image: repeating-radial-gradient(
-            var(--color-brown-500),
-            black 20%
-          );
-          border-color: white;
-        }
-        .cardBoxShadow {
-          box-shadow: 1px 1px 0.25rem black;
-        }
-        .borderRadiusBloodSelf {
-          border-radius: 50% 50% 0 0;
-        }
-        .borderRadiusBloodEnemy {
-          border-radius: 0 0 50% 50%;
-        }
-        .fontSize3rem {
-          font-size: 3rem;
-        }
-      `}</style>
     </Layout>
   );
 }
-
 export async function getServerSideProps(context) {
   //await dbConnect
   const session = await getSession(context);

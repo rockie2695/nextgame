@@ -130,7 +130,139 @@ input:focus {
   transform: scale(0.9);
   transition: opacity 0.2s, transform 0.2s;
 }
+/*test*/
+.board {
+  padding: 0.5rem;
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: row !important;
+}
+.flex1 {
+  flex: 1;
+}
+.flex3 {
+  flex-grow: 3;
+  flex-shrink: 1;
+  flex-basis: 0%;
+}
+.flexShrink0 {
+  flex-shrink: 0;
+}
+.height18rem {
+  height: 18rem;
+}
+.height9rem {
+  height: 9rem;
+}
+.height8rem {
+  height: 8rem;
+}
+.height5rem {
+  height: 5rem;
+}
+.height7rem {
+  height: 7rem;
+}
+.width6rem {
+  width: 6rem;
+}
+.width5rem {
+  width: 5rem;
+}
+.displayFlex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: -webkit-box;
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+}
+.displayFlex2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flexDirectionColumn {
+  flex-direction: column;
+}
+.borderCircle {
+  border-radius: 50%;
+}
+.boxShadowTransition {
+  transition: box-shadow 0.2s ease-in-out;
+}
+.border1px {
+  border: 1px solid transparent;
+}
+.borderRadius05rem {
+  border-radius: 0.5rem;
+}
+.margin05rem {
+  margin: 0.5rem;
+}
+.margin025rem {
+  margin: 0.25rem;
+}
+.padding05rem {
+  padding: 0.5rem;
+}
+.padding025rem {
+  padding: 0.25rem;
+}
+.textAlignCenter {
+  text-align: center;
+}
+.overflowXAuto {
+  overflow-x: auto;
+}
+.overflowYHidden {
+  overflow-y: hidden;
+}
+.backgroundWhite {
+  background: white;
+}
+.borderColorBlack {
+  border-color: black;
+}
+.hoverBorderColorOrange:hover {
+  border-color: rgba(255, 152, 0, 0.8);
+}
+.hoverBoxShadowOrange:hover {
+  box-shadow: 0 0 0.25rem 0.25rem var(--color-orange-500);
+}
+.positionRelative {
+  position: relative;
+}
+.multiCard1 {
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+}
+.multiCard2 {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+}
+.cursorPointer {
+  cursor: pointer;
+}
 
+.cardBoxShadow {
+  box-shadow: 1px 1px 0.25rem black;
+}
+.borderRadiusBloodSelf {
+  border-radius: 50% 50% 0 0;
+}
+.borderRadiusBloodEnemy {
+  border-radius: 0 0 50% 50%;
+}
+.fontSize3rem {
+  font-size: 3rem;
+}
+.displayInlineBlock {
+  display: inline-block;
+}
+/*end of test*/
 @media only screen and (max-width: 810px) {
   /*https://codepen.io/waterplea/pen/dVMopv*/
   ul::-webkit-scrollbar,
