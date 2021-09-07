@@ -217,7 +217,9 @@ export default function room() {
         </div>
 
         <div className={["flex3", "overflowXAuto"].join(" ")}>
-          <div className={["height9rem", "displayFlex2"].join(" ")}>
+          <div
+            className={["height9rem", "displayFlex", "overflowXAuto"].join(" ")}
+          >
             <div
               className={[
                 "height8rem",
@@ -307,7 +309,9 @@ export default function room() {
               )
             )}
           </div>
-          <div className={["height9rem", "displayFlex2"].join(" ")}>
+          <div
+            className={["height9rem", "displayFlex", "overflowXAuto"].join(" ")}
+          >
             <div
               className={[
                 "height8rem",
