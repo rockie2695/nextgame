@@ -194,10 +194,12 @@ export default function room() {
           border-radius: 2em;
           padding: 0.5rem 1rem;
           transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+          margin: 2px;
         }
         button.roomAddButton:hover {
           background: black;
           color: white;
+          box-shadow: 0px 0px 5px var(--color-gray-600);
         }
         div.tabContainer {
           display: flex;
