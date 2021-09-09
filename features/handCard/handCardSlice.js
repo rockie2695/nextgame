@@ -9,10 +9,13 @@ export const handCardSlice = createSlice({
     setHandCard: (state, action) => {
       state.value = [...state.value, ...action.payload];
     },
+    initHandCard: (state, action) => {
+      state.value = [];
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setHandCard } = handCardSlice.actions;
+export const { setHandCard, initHandCard } = handCardSlice.actions;
 
 export default handCardSlice.reducer;

@@ -9,10 +9,13 @@ export const deadCardSlice = createSlice({
     setDeadCard: (state, action) => {
       state.value = { ...state.value, ...action.payload };
     },
+    initDeadCard: (state, action) => {
+      state.value = {};
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setDeadCard } = deadCardSlice.actions;
+export const { setDeadCard, initDeadCard } = deadCardSlice.actions;
 
 export default deadCardSlice.reducer;

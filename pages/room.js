@@ -215,6 +215,7 @@ export default function room() {
           padding: 0.5rem;
           cursor: pointer;
           transition: background 0.2s ease-in-out, border 0.2s ease-in-out;
+          border-bottom: 2px solid var(--color-gray-300);
         }
         div.tab:hover {
           background: var(--color-gray-300);

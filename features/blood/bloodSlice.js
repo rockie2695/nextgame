@@ -7,12 +7,15 @@ export const bloodSlice = createSlice({
   },
   reducers: {
     setBlood: (state, action) => {
-      state.value = {...state.value, ...action.payload};
+      state.value = { ...state.value, ...action.payload };
+    },
+    initBlood: (state, action) => {
+      state.value = {};
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setBlood } = bloodSlice.actions;
+export const { setBlood, initBlood } = bloodSlice.actions;
 
 export default bloodSlice.reducer;

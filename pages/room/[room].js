@@ -12,16 +12,34 @@ import {
   successConnect,
   failConnect,
 } from "../../features/socketConnection/socketConnectionSlice";
-import { setHandCard } from "../../features/handCard/handCardSlice";
-import { changeHandCardLength } from "../../features/handCard/handCardLengthSlice";
-import { changeCardLength } from "../../features/card/cardLengthSlice";
-import { setOrder } from "../../features/order/orderSlice";
-import { findEnemyEmail } from "../../features/enemyEmail/enemyEmailSlice";
+import {
+  setHandCard,
+  initHandCard,
+} from "../../features/handCard/handCardSlice";
+import {
+  changeHandCardLength,
+  initHandCardLength,
+} from "../../features/handCard/handCardLengthSlice";
+import {
+  changeCardLength,
+  initCardLength,
+} from "../../features/card/cardLengthSlice";
+import { setOrder, initOrder } from "../../features/order/orderSlice";
+import {
+  findEnemyEmail,
+  initEnemyEmail,
+} from "../../features/enemyEmail/enemyEmailSlice";
 import Badge from "@material-ui/core/Badge";
-import { setBoardAction } from "../../features/boardAction/boardActionSlice";
-import { setDeadCard } from "../../features/deadCard/deadCardSlice";
-import { setBlood } from "../../features/blood/bloodSlice";
-import { setRound } from "../../features/round/roundSlice";
+import {
+  setBoardAction,
+  initBoardAction,
+} from "../../features/boardAction/boardActionSlice";
+import {
+  setDeadCard,
+  initDeadCard,
+} from "../../features/deadCard/deadCardSlice";
+import { setBlood, initBlood } from "../../features/blood/bloodSlice";
+import { setRound, initRound } from "../../features/round/roundSlice";
 import { BackCard } from "../../components/card/BackCard";
 import { FrontCard } from "../../components/card/FrontCard";
 const mobile = require("is-mobile");
@@ -59,7 +77,10 @@ export default function room() {
   useEffect(() => {
     const beforeunload = (e) => {
       if (socket.connected) {
-        socket.emit("leaveRoom", room);
+        socket.off("disconnect");
+        socket.off("connect_error");
+        socket.off("responseRoomInfo");
+        initRedux();
       }
     };
     window.addEventListener("beforeunload", beforeunload);
@@ -110,14 +131,23 @@ export default function room() {
         socket.off("disconnect");
         socket.off("connect_error");
         socket.off("responseRoomInfo");
+        initRedux();
       }
     };
   }, []); //empty array means render once when init page
+  const initRedux = () => {
+    dispatch(initHandCard([]));
+    dispatch(initCardLength([]));
+    dispatch(initHandCardLength([]));
+    dispatch(initOrder([]));
+    dispatch(initEnemyEmail(""));
+    dispatch(initBlood([]));
+    dispatch(initDeadCard([]));
+    dispatch(initBoardAction({}));
+    dispatch(initRound(0));
+  };
   const pickNewCard = () => {
     socket.emit("askPickNewCard", room);
-  };
-  const putCardToStay = () => {
-    socket.emit("askPutCardToStay", room);
   };
   return (
     <Layout>
@@ -287,25 +317,16 @@ export default function room() {
                 },
                 index
               ) => (
-                <div
+                <FrontCard
                   key={cardId}
-                  className={[
-                    "margin025rem",
-                    "borderRadius05rem",
-                    "cursorPointer",
-                    "hoverBoxShadowOrange",
-                    "boxShadowTransition",
-                  ].join(" ")}
-                  onClick={putCardToStay}
-                >
-                  <FrontCard
-                    className={["cardBoxShadow"].join(" ")}
-                    name={name}
-                    lv={lv}
-                    effectDescription={effectDescription}
-                    fusion={fusion}
-                  />
-                </div>
+                  className={["cardBoxShadow"].join(" ")}
+                  name={name}
+                  lv={lv}
+                  effectDescription={effectDescription}
+                  fusion={fusion}
+                  room={room}
+                  cardId={cardId}
+                />
               )
             )}
           </div>
@@ -353,9 +374,13 @@ export default function room() {
                     "borderRadius05rem",
                   ].join(" ")}
                 >
-                  <BackCard />
-                  <BackCard className={["multiCard1"].join(" ")} />
-                  <BackCard className={["multiCard2"].join(" ")} />
+                  {cardLength[enemyEmail] > 0 && <BackCard />}
+                  {cardLength[enemyEmail] > 1 && (
+                    <BackCard className={["multiCard1"].join(" ")} />
+                  )}
+                  {cardLength[enemyEmail] > 2 && (
+                    <BackCard className={["multiCard2"].join(" ")} />
+                  )}
                 </div>
               </Badge>
             ) : null}
@@ -378,9 +403,13 @@ export default function room() {
                   ].join(" ")}
                   onClick={pickNewCard}
                 >
-                  <BackCard />
-                  <BackCard className={["multiCard1"].join(" ")} />
-                  <BackCard className={["multiCard2"].join(" ")} />
+                  {cardLength[session.user.email] > 0 && <BackCard />}
+                  {cardLength[session.user.email] > 1 && (
+                    <BackCard className={["multiCard1"].join(" ")} />
+                  )}
+                  {cardLength[session.user.email] > 2 && (
+                    <BackCard className={["multiCard2"].join(" ")} />
+                  )}
                 </div>
               </Badge>
             ) : null}

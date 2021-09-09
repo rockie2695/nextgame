@@ -9,10 +9,13 @@ export const orderSlice = createSlice({
     setOrder: (state, action) => {
       state.value = [...state.value, ...action.payload];
     },
+    initOrder: (state, action) => {
+      state.value = [];
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setOrder } = orderSlice.actions;
+export const { setOrder, initOrder } = orderSlice.actions;
 
 export default orderSlice.reducer;

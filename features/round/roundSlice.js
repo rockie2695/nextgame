@@ -9,10 +9,13 @@ export const roundSlice = createSlice({
     setRound: (state, action) => {
       state.value = { ...state.value, ...action.payload };
     },
+    initRound: (state, action) => {
+      state.value = {};
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setRound } = roundSlice.actions;
+export const { setRound, initRound } = roundSlice.actions;
 
 export default roundSlice.reducer;

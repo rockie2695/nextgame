@@ -9,11 +9,14 @@ export const enemyEmailSlice = createSlice({
     setEnemyEmail: (state, action) => {
       state.value = action.payload;
     },
+    initEnemyEmail: (state, action) => {
+      state.value = "";
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setEnemyEmail } = enemyEmailSlice.actions;
+export const { setEnemyEmail, initEnemyEmail } = enemyEmailSlice.actions;
 
 export const findEnemyEmail = (order, email) => (dispatch, getState) => {
   const myOrderIndex = order.indexOf(email);
