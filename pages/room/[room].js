@@ -17,6 +17,7 @@ import {
   initHandCard,
 } from "../../features/handCard/handCardSlice";
 import {
+  setHandCardLength,
   changeHandCardLength,
   initHandCardLength,
 } from "../../features/handCard/handCardLengthSlice";
@@ -115,7 +116,7 @@ export default function room() {
         if (message.order.includes(session.user.email)) {
           dispatch(setHandCard(message.handCard[session.user.email]));
           dispatch(changeCardLength(message.cardLength));
-          dispatch(changeHandCardLength(message.handCardLength));
+          dispatch(setHandCardLength(message.handCardLength));
           dispatch(setOrder(message.order));
           dispatch(findEnemyEmail(message.order, session.user.email));
           dispatch(setBlood(message.blood));
@@ -123,6 +124,21 @@ export default function room() {
           dispatch(setBoardAction(message.boardAction));
           dispatch(setRound(message.round));
           ReactTooltip.rebuild();
+        }
+      });
+
+      socket.on("responsePutCardToStay", ({ action }) => {
+        for (const row of action) {
+          if (row[0] === "handCardLength" && row[1] === "change") {
+            dispatch(setHandCardLength({ key: row[2], value: row[3] }));
+          }
+          console.log(row);
+          /*
+           ["handCardLength", "change", socket.email, -1],
+        ["groundCard", "add", socket.email, addCard],
+        ["boardAction", "change", "summon", -1],
+        ["handCard", "remove", addCard]
+          */
         }
       });
     }

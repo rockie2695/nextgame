@@ -9,6 +9,7 @@ export const handCardSlice = createSlice({
     setHandCard: (state, action) => {
       state.value = [...state.value, ...action.payload];
     },
+    
     initHandCard: (state, action) => {
       state.value = [];
     },

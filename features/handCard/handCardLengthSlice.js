@@ -6,8 +6,15 @@ export const handCardLengthSlice = createSlice({
     value: {},
   },
   reducers: {
-    changeHandCardLength: (state, action) => {
+    setHandCardLength: (state, action) => {
       state.value = { ...state.value, ...action.payload };
+    },
+    changeHandCardLength: (state, action) => {
+      state.value = {
+        ...state.value,
+        [action.payload.key]:
+          state.value[action.payload.key] + action.payload.value,
+      };
     },
     initHandCardLength: (state, action) => {
       state.value = {};
@@ -16,7 +23,7 @@ export const handCardLengthSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { changeHandCardLength, initHandCardLength } =
+export const { setHandCardLength, changeHandCardLength, initHandCardLength } =
   handCardLengthSlice.actions;
 
 export default handCardLengthSlice.reducer;
