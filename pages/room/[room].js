@@ -130,11 +130,15 @@ export default function room() {
       socket.on("responsePutCardToStay", ({ action }) => {
         for (const row of action) {
           if (row[0] === "handCardLength" && row[1] === "change") {
-            dispatch(setHandCardLength({ key: row[2], value: row[3] }));
+            //["handCardLength", "change", socket.email, -1],
+            dispatch(changeHandCardLength({ key: row[2], value: row[3] }));
+          }
+          if (row[0] === "groundCard" && row[1] === "add") {
+            dispatch(changeHandCardLength({ key: row[2], value: row[3] }));
           }
           console.log(row);
           /*
-           ["handCardLength", "change", socket.email, -1],
+           
         ["groundCard", "add", socket.email, addCard],
         ["boardAction", "change", "summon", -1],
         ["handCard", "remove", addCard]
