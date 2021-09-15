@@ -183,17 +183,19 @@ export default function room() {
           background: white;
         }
         input.roomAddInput {
-          padding: 0.5rem 0rem;
+          padding: 3px 0;
           flex-grow: 1;
           font-size: 18px;
           font-weight: bold;
           margin-left: 1rem;
+          line-height: 30px;
         }
         button.roomAddButton {
           background: var(--color-gray-300);
           border-radius: 2em;
           padding: 0.5rem 1rem;
-          transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+          transition: background 0.2s ease-in-out, color 0.2s ease-in-out,
+            box-shadow 0.2s ease-in-out;
           margin: 2px;
         }
         button.roomAddButton:hover {

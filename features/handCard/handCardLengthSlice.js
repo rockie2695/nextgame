@@ -10,7 +10,6 @@ export const handCardLengthSlice = createSlice({
       state.value = { ...state.value, ...action.payload };
     },
     changeHandCardLength: (state, action) => {
-      console.log(action.payload.key);
       state.value = {
         ...state.value,
         [action.payload.key]:

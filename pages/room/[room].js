@@ -15,6 +15,7 @@ import {
 import {
   setHandCard,
   initHandCard,
+  removeHandCard,
 } from "../../features/handCard/handCardSlice";
 import {
   setHandCardLength,
@@ -34,6 +35,7 @@ import Badge from "@material-ui/core/Badge";
 import {
   setBoardAction,
   initBoardAction,
+  changeBoardAction,
 } from "../../features/boardAction/boardActionSlice";
 import {
   setDeadCard,
@@ -133,16 +135,18 @@ export default function room() {
             //["handCardLength", "change", socket.email, -1],
             dispatch(changeHandCardLength({ key: row[2], value: row[3] }));
           }
-          if (row[0] === "groundCard" && row[1] === "add") {
-            dispatch(changeHandCardLength({ key: row[2], value: row[3] }));
+          if (row[0] === "handCard" && row[1] === "remove") {
+            //["handCard", "remove", addCard]
+            dispatch(removeHandCard(row[2]));
           }
-          console.log(row);
-          /*
-           
-        ["groundCard", "add", socket.email, addCard],
-        ["boardAction", "change", "summon", -1],
-        ["handCard", "remove", addCard]
-          */
+          if (row[0] === "groundCard" && row[1] === "add") {
+            //["groundCard", "add", socket.email, addCard],
+            //dispatch(addGroundCard({ key: row[2], value: row[3] }));
+          }
+          if (row[0] === "boardAction" && row[1] === "change") {
+            //["boardAction", "change", "summon", -1],
+            dispatch(changeBoardAction({ key: row[2], value: row[3] }));
+          }
         }
       });
     }

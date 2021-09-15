@@ -9,6 +9,13 @@ export const boardActionSlice = createSlice({
     setBoardAction: (state, action) => {
       state.value = { ...state.value, ...action.payload };
     },
+    changeBoardAction: (state, action) => {
+      state.value = {
+        ...state.value,
+        [action.payload.key]:
+          state.value[action.payload.key] + action.payload.value,
+      };
+    },
     initBoardAction: (state, action) => {
       state.value = {};
     },
@@ -16,6 +23,7 @@ export const boardActionSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setBoardAction, initBoardAction } = boardActionSlice.actions;
+export const { setBoardAction, initBoardAction, changeBoardAction } =
+  boardActionSlice.actions;
 
 export default boardActionSlice.reducer;
