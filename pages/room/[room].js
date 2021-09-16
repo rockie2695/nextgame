@@ -125,6 +125,7 @@ export default function room() {
           dispatch(setDeadCard(message.deadCard));
           dispatch(setBoardAction(message.boardAction));
           dispatch(setRound(message.round));
+          //dispatch(setgroundCard(message.groundCard));
           ReactTooltip.rebuild();
         }
       });
@@ -357,31 +358,88 @@ export default function room() {
           <div
             className={["height9rem", "displayFlex", "overflowXAuto"].join(" ")}
           >
+            <style jsx>
+              {`
+                .bloodBackground::before {
+                  content: "";
+                  background: linear-gradient(
+                      45deg,
+                      var(--color-blue-500) 0 25%,
+                      transparent 25% 75%,
+                      var(--color-blue-500) 75% 100%
+                    ),
+                    linear-gradient(
+                      45deg,
+                      var(--color-blue-500) 0 25%,
+                      var(--color-blue-700) 25% 75%,
+                      var(--color-blue-500) 75% 100%
+                    );
+                  background-size: 40px 40px;
+                  background-position: 0 0, 20px 20px;
+                  width: 200%;
+                  height: 400%;
+                  min-height: 8rem;
+                  position: absolute;
+                  transform: rotate(-45deg);
+                }
+                .test {
+                  box-shadow: 1px 1px 0.25rem var(--color-blue-500);
+                  transition: box-shadow 0.2s ease-in-out;
+                }
+                .test:hover {
+                  box-shadow: 1px 1px 0.75rem var(--color-blue-500);
+                }
+                .test2 {
+                  background-image: linear-gradient(
+                    0 deg,
+                    var(--color-gray-100): 0 50%,
+                    var(--color-gray-500) 50% 100%
+                  );
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                  -webkit-text-stroke: 0.2px white;
+                }
+              `}
+            </style>
             <div
               className={[
                 "height8rem",
                 "border1px",
-                "displayFlex2",
-                "flexDirectionColumn",
                 "borderRadiusBloodSelf",
                 "backgroundWhite",
-                "border1px",
-                "borderColorBlack",
-                "padding05rem",
+                "test",
               ].join(" ")}
             >
               <div
                 className={[
-                  "padding05rem",
-                  "height5rem",
-                  "width5rem",
+                  "bloodBackground",
                   "displayFlex2",
-                  "fontSize3rem",
+                  "flexDirectionColumn",
+                  "padding05rem",
+                  "width100p",
+                  "minHeight100p",
+                  "positionRelative",
+                  "overflowHidden",
+                  "borderRadiusBloodSelf",
                 ].join(" ")}
               >
-                {blood[session.user.email]}
+                <div
+                  className={[
+                    "padding05rem",
+                    "height5rem",
+                    "width5rem",
+                    "displayFlex2",
+                    "fontSize3rem",
+                    "zIndex1",
+                    "test2",
+                  ].join(" ")}
+                >
+                  {blood[session.user.email]}
+                </div>
+                <div className={["zIndex1", "test2"].join(" ")}>
+                  {session.user.email}
+                </div>
               </div>
-              <div>{session.user.email}</div>
             </div>
           </div>
         </div>

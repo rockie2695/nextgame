@@ -183,7 +183,7 @@ export default function room() {
           background: white;
         }
         input.roomAddInput {
-          padding: 3px 0;
+          padding: 6px 0;
           flex-grow: 1;
           font-size: 18px;
           font-weight: bold;
@@ -241,6 +241,11 @@ export default function room() {
         </>
         {/*playingList end*/}
         {/*tab start*/}
+        <div
+          style={{ textAlign: "left", fontSize: "18px", fontWeight: "bold" }}
+        >
+          Waiting
+        </div>
         <div className={"tabContainer"}>
           <div
             className={[
@@ -415,7 +420,11 @@ export function RoomList({ roomList = [], state = "waiting" }) {
         `}
       </style>
       {roomList.length !== 0 && state === "playing" ? (
-        <span>Playing</span>
+        <div
+          style={{ textAlign: "left", fontSize: "18px", fontWeight: "bold" }}
+        >
+          Playing
+        </div>
       ) : null}
       {roomList.map(({ roomName, creator, order }, index) => (
         <div className={"roomList"} key={index}>
