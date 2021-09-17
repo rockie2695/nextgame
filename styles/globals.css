@@ -193,6 +193,9 @@ input:focus {
   justify-content: center;
   align-items: center;
 }
+.displayFlex3 {
+  display: flex;
+}
 .flexDirectionColumn {
   flex-direction: column;
 }
@@ -269,6 +272,16 @@ input:focus {
 }
 .borderRadiusBloodEnemy {
   border-radius: 0 0 50% 50%;
+}
+.borderGroundSelf {
+  border: 1px solid black;
+  border-top: none;
+  border-radius: 0 0 1rem 1rem;
+}
+.borderGroundEnemy {
+  border: 1px solid black;
+  border-bottom: none;
+  border-radius: 1rem 1rem 0 0;
 }
 .fontSize3rem {
   font-size: 3rem;

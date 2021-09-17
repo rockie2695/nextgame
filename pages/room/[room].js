@@ -41,6 +41,11 @@ import {
   setDeadCard,
   initDeadCard,
 } from "../../features/deadCard/deadCardSlice";
+import {
+  setGroundCard,
+  initGroundCard,
+  addGroundCard,
+} from "../../features/groundCard/groundCardSlice";
 import { setBlood, initBlood } from "../../features/blood/bloodSlice";
 import { setRound, initRound } from "../../features/round/roundSlice";
 import { BackCard } from "../../components/card/BackCard";
@@ -62,6 +67,7 @@ export default function room() {
   const blood = useSelector((state) => state.blood.value);
   const boardAction = useSelector((state) => state.boardAction.value);
   const round = useSelector((state) => state.round.value);
+  const groundCard = useSelector((state) => state.groundCard.value);
   useEffect(() => {
     if (router) {
       if (!session) {
@@ -125,7 +131,7 @@ export default function room() {
           dispatch(setDeadCard(message.deadCard));
           dispatch(setBoardAction(message.boardAction));
           dispatch(setRound(message.round));
-          //dispatch(setgroundCard(message.groundCard));
+          dispatch(setGroundCard(message.groundCard));
           ReactTooltip.rebuild();
         }
       });
@@ -142,12 +148,13 @@ export default function room() {
           }
           if (row[0] === "groundCard" && row[1] === "add") {
             //["groundCard", "add", socket.email, addCard],
-            //dispatch(addGroundCard({ key: row[2], value: row[3] }));
+            dispatch(addGroundCard({ key: row[2], value: row[3] }));
           }
           if (row[0] === "boardAction" && row[1] === "change") {
             //["boardAction", "change", "summon", -1],
             dispatch(changeBoardAction({ key: row[2], value: row[3] }));
           }
+          ReactTooltip.rebuild();
         }
       });
     }
@@ -170,6 +177,7 @@ export default function room() {
     dispatch(initDeadCard([]));
     dispatch(initBoardAction({}));
     dispatch(initRound(0));
+    dispatch(initGroundCard({}));
   };
   const pickNewCard = () => {
     socket.emit("askPickNewCard", room);
@@ -270,7 +278,79 @@ export default function room() {
             </div>
           </div>
         </div>
-
+        <style jsx>
+          {`
+            .bloodBackground::before {
+              content: "";
+              background: linear-gradient(
+                  45deg,
+                  var(--color-blue-500) 0 25%,
+                  transparent 25% 75%,
+                  var(--color-blue-500) 75% 100%
+                ),
+                linear-gradient(
+                  45deg,
+                  var(--color-blue-500) 0 25%,
+                  var(--color-blue-700) 25% 75%,
+                  var(--color-blue-500) 75% 100%
+                );
+              background-size: 40px 40px;
+              background-position: 0 0, 20px 20px;
+              width: 200%;
+              height: 400%;
+              min-height: 8rem;
+              position: absolute;
+              transform: rotate(-45deg);
+            }
+            .bloodBackgroundEnemy::before {
+              content: "";
+              background: linear-gradient(
+                  45deg,
+                  var(--color-red-500) 0 25%,
+                  transparent 25% 75%,
+                  var(--color-red-500) 75% 100%
+                ),
+                linear-gradient(
+                  45deg,
+                  var(--color-red-500) 0 25%,
+                  var(--color-red-700) 25% 75%,
+                  var(--color-red-500) 75% 100%
+                );
+              background-size: 40px 40px;
+              background-position: 0 0, 20px 20px;
+              width: 200%;
+              height: 400%;
+              min-height: 8rem;
+              position: absolute;
+              transform: rotate(-45deg);
+            }
+            .bloodShadow {
+              box-shadow: 1px 1px 0.25rem var(--color-blue-500);
+              transition: box-shadow 0.2s ease-in-out;
+            }
+            .bloodShadow:hover {
+              box-shadow: 1px 1px 0.75rem var(--color-blue-500);
+            }
+            .bloodShadowEnemy {
+              box-shadow: 1px 1px 0.25rem var(--color-red-500);
+              transition: box-shadow 0.2s ease-in-out;
+            }
+            .bloodShadowEnemy:hover {
+              box-shadow: 1px 1px 0.75rem var(--color-red-500);
+            }
+            .bloodTextEffect {
+              /*background-image: linear-gradient(
+                0deg,
+                var(--color-gray-100),
+                var(--color-gray-500)
+              );
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;*/
+              -webkit-text-stroke: 0.2px var(--color-gray-500);
+              color: white;
+            }
+          `}
+        </style>
         <div className={["flex3", "overflowXAuto"].join(" ")}>
           <div
             className={["height9rem", "displayFlex", "overflowXAuto"].join(" ")}
@@ -279,26 +359,40 @@ export default function room() {
               className={[
                 "height8rem",
                 "border1px",
-                "displayFlex2",
-                "flexDirectionColumn",
                 "borderRadiusBloodEnemy",
                 "backgroundWhite",
-                "border1px",
-                "borderColorBlack",
-                "padding05rem",
+                "bloodShadowEnemy",
               ].join(" ")}
             >
-              <div>{enemyEmail}</div>
               <div
                 className={[
-                  "padding05rem",
-                  "height5rem",
-                  "width5rem",
                   "displayFlex2",
-                  "fontSize3rem",
+                  "flexDirectionColumn",
+                  "padding05rem",
+                  "width100p",
+                  "minHeight100p",
+                  "positionRelative",
+                  "overflowHidden",
+                  "borderRadiusBloodEnemy",
+                  "bloodBackgroundEnemy",
                 ].join(" ")}
               >
-                {blood[enemyEmail]}
+                <div className={["zIndex1", "bloodTextEffect"].join(" ")}>
+                  {enemyEmail}
+                </div>
+                <div
+                  className={[
+                    "padding05rem",
+                    "height5rem",
+                    "width5rem",
+                    "displayFlex2",
+                    "fontSize3rem",
+                    "zIndex1",
+                    "bloodTextEffect",
+                  ].join(" ")}
+                >
+                  {blood[enemyEmail]}
+                </div>
               </div>
             </div>
           </div>
@@ -321,8 +415,76 @@ export default function room() {
               </div>
             ))}
           </div>
-          <div className={["height9rem"].join(" ")}></div>
-          <div className={["height9rem"].join(" ")}></div>
+          <div
+            className={[
+              "height9rem",
+              "overflowXAuto",
+              "overflowYHidden",
+              "displayFlex3",
+              "borderGroundEnemy",
+            ].join(" ")}
+          >
+            {(groundCard?.[enemyEmail] || []).map(
+              (
+                {
+                  cardId = 0,
+                  name = "",
+                  lv = 1,
+                  effectDescription = "",
+                  fusion = [],
+                },
+                index
+              ) => (
+                <div className={["displayFlex", "flex1"].join(" ")}>
+                  <FrontCard
+                    key={cardId}
+                    className={[].join(" ")}
+                    name={name}
+                    lv={lv}
+                    effectDescription={effectDescription}
+                    fusion={fusion}
+                    room={room}
+                    cardId={cardId}
+                  />
+                </div>
+              )
+            )}
+          </div>
+          <div
+            className={[
+              "height9rem",
+              "overflowXAuto",
+              "overflowYHidden",
+              "displayFlex3",
+              "borderGroundSelf",
+            ].join(" ")}
+          >
+            {(groundCard?.[session.user.email] || []).map(
+              (
+                {
+                  cardId = 0,
+                  name = "",
+                  lv = 1,
+                  effectDescription = "",
+                  fusion = [],
+                },
+                index
+              ) => (
+                <div className={["displayFlex", "flex1"].join(" ")}>
+                  <FrontCard
+                    key={cardId}
+                    className={[].join(" ")}
+                    name={name}
+                    lv={lv}
+                    effectDescription={effectDescription}
+                    fusion={fusion}
+                    room={room}
+                    cardId={cardId}
+                  />
+                </div>
+              )
+            )}
+          </div>
           <div
             className={[
               "height9rem",
@@ -358,56 +520,13 @@ export default function room() {
           <div
             className={["height9rem", "displayFlex", "overflowXAuto"].join(" ")}
           >
-            <style jsx>
-              {`
-                .bloodBackground::before {
-                  content: "";
-                  background: linear-gradient(
-                      45deg,
-                      var(--color-blue-500) 0 25%,
-                      transparent 25% 75%,
-                      var(--color-blue-500) 75% 100%
-                    ),
-                    linear-gradient(
-                      45deg,
-                      var(--color-blue-500) 0 25%,
-                      var(--color-blue-700) 25% 75%,
-                      var(--color-blue-500) 75% 100%
-                    );
-                  background-size: 40px 40px;
-                  background-position: 0 0, 20px 20px;
-                  width: 200%;
-                  height: 400%;
-                  min-height: 8rem;
-                  position: absolute;
-                  transform: rotate(-45deg);
-                }
-                .test {
-                  box-shadow: 1px 1px 0.25rem var(--color-blue-500);
-                  transition: box-shadow 0.2s ease-in-out;
-                }
-                .test:hover {
-                  box-shadow: 1px 1px 0.75rem var(--color-blue-500);
-                }
-                .test2 {
-                  background-image: linear-gradient(
-                    0 deg,
-                    var(--color-gray-100): 0 50%,
-                    var(--color-gray-500) 50% 100%
-                  );
-                  -webkit-background-clip: text;
-                  -webkit-text-fill-color: transparent;
-                  -webkit-text-stroke: 0.2px white;
-                }
-              `}
-            </style>
             <div
               className={[
                 "height8rem",
                 "border1px",
                 "borderRadiusBloodSelf",
                 "backgroundWhite",
-                "test",
+                "bloodShadow",
               ].join(" ")}
             >
               <div
@@ -431,12 +550,12 @@ export default function room() {
                     "displayFlex2",
                     "fontSize3rem",
                     "zIndex1",
-                    "test2",
+                    "bloodTextEffect",
                   ].join(" ")}
                 >
                   {blood[session.user.email]}
                 </div>
-                <div className={["zIndex1", "test2"].join(" ")}>
+                <div className={["zIndex1", "bloodTextEffect"].join(" ")}>
                   {session.user.email}
                 </div>
               </div>

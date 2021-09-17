@@ -11,6 +11,7 @@ import bloodReducer from "../features/blood/bloodSlice";
 import deadCardReducer from "../features/deadCard/deadCardSlice";
 import boardActionReducer from "../features/boardAction/boardActionSlice";
 import roundReducer from "../features/round/roundSlice";
+import groundCardReducer from "../features/groundCard/groundCardSlice";
 
 export default configureStore({
   reducer: {
@@ -26,5 +27,6 @@ export default configureStore({
     deadCard: deadCardReducer,
     boardAction: boardActionReducer,
     round: roundReducer,
+    groundCard: groundCardReducer,
   },
 });
