@@ -77,6 +77,10 @@ export default function room() {
         });
       }
       if (!socket.connected) {
+        /**
+         socket.auth = { email: session.user.email };
+          socket.connect();
+         */
         router.push({
           pathname: "/room",
         });
@@ -409,7 +413,7 @@ export default function room() {
             ].map((row, index) => (
               <div
                 className={["margin025rem", "borderRadius05rem"].join(" ")}
-                key={index}
+                key={enemyEmail+'handCard'+index}
               >
                 <BackCard className={["cardBoxShadow"].join(" ")} />
               </div>
@@ -435,9 +439,11 @@ export default function room() {
                 },
                 index
               ) => (
-                <div className={["displayFlex", "flex1"].join(" ")}>
+                <div
+                  className={["displayFlex", "flex1"].join(" ")}
+                  key={enemyEmail + "groundCard" + index}
+                >
                   <FrontCard
-                    key={cardId}
                     className={[].join(" ")}
                     name={name}
                     lv={lv}
@@ -445,6 +451,7 @@ export default function room() {
                     fusion={fusion}
                     room={room}
                     cardId={cardId}
+                    cardType={'groundCard'}
                   />
                 </div>
               )
@@ -470,9 +477,11 @@ export default function room() {
                 },
                 index
               ) => (
-                <div className={["displayFlex", "flex1"].join(" ")}>
+                <div
+                  className={["displayFlex", "flex1"].join(" ")}
+                  key={session.user.email + "groundCard" + index}
+                >
                   <FrontCard
-                    key={cardId}
                     className={[].join(" ")}
                     name={name}
                     lv={lv}
@@ -480,6 +489,7 @@ export default function room() {
                     fusion={fusion}
                     room={room}
                     cardId={cardId}
+                    cardType={'groundCard'}
                   />
                 </div>
               )
@@ -505,7 +515,7 @@ export default function room() {
                 index
               ) => (
                 <FrontCard
-                  key={cardId}
+                  key={session.user.email + "handCard" + cardId}
                   className={["cardBoxShadow"].join(" ")}
                   name={name}
                   lv={lv}
@@ -513,6 +523,7 @@ export default function room() {
                   fusion={fusion}
                   room={room}
                   cardId={cardId}
+                  cardType={'handCard'}
                 />
               )
             )}
