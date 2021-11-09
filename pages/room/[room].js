@@ -186,6 +186,33 @@ export default function room() {
   const pickNewCard = () => {
     socket.emit("askPickNewCard", room);
   };
+  const nowRound = () => {
+    //use smaller round number
+    return round?.[session.user.email] > round?.[enemyEmail]
+      ? round?.[enemyEmail] || 0
+      : round?.[session.user.email] || 0;
+  };
+  const isMyTurn = () => {
+    if (order.indexOf(session.user.email) === 0) {
+      //先手
+      if (round?.[session.user.email] === round?.[enemyEmail]) {
+        return true;
+      }
+      if (round?.[session.user.email] > round?.[enemyEmail]) {
+        return false;
+      }
+    }
+
+    if (order.indexOf(session.user.email) === 1) {
+      //後手
+      if (round?.[session.user.email] === round?.[enemyEmail]) {
+        return false;
+      }
+      if (round?.[session.user.email] > round?.[enemyEmail]) {
+        return true;
+      }
+    }
+  };
   return (
     <Layout>
       <Head>
@@ -217,7 +244,9 @@ export default function room() {
               {order.indexOf(enemyEmail) === 0 ? "先手" : "後手"}
             </div>
           </div>
-          <div className={["height9rem"].join(" ")}></div>
+          <div className={["height9rem"].join(" ")}>
+            {!isMyTurn() ? ">" : null}
+          </div>
           <div
             className={[
               "height18rem",
@@ -237,9 +266,7 @@ export default function room() {
                 "fontSize3rem",
               ].join(" ")}
             >
-              {round?.[session.user.email] > round?.[enemyEmail]
-                ? round?.[session.user.email]
-                : round?.[enemyEmail]}
+              {nowRound()}
             </div>
             <div
               className={[
@@ -254,20 +281,32 @@ export default function room() {
               <div
                 className={["displayFlex2", "flexDirectionColumn"].join(" ")}
               >
-                <div className={"padding025rem"}>getCard:</div>
-                <div className={"padding025rem"}>summon:</div>
-                <div className={"padding025rem"}>response:</div>
+                <div className={"padding025rem"}>Stage</div>
+                <div className={"padding025rem"}>getCard</div>
+                <div className={"padding025rem"}>summon</div>
+                <div className={"padding025rem"}>response</div>
               </div>
               <div
                 className={["displayFlex2", "flexDirectionColumn"].join(" ")}
               >
+                <div className={"padding025rem"}>:</div>
+                <div className={"padding025rem"}>:</div>
+                <div className={"padding025rem"}>:</div>
+                <div className={"padding025rem"}>:</div>
+              </div>
+              <div
+                className={["displayFlex2", "flexDirectionColumn"].join(" ")}
+              >
+                <div className={"padding025rem"}>{boardAction?.stage}</div>
                 <div className={"padding025rem"}>{boardAction?.getCard}/2</div>
                 <div className={"padding025rem"}>{boardAction?.summon}/2</div>
                 <div className={"padding025rem"}>{boardAction?.response}/1</div>
               </div>
             </div>
           </div>
-          <div className={["height9rem"].join(" ")}></div>
+          <div className={["height9rem"].join(" ")}>
+            {isMyTurn() ? ">" : null}
+          </div>
           <div className={["height9rem", "displayFlex2"].join(" ")}>
             <div
               className={[
@@ -413,7 +452,7 @@ export default function room() {
             ].map((row, index) => (
               <div
                 className={["margin025rem", "borderRadius05rem"].join(" ")}
-                key={enemyEmail+'handCard'+index}
+                key={enemyEmail + "handCard" + index}
               >
                 <BackCard className={["cardBoxShadow"].join(" ")} />
               </div>
@@ -451,7 +490,7 @@ export default function room() {
                     fusion={fusion}
                     room={room}
                     cardId={cardId}
-                    cardType={'groundCard'}
+                    cardType={"groundCard"}
                   />
                 </div>
               )
@@ -489,7 +528,7 @@ export default function room() {
                     fusion={fusion}
                     room={room}
                     cardId={cardId}
-                    cardType={'groundCard'}
+                    cardType={"groundCard"}
                   />
                 </div>
               )
@@ -523,7 +562,7 @@ export default function room() {
                   fusion={fusion}
                   room={room}
                   cardId={cardId}
-                  cardType={'handCard'}
+                  cardType={"handCard"}
                 />
               )
             )}
