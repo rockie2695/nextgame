@@ -162,14 +162,14 @@ export default function room() {
           ReactTooltip.rebuild();
         }
       });
-      
-       socket.on("responseNextStage", ({ action }) => {
-         for (const row of action) {
-           if (row[0] === "boardAction" && row[1] === "change") {
-              dispatch(changeBoardAction({ key: row[2], value: row[3] }));
-           }
-         }
-       });
+
+      socket.on("responseNextStage", ({ action }) => {
+        for (const row of action) {
+          if (row[0] === "boardAction" && row[1] === "change") {
+            dispatch(changeBoardAction({ key: row[2], value: row[3] }));
+          }
+        }
+      });
     }
     return () => {
       if (socket.connected) {
@@ -222,10 +222,10 @@ export default function room() {
       }
     }
   };
-  const nextStage=()=>{
+  const nextStage = () => {
     socket.emit("askNextStage", room);
     //dispatch(nextStage(user.session.email));
-  }
+  };
   return (
     <Layout>
       <Head>
@@ -504,6 +504,7 @@ export default function room() {
                     room={room}
                     cardId={cardId}
                     cardType={"groundCard"}
+                    isMyTurn={isMyTurn()}
                   />
                 </div>
               )
@@ -542,6 +543,7 @@ export default function room() {
                     room={room}
                     cardId={cardId}
                     cardType={"groundCard"}
+                    isMyTurn={isMyTurn()}
                   />
                 </div>
               )
@@ -576,6 +578,7 @@ export default function room() {
                   room={room}
                   cardId={cardId}
                   cardType={"handCard"}
+                  isMyTurn={isMyTurn()}
                 />
               )
             )}
@@ -678,7 +681,33 @@ export default function room() {
               </Badge>
             ) : null}
           </div>
-          <div className={["height9rem", "displayFlex2"].join(" ")}><button onClick={nextStage}>Next</button></div>
+          <div className={["height9rem", "displayFlex2"].join(" ")}>
+            <div
+              className={[
+                "margin025rem",
+                "borderRadius05rem",
+                "cursorPointer",
+                "hoverBoxShadowOrange",
+                "boxShadowTransition",
+              ].join(" ")}
+            >
+              <button
+                className={[
+                  "backgroundWhite",
+                  "borderRadius05rem",
+                  "border1px",
+                  "borderColorBlack",
+                  "margin025rem",
+                  "padding05rem",
+                  "cursorPointer",
+                  "cardBoxShadow",
+                ].join(" ")}
+                onClick={nextStage}
+              >
+                Next
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </Layout>

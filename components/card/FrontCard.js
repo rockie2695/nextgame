@@ -12,6 +12,7 @@ export function FrontCard({
   room = 0,
   cardId = 0,
   cardType = "",
+  isMyTurn = false,
 }) {
   const putCardToStay = () => {
     socket.emit("askPutCardToStay", room, cardId);
@@ -27,7 +28,13 @@ export function FrontCard({
         "boxShadowTransition",
       ].join(" ")}
       onClick={() => {
-        if (lv === 1 && cardType === "handCard" && boardAction.summon > 0) {
+        if (
+          lv === 1 &&
+          cardType === "handCard" &&
+          boardAction.summon > 0 &&
+          boardAction.stage === "putCard" &&
+          isMyTurn
+        ) {
           return putCardToStay();
         }
       }}
