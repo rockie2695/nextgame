@@ -678,7 +678,7 @@ export default function room() {
               </Badge>
             ) : null}
           </div>
-          <div className={["height9rem", "displayFlex2"].join(" ")}><button onClick={nextStage}>test</button></div>
+          <div className={["height9rem", "displayFlex2"].join(" ")}><button onClick={nextStage}>Next</button></div>
         </div>
       </div>
     </Layout>
