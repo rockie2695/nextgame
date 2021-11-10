@@ -215,7 +215,7 @@ export default function room() {
     }
   };
   const nextStage=()=>{
-    socket.emit("nextStage", room);
+    socket.emit("askNextStage", room);
     //dispatch(nextStage(user.session.email));
   }
   return (
