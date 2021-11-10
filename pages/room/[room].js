@@ -215,7 +215,8 @@ export default function room() {
     }
   };
   const nextStage=()=>{
-    dispatch(nextStage(user.session.email));
+    socket.emit("nextStage", room);
+    //dispatch(nextStage(user.session.email));
   }
   return (
     <Layout>
