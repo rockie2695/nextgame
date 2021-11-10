@@ -36,6 +36,7 @@ import {
   setBoardAction,
   initBoardAction,
   changeBoardAction,
+  nextStage,
 } from "../../features/boardAction/boardActionSlice";
 import {
   setDeadCard,
@@ -213,6 +214,9 @@ export default function room() {
       }
     }
   };
+  const nextStage=()=>{
+    dispatch(nextStage(user.session.email));
+  }
   return (
     <Layout>
       <Head>
@@ -665,7 +669,7 @@ export default function room() {
               </Badge>
             ) : null}
           </div>
-          <div className={["height9rem", "displayFlex2"].join(" ")}></div>
+          <div className={["height9rem", "displayFlex2"].join(" ")}><button onClick={nextStage}>test</button></div>
         </div>
       </div>
     </Layout>
