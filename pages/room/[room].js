@@ -162,6 +162,14 @@ export default function room() {
           ReactTooltip.rebuild();
         }
       });
+      
+       socket.on("responseNextStage", ({ action }) => {
+         for (const row of action) {
+           if (row[0] === "boardAction" && row[1] === "change") {
+              dispatch(changeBoardAction({ key: row[2], value: row[3] }));
+           }
+         }
+       });
     }
     return () => {
       if (socket.connected) {
