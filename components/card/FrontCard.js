@@ -13,11 +13,23 @@ export function FrontCard({
   cardId = 0,
   cardType = "",
   isMyTurn = false,
+  action = "",
+  target = {},
 }) {
   const putCardToStay = () => {
     socket.emit("askPutCardToStay", room, cardId);
   };
+  const preFight = () => {
+    socket.emit("askPreFight", room, cardId);
+  };
   const boardAction = useSelector((state) => state.boardAction.value);
+  let borderColor = "borderColorBlack";
+  if (action === "attack") {
+    borderColor = "borderColorRed";
+  }
+  if (action === "defense") {
+    borderColor = "borderColorBlue";
+  }
   return (
     <div
       className={[
@@ -37,6 +49,13 @@ export function FrontCard({
         ) {
           return putCardToStay();
         }
+        if (
+          cardType === "groundCard" &&
+          boardAction.stage === "preFight" &&
+          isMyTurn
+        ) {
+          return preFight();
+        }
       }}
     >
       <div
@@ -48,7 +67,7 @@ export function FrontCard({
           "padding025rem",
           "flexShrink0",
           "backgroundWhite",
-          "borderColorBlack",
+          borderColor,
           "borderRadius05rem",
         ]
           .join(" ")
@@ -80,7 +99,6 @@ export function FrontCard({
             )}
           </div>
         )}
-        html={"true"}
       >
         <div className={["textAlignCenter"].join(" ")}>{name}</div>
         <div className={["textAlignCenter"].join(" ")}>lv{lv}</div>

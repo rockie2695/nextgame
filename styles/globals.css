@@ -241,6 +241,12 @@ input:focus {
 .borderColorBlack {
   border-color: black;
 }
+.borderColorRed {
+  border-color: var(--color-red-500);
+}
+.borderColorBlue {
+  border-color: var(--color-blue-500);
+}
 .hoverBorderColorOrange:hover {
   border-color: rgba(255, 152, 0, 0.8);
 }
