@@ -36,6 +36,8 @@ import {
   setBoardAction,
   initBoardAction,
   changeBoardAction,
+  putBoardAction,
+  nextStage,
 } from "../../features/boardAction/boardActionSlice";
 import {
   setDeadCard,
@@ -45,6 +47,7 @@ import {
   setGroundCard,
   initGroundCard,
   addGroundCard,
+  putGroundCardAttr,
 } from "../../features/groundCard/groundCardSlice";
 import { setBlood, initBlood } from "../../features/blood/bloodSlice";
 import { setRound, initRound } from "../../features/round/roundSlice";
@@ -152,13 +155,29 @@ export default function room() {
           }
           if (row[0] === "groundCard" && row[1] === "add") {
             //["groundCard", "add", socket.email, addCard],
-            dispatch(addGroundCard({ key: row[2], value: row[3] }));
+            dispatch(addGroundCard({ email: row[2], value: row[3] }));
           }
           if (row[0] === "boardAction" && row[1] === "change") {
             //["boardAction", "change", "summon", -1],
             dispatch(changeBoardAction({ key: row[2], value: row[3] }));
           }
           ReactTooltip.rebuild();
+        }
+      });
+
+      socket.on("responseNextStage", ({ action }) => {
+        for (const row of action) {
+          if (row[0] === "boardAction" && row[1] === "put") {
+            dispatch(putBoardAction({ key: row[2], value: row[3] }));
+          }
+        }
+      });
+
+      socket.on("responsePreFight", ({ action }) => {
+        for (const row of action) {
+          if (row[0] === "groundCard" && row[1] === "put") {
+            dispatch(putGroundCardAttr({ email: row[2], value: row[3] }));
+          }
         }
       });
     }
@@ -213,6 +232,16 @@ export default function room() {
       }
     }
   };
+  const nextStage = () => {
+    socket.emit("askNextStage", room);
+    //dispatch(nextStage(user.session.email));
+  };
+  const canClickNext = () => {
+    return (
+      (isMyTurn() && boardAction.stage !== "defense") ||
+      (!isMyTurn() && boardAction.stage === "defense")
+    );
+  };
   return (
     <Layout>
       <Head>
@@ -244,8 +273,10 @@ export default function room() {
               {order.indexOf(enemyEmail) === 0 ? "先手" : "後手"}
             </div>
           </div>
-          <div className={["height9rem"].join(" ")}>
-            {!isMyTurn() ? ">" : null}
+          <div
+            className={["height9rem", "displayFlex2", "fontSize3rem"].join(" ")}
+          >
+            {!isMyTurn() ? ">>" : null}
           </div>
           <div
             className={[
@@ -304,8 +335,10 @@ export default function room() {
               </div>
             </div>
           </div>
-          <div className={["height9rem"].join(" ")}>
-            {isMyTurn() ? ">" : null}
+          <div
+            className={["height9rem", "displayFlex2", "fontSize3rem"].join(" ")}
+          >
+            {isMyTurn() ? ">>" : null}
           </div>
           <div className={["height9rem", "displayFlex2"].join(" ")}>
             <div
@@ -475,6 +508,8 @@ export default function room() {
                   lv = 1,
                   effectDescription = "",
                   fusion = [],
+                  action = "",
+                  target = {},
                 },
                 index
               ) => (
@@ -491,6 +526,9 @@ export default function room() {
                     room={room}
                     cardId={cardId}
                     cardType={"groundCard"}
+                    isMyTurn={isMyTurn()}
+                    action={action}
+                    target={target}
                   />
                 </div>
               )
@@ -513,6 +551,8 @@ export default function room() {
                   lv = 1,
                   effectDescription = "",
                   fusion = [],
+                  action = "",
+                  target = {},
                 },
                 index
               ) => (
@@ -529,6 +569,9 @@ export default function room() {
                     room={room}
                     cardId={cardId}
                     cardType={"groundCard"}
+                    isMyTurn={isMyTurn()}
+                    action={action}
+                    target={target}
                   />
                 </div>
               )
@@ -563,6 +606,7 @@ export default function room() {
                   room={room}
                   cardId={cardId}
                   cardType={"handCard"}
+                  isMyTurn={isMyTurn()}
                 />
               )
             )}
@@ -665,7 +709,35 @@ export default function room() {
               </Badge>
             ) : null}
           </div>
-          <div className={["height9rem", "displayFlex2"].join(" ")}></div>
+          <div className={["height9rem", "displayFlex2"].join(" ")}>
+            {canClickNext() && (
+              <div
+                className={[
+                  "margin025rem",
+                  "borderRadius05rem",
+                  "cursorPointer",
+                  "hoverBoxShadowOrange",
+                  "boxShadowTransition",
+                ].join(" ")}
+              >
+                <button
+                  className={[
+                    "backgroundWhite",
+                    "borderRadius05rem",
+                    "border1px",
+                    "borderColorBlack",
+                    "margin025rem",
+                    "padding05rem",
+                    "cursorPointer",
+                    "cardBoxShadow",
+                  ].join(" ")}
+                  onClick={nextStage}
+                >
+                  Next
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </Layout>
